@@ -1,197 +1,199 @@
 <main id="main">
 
     <livewire:front.components.live-about-us />
+    
+    <livewire:front.components.live-main-posts />
 
-    <!-- ======= Clients Section ======= -->
+    {{-- <!-- ======= Clients Section ======= -->
     <section id="clients" class="clients">
-    <div class="container" data-aos="zoom-out">
+        <div class="container" data-aos="zoom-out">
 
-        <div class="clients-slider swiper">
-        <div class="swiper-wrapper align-items-center">
-            <div class="swiper-slide"><img src="/Impact/assets/img/clients/client-1.png" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="/Impact/assets/img/clients/client-2.png" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="/Impact/assets/img/clients/client-3.png" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="/Impact/assets/img/clients/client-4.png" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="/Impact/assets/img/clients/client-5.png" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="/Impact/assets/img/clients/client-6.png" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="/Impact/assets/img/clients/client-7.png" class="img-fluid" alt=""></div>
-            <div class="swiper-slide"><img src="/Impact/assets/img/clients/client-8.png" class="img-fluid" alt=""></div>
-        </div>
-        </div>
+            <div class="clients-slider swiper">
+            <div class="swiper-wrapper align-items-center">
+                <div class="swiper-slide"><img src="/Impact/assets/img/clients/client-1.png" class="img-fluid" alt=""></div>
+                <div class="swiper-slide"><img src="/Impact/assets/img/clients/client-2.png" class="img-fluid" alt=""></div>
+                <div class="swiper-slide"><img src="/Impact/assets/img/clients/client-3.png" class="img-fluid" alt=""></div>
+                <div class="swiper-slide"><img src="/Impact/assets/img/clients/client-4.png" class="img-fluid" alt=""></div>
+                <div class="swiper-slide"><img src="/Impact/assets/img/clients/client-5.png" class="img-fluid" alt=""></div>
+                <div class="swiper-slide"><img src="/Impact/assets/img/clients/client-6.png" class="img-fluid" alt=""></div>
+                <div class="swiper-slide"><img src="/Impact/assets/img/clients/client-7.png" class="img-fluid" alt=""></div>
+                <div class="swiper-slide"><img src="/Impact/assets/img/clients/client-8.png" class="img-fluid" alt=""></div>
+            </div>
+            </div>
 
-    </div>
-    </section><!-- End Clients Section -->
+        </div>
+    </section><!-- End Clients Section --> --}}
 
     <!-- ======= Stats Counter Section ======= -->
-    <section id="stats-counter" class="stats-counter">
-    <div class="container" data-aos="fade-up">
+    {{-- <section id="stats-counter" class="stats-counter">
+        <div class="container" data-aos="fade-up">
 
-        <div class="row gy-4 align-items-center">
+            <div class="row gy-4 align-items-center">
 
-        <div class="col-lg-6">
-            <img src="/Impact/assets/img/stats-img.svg" alt="" class="img-fluid">
+            <div class="col-lg-6">
+                <img src="/Impact/assets/img/stats-img.svg" alt="" class="img-fluid">
+            </div>
+
+            <div class="col-lg-6">
+
+                <div class="stats-item d-flex align-items-center">
+                <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
+                <p><strong>Happy Clients</strong> consequuntur quae diredo para mesta</p>
+                </div><!-- End Stats Item -->
+
+                <div class="stats-item d-flex align-items-center">
+                <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
+                <p><strong>Projects</strong> adipisci atque cum quia aut</p>
+                </div><!-- End Stats Item -->
+
+                <div class="stats-item d-flex align-items-center">
+                <span data-purecounter-start="0" data-purecounter-end="453" data-purecounter-duration="1" class="purecounter"></span>
+                <p><strong>Hours Of Support</strong> aut commodi quaerat</p>
+                </div><!-- End Stats Item -->
+
+            </div>
+
+            </div>
+
         </div>
-
-        <div class="col-lg-6">
-
-            <div class="stats-item d-flex align-items-center">
-            <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
-            <p><strong>Happy Clients</strong> consequuntur quae diredo para mesta</p>
-            </div><!-- End Stats Item -->
-
-            <div class="stats-item d-flex align-items-center">
-            <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
-            <p><strong>Projects</strong> adipisci atque cum quia aut</p>
-            </div><!-- End Stats Item -->
-
-            <div class="stats-item d-flex align-items-center">
-            <span data-purecounter-start="0" data-purecounter-end="453" data-purecounter-duration="1" class="purecounter"></span>
-            <p><strong>Hours Of Support</strong> aut commodi quaerat</p>
-            </div><!-- End Stats Item -->
-
-        </div>
-
-        </div>
-
-    </div>
-    </section><!-- End Stats Counter Section -->
+    </section><!-- End Stats Counter Section --> --}}
 
     <livewire:front.components.live-call-to-action />
 
     <livewire:front.components.live-our-services />
 
-    <!-- ======= Testimonials Section ======= -->
+    {{-- <!-- ======= Testimonials Section ======= -->
     <section id="testimonials" class="testimonials">
-    <div class="container" data-aos="fade-up">
+        <div class="container" data-aos="fade-up">
 
-        <div class="section-header">
-        <h2>Testimonials</h2>
-        <p>Voluptatem quibusdam ut ullam perferendis repellat non ut consequuntur est eveniet deleniti fignissimos eos quam</p>
+            <div class="section-header">
+            <h2>Testimonials</h2>
+            <p>Voluptatem quibusdam ut ullam perferendis repellat non ut consequuntur est eveniet deleniti fignissimos eos quam</p>
+            </div>
+
+            <div class="slides-3 swiper" data-aos="fade-up" data-aos-delay="100">
+            <div class="swiper-wrapper">
+
+                <div class="swiper-slide">
+                <div class="testimonial-wrap">
+                    <div class="testimonial-item">
+                    <div class="d-flex align-items-center">
+                        <img src="/Impact/assets/img/testimonials/testimonials-1.jpg" class="testimonial-img flex-shrink-0" alt="">
+                        <div>
+                        <h3>Saul Goodman</h3>
+                        <h4>Ceo &amp; Founder</h4>
+                        <div class="stars">
+                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                        </div>
+                        </div>
+                    </div>
+                    <p>
+                        <i class="bi bi-quote quote-icon-left"></i>
+                        Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
+                        <i class="bi bi-quote quote-icon-right"></i>
+                    </p>
+                    </div>
+                </div>
+                </div><!-- End testimonial item -->
+
+                <div class="swiper-slide">
+                <div class="testimonial-wrap">
+                    <div class="testimonial-item">
+                    <div class="d-flex align-items-center">
+                        <img src="/Impact/assets/img/testimonials/testimonials-2.jpg" class="testimonial-img flex-shrink-0" alt="">
+                        <div>
+                        <h3>Sara Wilsson</h3>
+                        <h4>Designer</h4>
+                        <div class="stars">
+                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                        </div>
+                        </div>
+                    </div>
+                    <p>
+                        <i class="bi bi-quote quote-icon-left"></i>
+                        Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.
+                        <i class="bi bi-quote quote-icon-right"></i>
+                    </p>
+                    </div>
+                </div>
+                </div><!-- End testimonial item -->
+
+                <div class="swiper-slide">
+                <div class="testimonial-wrap">
+                    <div class="testimonial-item">
+                    <div class="d-flex align-items-center">
+                        <img src="/Impact/assets/img/testimonials/testimonials-3.jpg" class="testimonial-img flex-shrink-0" alt="">
+                        <div>
+                        <h3>Jena Karlis</h3>
+                        <h4>Store Owner</h4>
+                        <div class="stars">
+                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                        </div>
+                        </div>
+                    </div>
+                    <p>
+                        <i class="bi bi-quote quote-icon-left"></i>
+                        Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.
+                        <i class="bi bi-quote quote-icon-right"></i>
+                    </p>
+                    </div>
+                </div>
+                </div><!-- End testimonial item -->
+
+                <div class="swiper-slide">
+                <div class="testimonial-wrap">
+                    <div class="testimonial-item">
+                    <div class="d-flex align-items-center">
+                        <img src="/Impact/assets/img/testimonials/testimonials-4.jpg" class="testimonial-img flex-shrink-0" alt="">
+                        <div>
+                        <h3>Matt Brandon</h3>
+                        <h4>Freelancer</h4>
+                        <div class="stars">
+                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                        </div>
+                        </div>
+                    </div>
+                    <p>
+                        <i class="bi bi-quote quote-icon-left"></i>
+                        Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore.
+                        <i class="bi bi-quote quote-icon-right"></i>
+                    </p>
+                    </div>
+                </div>
+                </div><!-- End testimonial item -->
+
+                <div class="swiper-slide">
+                <div class="testimonial-wrap">
+                    <div class="testimonial-item">
+                    <div class="d-flex align-items-center">
+                        <img src="/Impact/assets/img/testimonials/testimonials-5.jpg" class="testimonial-img flex-shrink-0" alt="">
+                        <div>
+                        <h3>John Larson</h3>
+                        <h4>Entrepreneur</h4>
+                        <div class="stars">
+                            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                        </div>
+                        </div>
+                    </div>
+                    <p>
+                        <i class="bi bi-quote quote-icon-left"></i>
+                        Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore.
+                        <i class="bi bi-quote quote-icon-right"></i>
+                    </p>
+                    </div>
+                </div>
+                </div><!-- End testimonial item -->
+
+            </div>
+            <div class="swiper-pagination"></div>
+            </div>
+
         </div>
+    </section><!-- End Testimonials Section --> --}}
 
-        <div class="slides-3 swiper" data-aos="fade-up" data-aos-delay="100">
-        <div class="swiper-wrapper">
+    {{-- <livewire:front.components.live-portfolio /> --}}
 
-            <div class="swiper-slide">
-            <div class="testimonial-wrap">
-                <div class="testimonial-item">
-                <div class="d-flex align-items-center">
-                    <img src="/Impact/assets/img/testimonials/testimonials-1.jpg" class="testimonial-img flex-shrink-0" alt="">
-                    <div>
-                    <h3>Saul Goodman</h3>
-                    <h4>Ceo &amp; Founder</h4>
-                    <div class="stars">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                    </div>
-                    </div>
-                </div>
-                <p>
-                    <i class="bi bi-quote quote-icon-left"></i>
-                    Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
-                    <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-                </div>
-            </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-            <div class="testimonial-wrap">
-                <div class="testimonial-item">
-                <div class="d-flex align-items-center">
-                    <img src="/Impact/assets/img/testimonials/testimonials-2.jpg" class="testimonial-img flex-shrink-0" alt="">
-                    <div>
-                    <h3>Sara Wilsson</h3>
-                    <h4>Designer</h4>
-                    <div class="stars">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                    </div>
-                    </div>
-                </div>
-                <p>
-                    <i class="bi bi-quote quote-icon-left"></i>
-                    Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.
-                    <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-                </div>
-            </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-            <div class="testimonial-wrap">
-                <div class="testimonial-item">
-                <div class="d-flex align-items-center">
-                    <img src="/Impact/assets/img/testimonials/testimonials-3.jpg" class="testimonial-img flex-shrink-0" alt="">
-                    <div>
-                    <h3>Jena Karlis</h3>
-                    <h4>Store Owner</h4>
-                    <div class="stars">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                    </div>
-                    </div>
-                </div>
-                <p>
-                    <i class="bi bi-quote quote-icon-left"></i>
-                    Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.
-                    <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-                </div>
-            </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-            <div class="testimonial-wrap">
-                <div class="testimonial-item">
-                <div class="d-flex align-items-center">
-                    <img src="/Impact/assets/img/testimonials/testimonials-4.jpg" class="testimonial-img flex-shrink-0" alt="">
-                    <div>
-                    <h3>Matt Brandon</h3>
-                    <h4>Freelancer</h4>
-                    <div class="stars">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                    </div>
-                    </div>
-                </div>
-                <p>
-                    <i class="bi bi-quote quote-icon-left"></i>
-                    Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore.
-                    <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-                </div>
-            </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-            <div class="testimonial-wrap">
-                <div class="testimonial-item">
-                <div class="d-flex align-items-center">
-                    <img src="/Impact/assets/img/testimonials/testimonials-5.jpg" class="testimonial-img flex-shrink-0" alt="">
-                    <div>
-                    <h3>John Larson</h3>
-                    <h4>Entrepreneur</h4>
-                    <div class="stars">
-                        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                    </div>
-                    </div>
-                </div>
-                <p>
-                    <i class="bi bi-quote quote-icon-left"></i>
-                    Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore.
-                    <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-                </div>
-            </div>
-            </div><!-- End testimonial item -->
-
-        </div>
-        <div class="swiper-pagination"></div>
-        </div>
-
-    </div>
-    </section><!-- End Testimonials Section -->
-
-    <livewire:front.components.live-portfolio />
-
-    <!-- ======= Our Team Section ======= -->
+    {{-- <!-- ======= Our Team Section ======= -->
     <section id="team" class="team">
     <div class="container" data-aos="fade-up">
 
@@ -261,9 +263,9 @@
         </div>
 
     </div>
-    </section><!-- End Our Team Section -->
+    </section><!-- End Our Team Section --> --}}
 
-    <!-- ======= Pricing Section ======= -->
+    {{-- <!-- ======= Pricing Section ======= -->
     <section id="pricing" class="pricing sections-bg">
     <div class="container" data-aos="fade-up">
 
@@ -332,10 +334,10 @@
         </div>
 
     </div>
-    </section><!-- End Pricing Section -->
+    </section><!-- End Pricing Section --> --}}
 
     <!-- ======= Frequently Asked Questions Section ======= -->
-    <section id="faq" class="faq">
+    {{-- <section id="faq" class="faq">
     <div class="container" data-aos="fade-up">
 
         <div class="row gy-4">
@@ -429,10 +431,10 @@
         </div>
 
     </div>
-    </section><!-- End Frequently Asked Questions Section -->
+    </section><!-- End Frequently Asked Questions Section --> --}}
 
     <livewire:front.components.live-blog-cards />
 
-    <livewire:front.components.live-contact />
+    {{-- <livewire:front.components.live-contact /> --}}
 
 </main><!-- End #main -->

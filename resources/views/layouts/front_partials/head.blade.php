@@ -26,9 +26,15 @@
     <link href="/Impact/assets/vendor/aos/aos.css" rel="stylesheet">
     <link href="/Impact/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="/Impact/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <!-- Template Main CSS File -->
-    <link href="/Impact/assets/css/main.css" rel="stylesheet">
+    @if (App::isLocale('en'))
+        <link href="/Impact/assets/css/main.css" rel="stylesheet">
+    @else
+        <link href="/Impact/assets/css/main-rtl.css" rel="stylesheet">
+    @endif
+    
     <link href="/general/flag-icons/css/flag-icons.min.css" rel="stylesheet">
 
     

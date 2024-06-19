@@ -12,7 +12,7 @@ class PageMenuStrategy implements MenuStrategy
     public function handle($id) {
         $page = Page::find($id);
         return [
-            'link' => router('vitrin.pages.show', ['page' => $page->slug]),
+            'link' => route('front.pages.show', ['page' => $page->slug]),
             'title' => $page->title,
             'id' => $page->id,
             'slug' => $page->slug,

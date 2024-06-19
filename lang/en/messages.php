@@ -1,6 +1,8 @@
 <?php 
 
 return [
+    'slider_title' => 'The Global Voice Of Pilots',
+    'slider_sub_title' => 'The International Federation of Air Line Pilots\' Associations',
     'user_deleted' => 'User has been deleted',
     'user_not_deleted' => 'User hasn\'t been deleted',
     'not_have_access' => 'You don\'t have access to this part!',
@@ -11,6 +13,8 @@ return [
     'post_main_image_required' => 'The main image is required.',
     'post_created_successfully' => 'Post created successfully',
     'post_updated_successfully' => 'Post updated successfully',
+    'page_created_successfully' => 'Page created successfully',
+    'page_updated_successfully' => 'Page updated successfully',
     'post_main_image_required' => 'The main image is required.',
     'category_created_successfully' => 'Category created successfully',
     'category_updated_successfully' => 'Category updated successfully',
@@ -32,4 +36,9 @@ return [
     'select_display_filter' => 'Select Display Filter',
     'enter_start_date' => 'Enter Start Date',
     'enter_end_date' => 'Enter End Date',
+    'have_account' => 'Have already an account?<a href=":link"> Login</a>',
+    'have_no_account' => 'Don\'t have an account?<a href=":link"> Register here</a>',
+    'register_completed' => 'Register completed successfully',
+    'user_created_successfully' => 'User Created Successfully.',
+    'user_updated_successfully' => 'User Updated Successfully.',
 ];

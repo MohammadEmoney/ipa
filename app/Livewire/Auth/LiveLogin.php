@@ -7,6 +7,7 @@ use App\Rules\ValidNationalCode;
 use App\Traits\AlertLiveComponent;
 use App\Traits\SmsTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
@@ -18,34 +19,30 @@ class LiveLogin extends Component
     public $step = 'send_code';
     public $national_code;
     public $user;
+    public $email;
+    public $password;
     public $otp_code;
+    public $title;
     public $disableSend = true;
     public $disableVerify = true;
 
-    public function mount(Request $request)
+    public function mount()
     {
-        $this->national_code = $request->national_code;
+        if (auth()->check()){
+            if(auth()->user()->hasRole('super-admin'))
+                return redirect()->to(route('admin.dashboard'));
+            return redirect()->to(route('home'));
+        }
+        $this->title = __('global.login');
     }
 
     public function render()
     {
-        return view('livewire.auth.live-login');
+        return view('livewire.auth.live-login')->extends('layouts.front')->section('content');
     }
 
     public function updated($method)
     {
-        if($method == "national_code"){
-            $this->disableSend = true;
-            $this->validate([
-                'national_code' => ['required', new ValidNationalCode , 'exists:users,national_code'],
-            ],[
-                // 'exists: :national_code '
-            ],[
-                'national_code' => 'کد ملی'
-            ]);
-            $this->disableSend = false;
-        }
-
         if($method == "otp_code"){
             $this->disableVerify = true;
             $this->validate([
@@ -62,11 +59,13 @@ class LiveLogin extends Component
     public function sendCode()
     {
         $this->validate([
-            'national_code' => ['required', new ValidNationalCode , 'exists:users,national_code'],
+            'email' => ['required', 'email' , 'exists:users,email'],
+            'password' => 'required'
         ],[
             // 'exists: :national_code '
         ],[
-            'national_code' => 'کد ملی'
+            'email' => __('global.email'),
+            'password' => __('global.password'),
         ]);
 
 
@@ -110,6 +109,18 @@ class LiveLogin extends Component
 
     public function login()
     {
-
+        $this->validate([
+            'email' => ['required', 'email' , 'exists:users,email'],
+            'password' => 'required'
+        ],[
+            // 'exists: :national_code '
+        ],[
+            'email' => __('global.email'),
+            'password' => __('global.password'),
+        ]);
+ 
+        if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
+            return redirect()->intended('/');
+        }
     }
 }

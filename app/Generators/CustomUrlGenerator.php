@@ -25,4 +25,13 @@ class CustomUrlGenerator extends UrlGenerator
 
         return route($url ?: Route::getCurrentRoute()->getName(), $route);
     }
+
+    public static function localeUrl($locale, $url = null)
+    {
+        $route = request()->route()->parameters;
+        $route['locale'] = $locale;
+        request()->session()->put('locale', $locale);
+
+        return route($url ?: Route::getCurrentRoute()->getName(), $route);
+    }
 }

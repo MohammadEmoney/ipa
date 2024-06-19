@@ -6,4 +6,5 @@ return [
     'supervisor' => 'Supervisor',
     'management' => 'Management',
     'content-manager' => 'Content Manager',
+    'user' => 'User',
 ];

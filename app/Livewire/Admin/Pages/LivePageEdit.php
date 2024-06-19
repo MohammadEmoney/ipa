@@ -79,10 +79,9 @@ class LivePageEdit extends Component
 
     public function submit()
     {
-        // dd($this->data);
         $this->validations();
         if(!isset($this->data['mainImage']) ){
-            return $this->addError('data.mainImage', __('messages.page_main_image_required'));
+            return $this->addError('data.mainImage', __('messages.post_main_image_required'));
         }
         try {
             $this->page->update([

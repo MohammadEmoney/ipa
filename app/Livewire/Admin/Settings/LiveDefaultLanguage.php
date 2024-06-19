@@ -11,11 +11,12 @@ class LiveDefaultLanguage extends Component
 {
     use AlertLiveComponent;
 
-    public function setDefaultLang($lang, $currentRoute)
+    public function setDefaultLang($lang, $currentRoute, $parameters = [])
     {
+        dd($lang, $currentRoute, $parameters);
         DefaultLanguage::updateOrCreate(['id' => 1],['lang' => $lang]);
         $this->alert(__('messages.updated_successfully'));
-        return redirect()->to(CustomUrlGenerator::localeRoute($lang, $currentRoute));
+        return redirect()->to(CustomUrlGenerator::localeUrl($lang, $currentRoute));
     }
 
     public function render()

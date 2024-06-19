@@ -107,9 +107,7 @@
                                                         <div class="col-md-12">
                                                             <div class="mb-3">
                                                                 <label for="formFile" class="form-label">{{ __('global.logo') }}</label>
-                                                                <input class="form-control"
-                                                                    wire:model.live="data.logo"
-                                                                    type="file" id="formFile">
+                                                                <input class="form-control" wire:model.live="data.logo" type="file" id="formFile">
                                                                 <div>
                                                                     @error('data.logo')
                                                                         {{ $message }}
@@ -117,7 +115,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        @if (isset($data['logo']))
+                                                        @if (isset($data['logo']) && !empty($data['logo']))
                                                             @if(method_exists($data['logo'], 'temporaryUrl'))
                                                                 <div class="col-md-6 px-5 mb-3">
                                                                     <img src="{{ $data['logo']->temporaryUrl() }}" class="w-100">
@@ -125,7 +123,7 @@
                                                             @else
                                                                 <div class="col-md-6 px-5 mb-3">
                                                                     <img src="{{ $data['logo']->getUrl() }}" class="w-100">
-                                                                    <span class="fs-4 position-absolute text-danger cursor-pointer" wire:click="deleteMedia({{ $data['mainImage']->id }}, 'mainImage')"><i class="ti ti-trash"></i></span>
+                                                                    <span class="fs-4 position-absolute text-danger cursor-pointer" wire:click="deleteMedia({{ $data['logo']->id }}, 'logo')"><i class="ti ti-trash"></i></span>
                                                                 </div>
                                                             @endif
                                                         @endif
@@ -146,7 +144,7 @@
                                                 <div class="row">     
                                                     <div class="col-md-12 mb-3" wire:ignore>
                                                         <label for="about_us" class="form-label">{{ __('global.about_us') }}</label>
-                                                        <textarea id="about_us" class="form-control" cols="30" rows="10" wire:model.live="data.about_us"></textarea>
+                                                        <textarea id="about_us" class="form-control" cols="30" rows="10" wire:model.live="data.about_us">{!! $data['about_us'] ?? "" !!}</textarea>
                                                     </div>
                                                     <div>
                                                         @error('data.about_us')

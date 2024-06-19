@@ -36,8 +36,8 @@ class LiveSettings extends Component
         $settings = new SettingsRepository();
         $this->setting = $settings->get();
         $this->data = $this->setting->data;
-        // $this->data['logo_show'] = $this->data['logo'];
         $this->data['lang'] = app()->getLocale();
+        $this->data['logo'] = $this->setting->getFirstMedia('logo');
     }
 
     public function updated($field,$values)
@@ -77,6 +77,7 @@ class LiveSettings extends Component
         ]);
 
         $this->alert(__('messages.settings_updated'))->success()->autoClose();
+        return redirect()->to(route('admin.settings.general'));
     }
     
     public function render()

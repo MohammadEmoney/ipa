@@ -59,7 +59,7 @@ class LivePostIndex extends Component
 
     public function edit($id)
     {
-        return redirect()->to(route('admin.posts.edit', $id));
+        return redirect()->to(route('admin.posts.edit', ['post' => $id]));
     }
 
     public function changeActiveStatus($id)

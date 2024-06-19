@@ -79,7 +79,6 @@ class LivePostEdit extends Component
 
     public function submit()
     {
-        // dd($this->data);
         $this->validations();
         if(!isset($this->data['mainImage']) ){
             return $this->addError('data.mainImage', __('messages.post_main_image_required'));
@@ -109,7 +108,7 @@ class LivePostEdit extends Component
     public function render()
     {
         $langs = EnumLanguages::getTranslatedAll();
-        $categories = Category::active()->select('title', 'id')->get();
+        $categories = Category::active()->lang()->select('title', 'id')->get();
         return view('livewire.admin.posts.live-post-edit', compact('langs', 'categories'))
             ->extends('layouts.admin-panel')
             ->section('content');

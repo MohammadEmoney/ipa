@@ -13,15 +13,20 @@ class LiveDeletedUsers extends Component
 
     protected $listeners = [ 'destroy', 'deleteAll'];
 
-    public $type;
+    public $title;
     public $paginate = 10;
     public $sort = 'created_at';
     public $sortDirection = 'DESC';
     public $search;
 
+    public function mount()
+    {
+        $this->title = __('global.deleted_users_list');
+    }
+
     public function show($id)
     {
-        return redirect()->to(route('admin.users.' . $this->type .'.show', $id));
+        return redirect()->to(route('admin.users.show', ['user' => $id]));
     }
 
     public function deleteAll()
@@ -30,30 +35,18 @@ class LiveDeletedUsers extends Component
             $users = User::query()->onlyTrashed()->get();
             foreach($users as $user){
                 if ($user) {
-                    $user->clearMediaCollection('national_card');
-                    $user->clearMediaCollection('personal_image');
-                    $user->clearMediaCollection('id_first_page');
-                    $user->clearMediaCollection('id_second_page');
-                    $user->clearMediaCollection('document_1');
-                    $user->clearMediaCollection('document_2');
-                    $user->clearMediaCollection('document_3');
-                    $user->clearMediaCollection('document_4');
-                    $user->clearMediaCollection('document_5');
-                    $user->clearMediaCollection('document_6');
-                    $user->clearMediaCollection('document_7');
-                    $user->clearMediaCollection('document_8');
+                    $user->clearMediaCollection('avatar');
                     $user->userInfo()?->delete();
                     $user->syncRoles([]);
-                    $user->jobReferences()?->delete();
                     $user->forceDelete();
-                    $this->alert('کاربر حذف شد')->success();
+                    $this->alert(__('messages.user_deleted'))->success();
                 }
                 else{
-                    $this->alert('کاربر حذف نشد')->error();
+                    $this->alert(__('messages.user_not_deleted'))->error();
                 }
             }
         }else{
-            $this->alert('شما اجازه دسترسی به این بخش را ندارید.')->error();
+            $this->alert(__('messages.not_have_access'))->error();
         }
     }
 
@@ -63,36 +56,24 @@ class LiveDeletedUsers extends Component
             $user = User::query()->withTrashed()->find($id);
 
             if ($user) {
-                $user->clearMediaCollection('national_card');
-                $user->clearMediaCollection('personal_image');
-                $user->clearMediaCollection('id_first_page');
-                $user->clearMediaCollection('id_second_page');
-                $user->clearMediaCollection('document_1');
-                $user->clearMediaCollection('document_2');
-                $user->clearMediaCollection('document_3');
-                $user->clearMediaCollection('document_4');
-                $user->clearMediaCollection('document_5');
-                $user->clearMediaCollection('document_6');
-                $user->clearMediaCollection('document_7');
-                $user->clearMediaCollection('document_8');
+                $user->clearMediaCollection('avatar');
                 $user->userInfo()?->delete();
                 $user->syncRoles([]);
-                $user->jobReferences()?->delete();
                 $user->forceDelete();
-                $this->alert('کاربر حذف شد')->success();
+                $this->alert(__('messages.user_deleted'))->success();
                 return redirect()->to(route('admin.users.trash'));
             }
             else{
-                $this->alert('کاربر حذف نشد')->error();
+                $this->alert(__('messages.user_not_deleted'))->error();
             }
         }else{
-            $this->alert('شما اجازه دسترسی به این بخش را ندارید.')->error();
+            $this->alert(__('messages.not_have_access'))->error();
         }
     }
 
     public function edit($id)
     {
-        return redirect()->to(route('admin.users.'. $this->type .'.edit', $id));
+        return redirect()->to(route('admin.users.edit', ['user' => $id]));
     }
 
     public function render()
@@ -103,10 +84,9 @@ class LiveDeletedUsers extends Component
                     $query->where('first_name', "like", "%$this->search%")
                         ->orWhere('last_name', "like", "%$this->search%")
                         ->orWhere('email', "like", "%$this->search%")
-                        ->orWhere('national_code', "like", "%$this->search%")
                         ->orWhereHas('userInfo', function($query) {
-                            $query->where('mobile_1', 'like', "%$this->search%")
-                            ->orWhere('mobile_2', "like", "%$this->search%")
+                            $query->where('phone_1', 'like', "%$this->search%")
+                            ->orWhere('phone_2', "like", "%$this->search%")
                             ->orWhere('landline_phone', "like", "%$this->search%");
                         });
                 });

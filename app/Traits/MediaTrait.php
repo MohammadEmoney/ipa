@@ -187,6 +187,13 @@ trait MediaTrait
         }
     }
 
+    public function createFakeImage($image, $model, $collection = "mainImage")
+    {
+        $model->addMedia($image->getRealPath())
+                ->usingName($image->getClientOriginalName())
+                ->toMediaCollection($collection);
+    }
+
     public function deleteMedia($id, $collection)
     {
         Media::find($id)?->delete();

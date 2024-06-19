@@ -13,7 +13,7 @@ class CategorySliderStrategy implements SliderStrategy
             $query->where('active', 1);
         }])->first();
         return [
-            'link' => $category ? router('vitrin.categories.show', ['category' => $category->id]) : "#",
+            'link' => $category ? route('front.categories.show', ['category' => $category->slug]) : "#",
             'title' => $category->title,
             'id' => $category->id,
             'slug' => $category->slug,

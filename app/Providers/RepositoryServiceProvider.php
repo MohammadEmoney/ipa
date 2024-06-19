@@ -24,6 +24,7 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         view()->composer('*', function ($view) {
             $view->with('settings', app(SettingsRepository::class)->get()?->data);
+            $view->with('logo', app(SettingsRepository::class)->get()?->getFirstMediaUrl('logo'));
         });
     }
 }

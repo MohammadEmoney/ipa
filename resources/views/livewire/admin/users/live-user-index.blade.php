@@ -4,7 +4,7 @@
         <div class="card-body">
             <div class="d-flex justify-content-between mb-2">
                 <h5 class="card-title fw-semibold mb-4">{{ $title }}</h5>
-                <button class="btn btn-sm btn-ac-info" wire:click="create()">{{ __('global.create_user') }}</button>
+                <button class="btn btn-sm btn-info" wire:click="create()">{{ __('global.create_user') }}</button>
             </div>
             <div class="table-responsive">
                 <div class="row">
@@ -39,7 +39,7 @@
                                     <div class="d-flex">
                                         <i class="cursor-pointer ti ti-trash text-danger ms-2" data-bs-toggle="tooltip" data-bs-placement="top" onclick="Custom.deleteItemList({{$user->id}})" title="{{ __('global.delete') }}"></i>
                                         <i class="cursor-pointer ti ti-pencil text-warning ms-2" data-bs-toggle="tooltip" data-bs-placement="top" wire:click="edit({{ $user->id }}, {{ $user->type }})" title="{{ __('global.edit') }}"></i>
-                                        <i class="cursor-pointer ti ti-eye" data-bs-toggle="tooltip" data-bs-placement="top" wire:click="show({{ $user->id }}, {{ $user->type }})" title="{{ __('global.show') }}"></i>
+                                        {{-- <i class="cursor-pointer ti ti-eye" data-bs-toggle="tooltip" data-bs-placement="top" wire:click="show({{ $user->id }}, {{ $user->type }})" title="{{ __('global.show') }}"></i> --}}
                                     </div>
                                 </td>
                             </tr>

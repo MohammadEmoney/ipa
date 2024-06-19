@@ -8,7 +8,7 @@
 <script src="/panel/src/assets/js/dashboard.js"></script>
 <script src="/panel/src/assets/libs/sweetalert/sweetalert2.all.js"></script>
 <script src="/panel/src/assets/libs/select2/select2.full.min.js"></script>
-<script src="/panel/src/assets/js/alert.js"></script>
+
 <script src="https://unpkg.com/persian-datepicker@latest/dist/js/persian-datepicker.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/tableexport.jquery.plugin@1.28.0/tableExport.min.js"></script>
@@ -16,7 +16,13 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.3/dist/bootstrap-table-locale-all.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.3/dist/extensions/export/bootstrap-table-export.min.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
-<script src="/panel/src/assets/js/custom.js"></script>
+@if (App::isLocale('en'))
+    <script src="/panel/src/assets/js/alert-en.js"></script>
+    <script src="/panel/src/assets/js/custom-en.js"></script>
+@else
+    <script src="/panel/src/assets/js/alert.js"></script>
+    <script src="/panel/src/assets/js/custom.js"></script>
+@endif
 
 <script>
     $(document).ready(function () {

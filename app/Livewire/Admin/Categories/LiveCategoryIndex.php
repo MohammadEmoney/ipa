@@ -59,7 +59,7 @@ class LiveCategoryIndex extends Component
 
     public function edit($id)
     {
-        return redirect()->to(route('admin.categories.edit', $id));
+        return redirect()->to(route('admin.categories.edit', ['category' => $id]));
     }
 
     public function changeActiveStatus($id)

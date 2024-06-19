@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => '{locale?}'], function () {
@@ -44,13 +45,22 @@ Route::group(['prefix' => '{locale?}'], function () {
     
             Route::get('settings', \App\Livewire\Admin\Settings\LiveSettings::class)->name('settings.general')->middleware('can:general_settings');
     
-        //     // Role and Permissions
-        //     // Route::get('roles', \App\Livewire\Admin\Roles\LiveRoleIndex::class)->name('roles.index');
+            // Role and Permissions
+            // Route::get('roles', \App\Livewire\Admin\Roles\LiveRoleIndex::class)->name('roles.index');
             Route::get('roles/permissions', \App\Livewire\Admin\Roles\LiveRolePermission::class)->name('roles.permissions');
         });
     });
     Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::redirect('/home', '/');
+    Route::middleware(['web'])->name('front.')->group(function(){
+        Route::get('/news', \App\Livewire\Front\Blog\LiveBlogIndex::class)->name('blog.index');
+        Route::get('/news/{post:slug}', \App\Livewire\Front\Blog\LiveBlogShow::class)->name('blog.show');
+        Route::get('/categories/{category:slug}', \App\Livewire\Front\Categories\LiveCategoryShow::class)->name('categories.show');
+        Route::get('/pages/{page:slug}', \App\Livewire\Front\Pages\LivePageShow::class)->name('pages.show');
+        Route::get('/search', \App\Livewire\Front\Blog\LiveBlogIndex::class)->name('search');
+    });
+    Route::get('login', App\Livewire\Auth\LiveLogin::class)->name('login');
+    Route::get('register', App\Livewire\Auth\LiveRegister::class)->name('register');
 })->where('locale', '[a-zA-Z]{2}');
 
 
@@ -64,7 +74,7 @@ Route::group(['prefix' => '{locale?}'], function () {
 //     Route::get('/courses', LiveCourseSelect::class)->name('courses.select')->middleware('register-complete');
 // });
 
-Route::get('login', [LoginController::class, 'login'])->name('login');
+
 // Route::get('register', [RegisterController::class, 'register'])->name('register');
 // Route::get('get-code/{code}', [LoginController::class, 'getCode'])->name('code');
 

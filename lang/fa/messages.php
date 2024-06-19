@@ -1,6 +1,8 @@
 <?php 
 
 return [
+    'slider_title' => 'صدای جهانی خلبانان',
+    'slider_sub_title' => 'فدراسیون بین المللی انجمن های خلبانان خطوط هوایی',
     'user_deleted' => 'کاربر حذف شد',
     'user_not_deleted' => 'کاربر حذف نشد',
     'not_have_access' => 'شما اجازه دسترسی به این بخش را ندارید!',
@@ -11,6 +13,8 @@ return [
     'post_main_image_required' => 'تصویر اصلی الزامی می باشد.',
     'post_created_successfully' => 'مقاله با موفقیت ثبت شد.',
     'post_updated_successfully' => 'مقاله با موفقیت بروزرسانی شد.',
+    'page_created_successfully' => 'صفحه با موفقیت ثبت شد.',
+    'page_updated_successfully' => 'صفحه با موفقیت بروزرسانی شد.',
     'category_created_successfully' => 'دسته بندی با موفقیت ثبت شد.',
     'category_updated_successfully' => 'دسته بندی با موفقیت بروزرسانی شد.',
     'group_layout_created_successfully' => 'گروه چیدمان جدید ایجاد شد.',
@@ -31,5 +35,9 @@ return [
     'select_display_filter' => 'فیلتر نمایش را انتخاب کنید.',
     'enter_start_date' => 'شروع زمان را وارد کنید.',
     'enter_end_date' => 'پایان زمان را وارد کنید.',
-
+    'have_account' => 'قبلا ثبت نام کرده ام. <a href=":link">وارد</a> شوید',
+    'have_no_account' => 'حساب کاربری ندارید؟. <a href=":link">از اینجا ثبت نام</a> کنید',
+    'register_completed' => 'ثبت نام با موفقیت انجام شد.',
+    'user_created_successfully' => 'کاربر با موفقیت ثبت شد.',
+    'user_updated_successfully' => 'کاربر با موفقیت ویرایش شد.',
 ];

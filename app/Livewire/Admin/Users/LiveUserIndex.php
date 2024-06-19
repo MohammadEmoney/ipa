@@ -27,10 +27,10 @@ class LiveUserIndex extends Component
 
     public function show($id)
     {
-        return redirect()->to(route('admin.users.show', $id));
+        return redirect()->to(route('admin.users.show', ['user' => $id]));
     }
 
-    public function create($type)
+    public function create()
     {
         return redirect()->to(route('admin.users.create'));
     }
@@ -54,7 +54,7 @@ class LiveUserIndex extends Component
 
     public function edit($id)
     {
-        return redirect()->to(route('admin.users.edit', $id));
+        return redirect()->to(route('admin.users.edit', ['user' => $id]));
     }
 
     public function render()

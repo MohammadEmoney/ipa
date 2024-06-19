@@ -9,6 +9,7 @@ return [
         'supervisor' => 'سوپروایزر',
         'management' => 'مدیریت',
         'content-manager' => 'مدیر محتوا',
+        'user' => 'کاربر',
     ],
     'week_days' => [
         "saturday" => "شنبه",

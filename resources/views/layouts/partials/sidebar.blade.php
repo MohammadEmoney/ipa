@@ -2,9 +2,9 @@
     <!-- Sidebar scroll-->
     <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
-            <a href="{{ route('admin.dashboard') }}" class="text-nowrap logo-img fs-6">
+            <a href="{{ route('home') }}" class="text-nowrap logo-img fs-6">
                 {{-- <img src="/panel/src/assets/images/logos/dark-logo.svg" width="180" alt="" /> --}}
-                {{ __('Sarzamin Robots') }}
+                {{ $settings['title'] ?? env('APP_NAME') }}
             </a>
             <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                 <i class="ti ti-x fs-8"></i>
@@ -25,11 +25,11 @@
                         <span class="hide-menu">{{ __('global.dashboard') }}</span>
                     </a>
                 </li>
-                <li class="nav-small-cap">
-                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">{{ __('global.users') }}</span>
-                </li>
                 @can('user_index')
+                    <li class="nav-small-cap">
+                        <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                        <span class="hide-menu">{{ __('global.users') }}</span>
+                    </li>
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('admin.users.index') }}" aria-expanded="false">
                             <span>
@@ -177,13 +177,15 @@
                         <span class="hide-menu"> درخواست های من</span>
                     </a>
                 </li> --}}
-                <li class="nav-small-cap">
-                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                    <span class="hide-menu">{{ __('global.default_language') }}</span>
-                </li>
-                <li class="sidebar-item">
-                    <livewire:admin.settings.live-default-language />
-                </li>
+                @can('language_access')
+                    <li class="nav-small-cap">
+                        <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                        <span class="hide-menu">{{ __('global.default_language') }}</span>
+                    </li>
+                    <li class="sidebar-item">
+                        <livewire:admin.settings.live-default-language />
+                    </li>
+                @endcan
             </ul>
         </nav>
         

@@ -31,6 +31,7 @@ class Layout extends Model implements HasMedia
         'priority',
         'icon',
         'tag',
+        'lang',
         'count_list',
         'is_active',
         'parent_id',

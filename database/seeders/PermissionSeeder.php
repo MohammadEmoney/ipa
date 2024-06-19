@@ -26,6 +26,7 @@ class PermissionSeeder extends Seeder
 
         $permissions = [
             'general_settings',
+            'language_access',
             'permission_index',
             'permission_create',
             'permission_edit',

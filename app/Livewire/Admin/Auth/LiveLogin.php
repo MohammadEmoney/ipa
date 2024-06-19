@@ -11,9 +11,20 @@ class LiveLogin extends Component
 {
     use AlertLiveComponent;
 
+    public $title;
     public $email;
     public $password;
     public $remember_me;
+
+    public function mount()
+    {
+        if (auth()->check()){
+            if(auth()->user()->hasRole('super-admin'))
+                return redirect()->to(route('admin.dashboard'));
+            return redirect()->to(route('home'));
+        }
+        $this->title = __('global.login');
+    }
 
     public function render()
     {

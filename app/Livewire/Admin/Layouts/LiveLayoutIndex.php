@@ -35,7 +35,7 @@ class LiveLayoutIndex extends Component
 
     public function show($id)
     {
-        return redirect()->to(route('admin.layouts.index', $id));
+        return redirect()->to(route('admin.layouts.edit', ['layoutGroup' => $this->layoutGroup->id, 'layout' => $id]));
     }
 
     public function create()
@@ -62,7 +62,7 @@ class LiveLayoutIndex extends Component
 
     public function edit($id)
     {
-        return redirect()->to(route('admin.group-layouts.edit', $id));
+        return redirect()->to(route('admin.layouts.edit', ['layoutGroup' => $this->layoutGroup->id, 'layout' => $id]));
     }
 
     public function changeActiveStatus($id)
@@ -76,7 +76,7 @@ class LiveLayoutIndex extends Component
     
     public function render()
     {
-        $layouts = Layout::query()->with(['groupLayout']);
+        $layouts = Layout::query()->where('layout_group_id', $this->layoutGroup->id)->with(['layoutGroup']);
         $search = trim($this->search);
         if($search && mb_strlen($search) > 2){
             $layouts = $layouts->where(function($query) use ($search){

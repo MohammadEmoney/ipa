@@ -113,7 +113,6 @@
                                 <td class="text-nowrap">
                                     <i class="cursor-pointer ti ti-trash text-danger ms-2" data-bs-toggle="tooltip" data-bs-placement="top" onclick="Custom.deleteItemList({{$layout->id}})" title="{{ __('global.delete') }}"></i>
                                     <i class="cursor-pointer ti ti-pencil text-warning ms-2" data-bs-toggle="tooltip" data-bs-placement="top" wire:click="edit({{ $layout->id }})" title="{{ __('global.edit') }}"></i>
-                                    <i class="cursor-pointer ti ti-list-details" data-bs-toggle="tooltip" data-bs-placement="top" wire:click="show({{ $layout->id }})" title="{{ __('global.layouts') }}"></i>
                                 </td>
                             </tr>
                         @endforeach

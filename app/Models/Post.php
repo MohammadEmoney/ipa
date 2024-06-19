@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Morilog\Jalali\Jalalian;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -37,7 +39,19 @@ class Post extends Model implements HasMedia
 
     protected $casts = [
         'published_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'created_at' => 'datetime',
     ];
+
+    /**
+     * @param $date
+     * @return string|null
+     */
+    public function getUpdatedAtAttribute($date):string|null
+    {
+        $date = Carbon::parse($date);
+        return config('app.locale') == 'en' ? $date->format('Y-m-d') : Jalalian::fromDateTime($date)->format('d %B %Y');
+    }
 
     /**
      * The categories that belong to the Post
@@ -84,5 +98,21 @@ class Post extends Model implements HasMedia
         $this
             ->addMediaConversion('mainImage')
             ->nonQueued();
+    }
+
+    /**
+     * Active Scope
+     */
+    public function scopeActive($query)
+    {
+        $query->where('is_active', 1);
+    }
+    
+    /**
+     * Active Scope
+     */
+    public function scopeLang($query, $lang = null)
+    {
+        $query->where('lang', $lang ?: config('app.locale'));
     }
 }

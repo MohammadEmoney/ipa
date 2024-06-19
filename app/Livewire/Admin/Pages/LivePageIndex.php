@@ -59,7 +59,7 @@ class LivePageIndex extends Component
 
     public function edit($id)
     {
-        return redirect()->to(route('admin.pages.edit', $id));
+        return redirect()->to(route('admin.pages.edit', ['page' => $id]));
     }
 
     public function changeActiveStatus($id)

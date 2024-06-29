@@ -2,14 +2,19 @@
 
 namespace App\Livewire\Front\Components;
 
+use App\Traits\LayoutTrait;
 use Livewire\Component;
 
 class LiveAboutUs extends Component
 {
+    use LayoutTrait;
+
     public function render()
     {
         $data = $this->getData();
-        return view('livewire.front.components.live-about-us', compact('data'));
+        $layoutGroup = $this->getLayoutGroup(null,'main-about');
+        $layouts = $this->getLayouts($layoutGroup);
+        return view('livewire.front.components.live-about-us', compact('layouts', 'layoutGroup'));
     }
 
     protected function getData()

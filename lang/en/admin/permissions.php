@@ -43,4 +43,5 @@ return [
     'layout_edit' => 'Layout Edit',
     'layout_delete' => 'Layout Delete',
     'layout_show' => 'Layout Show',
+    'active_user' => 'Active User',
 ];

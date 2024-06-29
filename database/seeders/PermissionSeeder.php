@@ -67,6 +67,7 @@ class PermissionSeeder extends Seeder
             'category_edit',
             'category_delete',
             'category_show',
+            'active_user',
         ];
 
         foreach ($permissions as $permission) {

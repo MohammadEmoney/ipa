@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,7 +13,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements HasMedia
+class User extends Authenticatable implements HasMedia, MustVerifyEmail
 {
     use HasFactory, Notifiable, HasRoles, SoftDeletes, InteractsWithMedia;
 
@@ -33,6 +33,7 @@ class User extends Authenticatable implements HasMedia
         'password',
         'otp_code',
         'lang',
+        'is_active'
     ];
 
     /**
@@ -78,5 +79,19 @@ class User extends Authenticatable implements HasMedia
         $this
             ->addMediaConversion('avatar')
             ->nonQueued();
+        $this
+            ->addMediaConversion('nationalCard')
+            ->nonQueued();
+        $this
+            ->addMediaConversion('license')
+            ->nonQueued();
+    }
+
+    /**
+     * Active Scope
+     */
+    public function scopeActive($query)
+    {
+        $query->where('is_active', 1);
     }
 }

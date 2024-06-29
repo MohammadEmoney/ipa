@@ -7,7 +7,7 @@ class EnumLayoutType extends BaseEnum
 {
     const MENU = 'menu';
     const SLIDER = 'slider';
-    const PRODUCT = 'product';
+    // const PRODUCT = 'product';
     const ARTICLE = 'article';
-    const NEWS = 'news';
+    // const NEWS = 'news';
 }

@@ -105,17 +105,17 @@
                         
                             <tr>
                                 <th scope="row">{{  ($posts->currentpage()-1) * $posts->perpage() + $key + 1 }}</th>
-                                <td wire:click="show({{ $post->id }})" class="cursor-pointer text-nowrap">{{ $post->title ?: "_" }}</td>
-                                <td wire:click="show({{ $post->id }})" class="cursor-pointer text-nowrap">{{ $post->slug }}</td>
-                                <td wire:click="show({{ $post->id }})" class="cursor-pointer text-nowrap">{{ $post->mainCategory()?->first()?->title ?: "-" }}</td>
-                                {{-- <td wire:click="show({{ $post->id }})" class="cursor-pointer text-nowrap">
+                                <td wire:click="edit({{ $post->id }})" class="cursor-pointer text-nowrap">{{ $post->title ?: "_" }}</td>
+                                <td wire:click="edit({{ $post->id }})" class="cursor-pointer text-nowrap">{{ $post->slug }}</td>
+                                <td wire:click="edit({{ $post->id }})" class="cursor-pointer text-nowrap">{{ $post->mainCategory()?->first()?->title ?: "-" }}</td>
+                                {{-- <td wire:click="edit({{ $post->id }})" class="cursor-pointer text-nowrap">
                                     <span class="d-inline-block text-truncate" style="max-width: 150px;">
                                         {!! $post->summary !!}
                                     </span>
                                 </td> --}}
-                                <td wire:click="show({{ $post->id }})" class="cursor-pointer text-nowrap">{{  number_format($post->views) }}</td>
-                                <td wire:click="show({{ $post->id }})" class="cursor-pointer text-nowrap">{{ \App\Enums\EnumLanguages::trans($post->lang) }}</td>
-                                <td wire:click="show({{ $post->id }})" class="cursor-pointer text-nowrap">{{ $post->createdBy?->full_name ?: "-" }}</td>
+                                <td wire:click="edit({{ $post->id }})" class="cursor-pointer text-nowrap">{{  number_format($post->views) }}</td>
+                                <td wire:click="edit({{ $post->id }})" class="cursor-pointer text-nowrap">{{ \App\Enums\EnumLanguages::trans($post->lang) }}</td>
+                                <td wire:click="edit({{ $post->id }})" class="cursor-pointer text-nowrap">{{ $post->createdBy?->full_name ?: "-" }}</td>
                                 <td class="text-nowrap">{{ \Morilog\Jalali\Jalalian::fromDateTime($post->published_at)->format('Y-m-d') }}</td>
                                 <td class="text-nowrap">{{ \Morilog\Jalali\Jalalian::fromDateTime($post->created_at)->format('Y-m-d') }}</td>
                                 <td class="text-nowrap">

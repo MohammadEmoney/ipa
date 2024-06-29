@@ -172,16 +172,16 @@
                                                         </div>
                                                     </div>
             
-                                                    @if(($data['filter'] ?? '')==\App\Enums\EnumLayoutFilter::TAG)
-                                                        <div class="col-md-4" id="tag">
+                                                    @if(($data['filter'] ?? '')==\App\Enums\EnumLayoutFilter::SELECT)
+                                                        <div class="col-md-4" id="post">
                                                             <div class="form-group mb-3" wire:ignore>
-                                                                <label class="form-label" for="featured">{{ __('global.tag') }}</label>
+                                                                <label class="form-label" for="featured">{{ __('global.news') }}</label>
                                                                 <select class="select2Single form-control"
-                                                                        onchange="livewireSelect2('data.tag', this)">
+                                                                        onchange="livewireSelect2('data.post', this)">
                                                                     <option></option>
-                                                                    @foreach ($tags as $tag)
+                                                                    @foreach ($posts as $post)
                                                                         <option
-                                                                            value="{{ $tag->id }}" {{($tag->id==($data['tag']??0))?'selected':''}}>{{ $tag->title . " ({$tag->type}) " }}</option>
+                                                                            value="{{ $post->id }}" {{($post->id==($data['post']??0))?'selected':''}}>{{ $post->title }}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>

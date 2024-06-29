@@ -103,11 +103,11 @@
                         
                             <tr>
                                 <th scope="row">{{  ($pages->currentpage()-1) * $pages->perpage() + $key + 1 }}</th>
-                                <td wire:click="show({{ $page->id }})" class="cursor-pointer text-nowrap">{{ $page->title ?: "_" }}</td>
-                                <td wire:click="show({{ $page->id }})" class="cursor-pointer text-nowrap">{{ $page->slug }}</td>
-                                <td wire:click="show({{ $page->id }})" class="cursor-pointer text-nowrap">{{  number_format($page->views) }}</td>
-                                <td wire:click="show({{ $page->id }})" class="cursor-pointer text-nowrap">{{ \App\Enums\EnumLanguages::trans($page->lang) }}</td>
-                                <td wire:click="show({{ $page->id }})" class="cursor-pointer text-nowrap">{{ $page->createdBy?->full_name ?: "-" }}</td>
+                                <td wire:click="edit({{ $page->id }})" class="cursor-pointer text-nowrap">{{ $page->title ?: "_" }}</td>
+                                <td wire:click="edit({{ $page->id }})" class="cursor-pointer text-nowrap">{{ $page->slug }}</td>
+                                <td wire:click="edit({{ $page->id }})" class="cursor-pointer text-nowrap">{{  number_format($page->views) }}</td>
+                                <td wire:click="edit({{ $page->id }})" class="cursor-pointer text-nowrap">{{ \App\Enums\EnumLanguages::trans($page->lang) }}</td>
+                                <td wire:click="edit({{ $page->id }})" class="cursor-pointer text-nowrap">{{ $page->createdBy?->full_name ?: "-" }}</td>
                                 <td class="text-nowrap">{{ \Morilog\Jalali\Jalalian::fromDateTime($page->published_at)->format('Y-m-d') }}</td>
                                 <td class="text-nowrap">{{ \Morilog\Jalali\Jalalian::fromDateTime($page->created_at)->format('Y-m-d') }}</td>
                                 <td class="text-nowrap">

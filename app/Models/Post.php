@@ -93,6 +93,14 @@ class Post extends Model implements HasMedia
         return $this->belongsTo(User::class, 'updated_by');
     }
 
+    /**
+     * Get the post's comments.
+     */
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
+
     public function registerMediaConversions(Media $media = null): void
     {
         $this

@@ -1,17 +1,17 @@
 <div class="container" data-aos="fade-up">
-    @foreach ($posts as $post)
+    @foreach ($layouts as $layout)
     <div class="row" data-aos="fade-up" data-aos-delay="100">
         <div class="col-md-12">
             <div class="card mb-3 border-0">
                 <div class="row g-0 {{ $loop->odd ? "" : "flex-row-reverse" }}">
                     <div class="col-md-6">
-                        <img src="{{ $post->getFirstMediaUrl('mainImage') }}" class="img-fluid rounded-{{ $loop->odd ? "start" : "end" }}" alt="{{ $post->title }}">
+                        <img src="{{ $layout->articles?->getFirstMediaUrl('mainImage') }}" class="img-fluid rounded-{{ $loop->odd ? "start" : "end" }}" alt="{{ $layout->articles?->title }}">
                     </div>
                     <div class="col-md-6 d-flex align-items-center">
                         <div class="card-body">
-                            <h5 class="card-title">{{ $post->title }}</h5>
-                            <p class="card-text">{{ $post->summary }}</p>
-                            <a href="" class="btn btn-primary">{{ __('global.read_more') }}</a>
+                            <h5 class="card-title">{{ $layout->articles?->title }}</h5>
+                            <p class="card-text">{{ $layout->articles?->summary }}</p>
+                            <a href="{{ route('front.blog.show', ['post' => $layout->articles?->slug]) }}" class="btn btn-primary">{{ __('global.read_more') }}</a>
                         </div>
                     </div>
                 </div>

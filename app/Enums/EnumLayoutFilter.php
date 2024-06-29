@@ -14,5 +14,5 @@ class EnumLayoutFilter extends BaseEnum
     const BESTSELLING = 'bestselling';
     const DISCOUNT = 'discount';
     const CATEGORY = 'category';
-    const TAG = 'tag';
+    // const TAG = 'tag';
 }

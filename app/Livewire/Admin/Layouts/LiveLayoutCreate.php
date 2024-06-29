@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Layout;
 use App\Models\LayoutGroup;
 use App\Models\Page;
+use App\Models\Post;
 use App\Traits\AlertLiveComponent;
 use App\Traits\MediaTrait;
 use Illuminate\Support\Facades\DB;
@@ -114,10 +115,10 @@ class LiveLayoutCreate extends Component
                         $this->alert(__('messages.select_category'))->error();
                         return false;
                     }
-                    if ($this->data['filter'] == EnumLayoutFilter::TAG && empty($this->data['tag'])) {
-                        $this->alert(__('messages.select_tag'))->error();
-                        return false;
-                    }
+                    // if ($this->data['filter'] == EnumLayoutFilter::TAG && empty($this->data['tag'])) {
+                    //     $this->alert(__('messages.select_tag'))->error();
+                    //     return false;
+                    // }
                     break;
             }
 
@@ -135,7 +136,7 @@ class LiveLayoutCreate extends Component
             }
 
 
-            if ($this->data['release_type'] == EnumLayoutReleaseType::Date) {
+            if ($this->data['release_type'] == EnumLayoutReleaseType::DATE) {
                 if (empty($this->data['start_date_release'])) {
                     $this->alert(__('messages.enter_start_date'))->error();
                     return false;
@@ -177,7 +178,7 @@ class LiveLayoutCreate extends Component
         }
     }
 
-    public function updatedFieldsType($value)
+    public function updatedDataType($value)
     {
         $this->data['filter'] = '';
         $this->data['tag'] = '';
@@ -186,13 +187,13 @@ class LiveLayoutCreate extends Component
         $this->data['layoutable_value'] = '';
     }
 
-    public function updatedFieldsFilter($value)
+    public function updatedDataFilter($value)
     {
         $this->data['tag'] = '';
         $this->data['category'] = '';
     }
 
-    public function updatedFieldsLinkType($value)
+    public function updatedDataLinkType($value)
     {
         $this->data['layoutable_value'] = '';
     }
@@ -201,9 +202,10 @@ class LiveLayoutCreate extends Component
     {
         $categories = Category::query()->lang()->active()->get();
         // $tags = Tag::query()->language()->get();
+        $posts = Post::query()->lang()->get();
         $pages = Page::query()->lang()->get();
         $layouts = Layout::query()->lang()->get();
-        return view('livewire.admin.layouts.live-layout-create', compact('categories', 'pages', 'layouts'))
+        return view('livewire.admin.layouts.live-layout-create', compact('categories', 'pages', 'layouts', 'posts'))
             ->extends('layouts.admin-panel')
             ->section('content');
     }

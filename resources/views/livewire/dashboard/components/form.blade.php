@@ -1,3 +1,4 @@
+<h5 class="text-center">{{ __('global.register') }}</h5>
 <form wire:submit.prevent="submit">
     <div class="row">
         <div class="col-md-6">
@@ -38,34 +39,36 @@
             </div>
         </div>
     </div>
-    <div class="col-md-12">
-        <div class="mb-4 position-relative">
-            <label for="exampleInputPassword1" class="form-label">{{ __('global.password') }}</label>
-            <input type="password" autocomplete="new-password" class="form-control password" id="exampleInputPassword1" wire:model="data.password">
-            <i class="ti ti-eye password-icon"></i>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="mb-4 position-relative">
+                <label for="exampleInputPassword1" class="form-label">{{ __('global.password') }}</label>
+                <input type="password" autocomplete="new-password" class="form-control password" id="exampleInputPassword1" wire:model="data.password">
+                <i class="ti ti-eye password-icon"></i>
+            </div>
+            <div>
+                @error('data.password')
+                    {{ $message }}
+                @enderror
+            </div>
         </div>
-        <div>
-            @error('data.password')
-                {{ $message }}
-            @enderror
-        </div>
-    </div>
-    <div class="col-md-12">
-        <div class="mb-4 position-relative">
-            <label for="exampleInputPassword2" class="form-label">{{ __('global.password_confirmation') }}</label>
-            <input type="password" autocomplete="new-password" class="form-control password" id="exampleInputPassword2" wire:model="data.password_confirmation">
-            <i class="ti ti-eye password-icon"></i>
-        </div>
-        <div>
-            @error('data.password_confirmation')
-                {{ $message }}
-            @enderror
+        <div class="col-md-12">
+            <div class="mb-4 position-relative">
+                <label for="exampleInputPassword2" class="form-label">{{ __('global.password_confirmation') }}</label>
+                <input type="password" autocomplete="new-password" class="form-control password" id="exampleInputPassword2" wire:model="data.password_confirmation">
+                <i class="ti ti-eye password-icon"></i>
+            </div>
+            <div>
+                @error('data.password_confirmation')
+                    {{ $message }}
+                @enderror
+            </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
             <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" >
-                <span class="spinner-border spinner-border-sm" wire:loading></span> {{ __('global.register') }}
+                <span class="spinner-border spinner-border-sm" wire:loading></span> {{ __('global.continue') }}
             </button>
         </div>
     </div>

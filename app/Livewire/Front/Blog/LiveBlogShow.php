@@ -14,6 +14,7 @@ class LiveBlogShow extends Component
     {
         $this->post = $post->load(['mainCategory', 'createdBy', 'media']);
         $this->title = $post->title;
+        $this->post->increment('view');
     }
 
     public function render()

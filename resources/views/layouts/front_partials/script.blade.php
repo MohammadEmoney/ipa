@@ -7,6 +7,15 @@
 <script src="/Impact/assets/vendor/swiper/swiper-bundle.min.js"></script>
 <script src="/Impact/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
 <script src="/Impact/assets/vendor/php-email-form/validate.js"></script>
+<script src="/panel/src/assets/libs/sweetalert/sweetalert2.all.js"></script>
+
+@if (App::isLocale('en'))
+    <script src="/panel/src/assets/js/alert-en.js"></script>
+    <script src="/panel/src/assets/js/custom-en.js"></script>
+@else
+    <script src="/panel/src/assets/js/alert.js"></script>
+    <script src="/panel/src/assets/js/custom.js"></script>
+@endif
 
 <!-- Template Main JS File -->
 <script src="/Impact/assets/js/main.js"></script>

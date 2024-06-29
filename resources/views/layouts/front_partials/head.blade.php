@@ -6,8 +6,8 @@
     <meta content="" name="description">
 
      <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon">
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="{{ $favicon ?: "/general/img/favicon-16x16.png" }}" rel="icon">
+    <link href="{{ $favicon ?: "/general/img/favicon-16x16.png" }}" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,7 +26,6 @@
     <link href="/Impact/assets/vendor/aos/aos.css" rel="stylesheet">
     <link href="/Impact/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="/Impact/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <!-- Template Main CSS File -->
     @if (App::isLocale('en'))

@@ -43,4 +43,5 @@ return [
     'layout_edit' => 'چیدمان ویرایش',
     'layout_delete' => 'چیدمان حذف',
     'layout_show' => 'چیدمان نمایش',
+    'active_user' => 'کاربر فعال',
 ];

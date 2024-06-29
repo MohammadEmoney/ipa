@@ -41,6 +41,48 @@ let Custom = {
                 Livewire.dispatch(call_method);
             }
         )
+    },
+    num2persian:()=>{
+        $(document).on( 'keyup' , '.num2persian' ,function (e) {
+            $(`#lbl-${e.target.id}`).html(Num2persian(e.target.value));
+        });
+    },
+    listeners:()=>{
+        $(document).on( 'keydown' , '.numeric' ,function (e) {
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                (e.keyCode == 65 && e.ctrlKey === true) ||
+                (e.keyCode >= 35 && e.keyCode <= 40)) {
+                return;
+            }
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+        $(document).on( 'keydown' , '.farsi' ,function (e) {
+            if(e.key == 'Alt' || e.key == 'Shift' || e.key == 'Tab' || e.key == 'Backspace')
+                return ;
+
+            if( !e.key.match(/^[ا آ ئ ب پ ت ث ج چ ح خ د ذ ر ز ژ س ش ص ض ط ظ ع غ ف ق ک گ ل م ن و ه ی]+$/)){
+                e.preventDefault();
+            }
+        });
+        $(document).on( 'keydown' , '.farsi-numeric' ,function (e) {
+            if(e.key == 'Alt' || e.key == 'Shift' || e.key == 'Tab' || e.key == 'Backspace')
+                return ;
+
+            if( !e.key.match(/^[0-9 ا آ ئ ب پ ت ث ج چ ح خ د ذ ر ز ژ س ش ص ض ط ظ ع غ ف ق ک گ ل م ن و ه ی ۰ ۱ ۲ ۳ ۴ ۵ ۶ ۷ ۸ ۹]+$/)){
+                e.preventDefault();
+            }
+        });
+        $(document).on( 'keydown' , '.english' ,function (e) {
+            console.log(e.key);
+            if(e.key == 'Alt' || e.key == 'Shift' || e.key == 'Tab' )
+                return ;
+
+            if( !e.key.match(/^[0-9 a-z A-Z]+$/)){
+                e.preventDefault();
+            }
+        });
     }
 };
 Custom.init();

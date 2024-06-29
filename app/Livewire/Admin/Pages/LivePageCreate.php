@@ -83,8 +83,7 @@ class LivePageCreate extends Component
     public function render()
     {
         $langs = EnumLanguages::getTranslatedAll();
-        $categories = Category::active()->select('title', 'id')->get();
-        return view('livewire.admin.pages.live-page-create', compact('langs', 'categories'))
+        return view('livewire.admin.pages.live-page-create', compact('langs'))
             ->extends('layouts.admin-panel')
             ->section('content');
     }

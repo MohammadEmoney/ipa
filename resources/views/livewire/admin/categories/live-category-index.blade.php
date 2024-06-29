@@ -101,11 +101,10 @@
                         
                             <tr>
                                 <th scope="row">{{  ($categories->currentpage()-1) * $categories->perpage() + $key + 1 }}</th>
-                                <td wire:click="show({{ $category->id }})" class="cursor-pointer text-nowrap">{{ $category->title ?: "_" }}</td>
-                                <td wire:click="show({{ $category->id }})" class="cursor-pointer text-nowrap">{{ $category->slug }}</td>
-                                <td wire:click="show({{ $category->id }})" class="cursor-pointer text-nowrap">{{ $category->parent?->title ?: "-" }}</td>
-                                
-                                <td wire:click="show({{ $category->id }})" class="cursor-pointer text-nowrap">{{ \App\Enums\EnumLanguages::trans($category->lang) }}</td>
+                                <td wire:click="edit({{ $category->id }})" class="cursor-pointer text-nowrap">{{ $category->title ?: "_" }}</td>
+                                <td wire:click="edit({{ $category->id }})" class="cursor-pointer text-nowrap">{{ $category->slug }}</td>
+                                <td wire:click="edit({{ $category->id }})" class="cursor-pointer text-nowrap">{{ $category->parent?->title ?: "-" }}</td>
+                                <td wire:click="edit({{ $category->id }})" class="cursor-pointer text-nowrap">{{ \App\Enums\EnumLanguages::trans($category->lang) }}</td>
                                 <td class="text-nowrap">{{ \Morilog\Jalali\Jalalian::fromDateTime($category->created_at)->format('Y-m-d') }}</td>
                                 <td class="text-nowrap">
                                     <div class="form-check form-switch">

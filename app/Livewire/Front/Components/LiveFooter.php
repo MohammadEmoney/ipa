@@ -15,6 +15,8 @@ class LiveFooter extends Component
         $posts = Post::active()->lang()->latest()->take(3)->get();
         $layoutGroup = $this->getLayoutGroup(null,'main-menu');
         $menu = $this->getLayouts($layoutGroup);
-        return view('livewire.front.components.live-footer', compact('posts', 'menu'));
+        $layoutGroup = $this->getLayoutGroup(null,'social-media');
+        $socialMedia = $this->getLayouts($layoutGroup);
+        return view('livewire.front.components.live-footer', compact('posts', 'menu', 'socialMedia'));
     }
 }

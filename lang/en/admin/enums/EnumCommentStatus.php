@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'allowed' => 'نمایش',
-    'waiting' => 'منتظر تایید',
-    'rejected' => 'رد',
+    'allowed' => 'Allowed',
+    'waiting' => 'Pending',
+    'rejected' => 'Rejected',
 ];

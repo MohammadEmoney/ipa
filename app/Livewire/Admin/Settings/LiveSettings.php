@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Settings;
 
 use App\Enums\EnumLanguages;
+use App\Enums\EnumPaymentMode;
 use App\Models\Setting;
 use App\Repositories\SettingsRepository;
 use App\Traits\AlertLiveComponent;
@@ -38,6 +39,7 @@ class LiveSettings extends Component
         $this->data = $this->setting->data;
         $this->data['lang'] = app()->getLocale();
         $this->data['logo'] = $this->setting->getFirstMedia('logo');
+        $this->data['favicon'] = $this->setting->getFirstMedia('favicon');
     }
 
     public function updated($field,$values)
@@ -72,6 +74,7 @@ class LiveSettings extends Component
     {
         $setting = $this->setting;
         $this->createImage($setting, 'logo');
+        $this->createImage($setting, 'favicon');
         $setting->update([
             'data' => $this->data
         ]);
@@ -84,6 +87,7 @@ class LiveSettings extends Component
     {
         // dd(\App\Enums\EnumTimeZone::getTranslatedAll());
         $langs = EnumLanguages::getTranslatedAll();
-        return view('livewire.admin.settings.live-settings', compact('langs'))->extends('layouts.admin-panel')->section('content');
+        $zarinpalModes = EnumPaymentMode::getTranslatedAll();
+        return view('livewire.admin.settings.live-settings', compact('langs', 'zarinpalModes'))->extends('layouts.admin-panel')->section('content');
     }
 }

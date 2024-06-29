@@ -9,10 +9,12 @@
           </a>
           <p>{!! $settings['about_us'] ?? "" !!}</p>
           <div class="social-links d-flex mt-4">
-            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+            @foreach ($socialMedia as $item)
+              <a href="{{ $item->link }}" class="twitter"><i class="{{ $item->icon }}"></i></a>
+            @endforeach
+            {{-- <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
             <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a> --}}
           </div>
         </div>
 

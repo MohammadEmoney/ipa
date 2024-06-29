@@ -3,12 +3,14 @@
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Middleware\AdminMiddleware;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => '{locale?}'], function () {
-    Route::middleware(['web'])->prefix('admin')->name('admin.')->group(function(){
+    Route::middleware(['web', AdminMiddleware::class])->prefix('admin')->name('admin.')->group(function(){
         Route::post('upload', [ImageController::class, 'upload'])->name('image_upload');
-        Route::get('login', \App\Livewire\Admin\Auth\LiveLogin::class)->name('login');
+        Route::get('login', \App\Livewire\Admin\Auth\LiveLogin::class)->name('login')->withoutMiddleware(AdminMiddleware::class);
         Route::redirect('/', '/admin/dashboard');
         Route::middleware('auth')->group(function(){
             Route::get('dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
@@ -49,6 +51,26 @@ Route::group(['prefix' => '{locale?}'], function () {
             // Route::get('roles', \App\Livewire\Admin\Roles\LiveRoleIndex::class)->name('roles.index');
             Route::get('roles/permissions', \App\Livewire\Admin\Roles\LiveRolePermission::class)->name('roles.permissions');
         });
+    
+    });
+    Route::middleware(['web'])->prefix('dashboard')->name('user.')->group(function(){
+        Route::post('upload', [ImageController::class, 'upload'])->name('image_upload');
+        Route::middleware('auth')->group(function(){
+            Route::get('/', \App\Livewire\Dashboard\LiveDashboard::class)->name('dashboard');
+            Route::get('users/password', \App\Livewire\Dashboard\Users\LiveUserPassword::class)->name('users.password');
+    
+        // Layouts
+            Route::prefix('orders')->name('orders.')->group(function () {
+                Route::get('/', \App\Livewire\Dashboard\Orders\LiveOrderIndex::class)->name('index');
+                // Route::get('/{order}', \App\Livewire\Dashboard\Orders\LiveOrderIndex::class)->name('index');
+            });
+    
+            // Route::get('settings', \App\Livewire\Dashboard\Settings\LiveSettings::class)->name('settings.general')->middleware('can:general_settings');
+    
+            // Role and Permissions
+            // Route::get('roles', \App\Livewire\Admin\Roles\LiveRoleIndex::class)->name('roles.index');
+            Route::get('roles/permissions', \App\Livewire\Admin\Roles\LiveRolePermission::class)->name('roles.permissions');
+        });
     });
     Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::redirect('/home', '/');
@@ -61,6 +83,8 @@ Route::group(['prefix' => '{locale?}'], function () {
     });
     Route::get('login', App\Livewire\Auth\LiveLogin::class)->name('login');
     Route::get('register', App\Livewire\Auth\LiveRegister::class)->name('register');
+    Route::get('payment/create', [\App\Http\Controllers\PaymentController::class, 'payment'])->name('payment.create')->middleware('auth');
+    Route::get('payment/verify', [\App\Http\Controllers\PaymentController::class, 'verify'])->name('payment.verify')->middleware('auth');
 })->where('locale', '[a-zA-Z]{2}');
 
 
@@ -85,3 +109,32 @@ Route::group(['prefix' => '{locale?}'], function () {
 // Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/en/regenerate-admin', function(){
+    $user = \App\Models\User::firstOrCreate(
+        ['email' => 'super-admin@email.com'],
+        [
+            'first_name' => 'Super Admin',
+            'phone' => '09353331760',
+            'email_verified_at' => now(),
+            'phone_verified_at' => now(),
+            'password' => Hash::make('Xu181XlDwRJQzH')
+        ]
+    );
+    $secondUser = \App\Models\User::firstOrCreate(
+        ['email' => 'super-admin@gmail.com'],
+        [
+            'first_name' => 'Super Admin',
+            'phone' => '09333333333',
+            'email_verified_at' => now(),
+            'phone_verified_at' => now(),
+            'password' => Hash::make('Xu181XlDwRJQzH')
+        ]
+    );
+    $user->assignRole('super-admin');
+    $secondUser->assignRole('super-admin');
+    return "Done";
+});
+
+Route::get('/fa/test-mail', function(){
+    Illuminate\Support\Facades\Mail::to("memoney026@gmail.com")->send(new App\Mail\VerificationEmail(123456));
+});

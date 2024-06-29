@@ -32,12 +32,8 @@ class LivePageEdit extends Component
             'lang' => $page->lang,
             'title' => $page->title,
             'slug' => $page->slug,
-            'summary' => $page->summary,
             'description' => $page->description,
-            'category_id' => $page->mainCategory?->first()?->id,
-            'categories' => $page->categories->pluck('id')->toArray(),
         ];
-        // dd($this->data);
         $this->data['mainImage'] = $page->getFirstMedia('mainImage');
     }
 
@@ -48,10 +44,6 @@ class LivePageEdit extends Component
                 'data.lang' => 'required|in:' . EnumLanguages::asStringValues(),
                 'data.title' => 'required|string|min:2|max:255',
                 'data.slug' => 'required|unique:pages,slug,' . $this->page->id,
-                'data.category_id' => 'required|exists:categories,id',
-                'data.categories' => 'nullable|array',
-                'data.categories.*' => 'required|exists:categories,id',
-                'data.summary' => 'required|string',
                 'data.description' => 'required|string',
             ],
             [],
@@ -59,10 +51,7 @@ class LivePageEdit extends Component
                 'data.lang' => __('global.lang'),
                 'data.title' => __('global.title'),
                 'data.slug' => __('global.slug'),
-                'data.summary' => __('global.summary'),
                 'data.description' =>__('global.description'),
-                'data.category_id' =>__('global.main_category'),
-                'data.categories' =>__('global.categories'),
             ]
         );
     }
@@ -104,8 +93,7 @@ class LivePageEdit extends Component
     public function render()
     {
         $langs = EnumLanguages::getTranslatedAll();
-        $categories = Category::active()->select('title', 'id')->get();
-        return view('livewire.admin.pages.live-page-edit', compact('langs', 'categories'))
+        return view('livewire.admin.pages.live-page-edit', compact('langs'))
             ->extends('layouts.admin-panel')
             ->section('content');
     }

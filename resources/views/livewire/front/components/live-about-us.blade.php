@@ -3,19 +3,24 @@
     <div class="container" data-aos="fade-up">
 
         <div class="section-header">
-        <h2>{{ $data['title'] }}</h2>
-        <p>{{ $data['sub_title'] }}</p>
+        <h2>{{ $layoutGroup->title }}</h2>
+        <div>{!! $layoutGroup->description !!}</div>
         </div>
 
         <div class="row gy-4">
-            <div class="col-lg-6">
-                {!! $data['first_content'] !!}
-            </div>
-            <div class="col-lg-6">
-                <div class="content ps-0 ps-lg-5">
-                    {!! $data['second_content'] !!}
+            @foreach ($layouts as $layout)
+                <div class="col-lg-6">
+                    <div class="{{ $loop->last ? "content ps-0 ps-lg-5" : "" }} description">
+                        {!! $layout->description ?: "" !!}
+                        @if ($loop->last)
+                            <div class="position-relative mt-4">
+                                <img src="{{ $layout->getFirstMediaUrl('mainImage') ?: "/Impact/assets/img/about-2.jpg" }}" class="img-fluid rounded-4" alt="">
+                                <a href="{{ $layout->link ?: "#" }}" class="glightbox play-btn"></a>
+                            </div>
+                        @endif
+                    </div>
                 </div>
-            </div>
+            @endforeach
         </div>
     </div>
 </section><!-- End About Us Section -->

@@ -100,10 +100,10 @@
                         @foreach ($layouts as $key => $layout)
                             <tr>
                                 <th scope="row">{{  ($layouts->currentpage()-1) * $layouts->perpage() + $key + 1 }}</th>
-                                <td wire:click="show({{ $layout->id }})" class="cursor-pointer text-nowrap">{{ $layout->title ?: "_" }}</td>
-                                <td wire:click="show({{ $layout->id }})" class="cursor-pointer text-nowrap">{{  number_format($layout->count_list) }}</td>
-                                <td wire:click="show({{ $layout->id }})" class="cursor-pointer text-nowrap">{{ \App\Enums\EnumLanguages::trans($layout->lang) }}</td>
-                                <td wire:click="show({{ $layout->id }})" class="cursor-pointer text-nowrap">{{ \App\Enums\EnumLayoutGroupTags::trans($layout->tag) }}</td>
+                                <td wire:click="edit({{ $layout->id }})" class="cursor-pointer text-nowrap">{{ $layout->title ?: "_" }}</td>
+                                <td wire:click="edit({{ $layout->id }})" class="cursor-pointer text-nowrap">{{  number_format($layout->count_list) }}</td>
+                                <td wire:click="edit({{ $layout->id }})" class="cursor-pointer text-nowrap">{{ \App\Enums\EnumLanguages::trans($layout->lang) }}</td>
+                                <td wire:click="edit({{ $layout->id }})" class="cursor-pointer text-nowrap">{{ \App\Enums\EnumLayoutGroupTags::trans($layout->tag) }}</td>
                                 <td class="text-nowrap">{{ \Morilog\Jalali\Jalalian::fromDateTime($layout->created_at)->format('Y-m-d') }}</td>
                                 <td class="text-nowrap">
                                     <div class="form-check form-switch">

@@ -58,60 +58,75 @@
         'background' => '',
         'subTitle' => '',
     ])
-    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-        data-sidebar-position="fixed" data-header-position="fixed">
-        <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
-            <div class="d-flex align-items-center justify-content-center w-100">
-                <section class="">
-                    <div class="container-fluid mb-4">
-                        <div class="row">
-                            <div class="col-sm-6 text-black">
-                                <div class="d-flex justify-content-center">
-                                    <div class="mt-2">
-                                        <img src="{{ $logo }}" alt="{{ $settings['title'] ?? env('APP_NAME') }}" width="220px">
+    @if ($step === 'info')
+        <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+            data-sidebar-position="fixed" data-header-position="fixed">
+            <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+                <div class="d-flex align-items-center justify-content-center w-100">
+                    <section class="">
+                        <div class="container-fluid mb-4">
+                            <div class="row">
+                                <div class="col-sm-6 text-black">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="mt-2">
+                                            <img src="{{ $logo }}" alt="{{ $settings['title'] ?? env('APP_NAME') }}" width="220px">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="h-custom-2 px-5 ms-xl-4 mt-3 pt-5 pt-xl-0 mt-xl-n5">
-                                    <h5 class="text-center">{{ __('global.login') }}</h5>
+                                    <div class="h-custom-2 px-5 ms-xl-4 mt-3 pt-5 pt-xl-0 mt-xl-n5">
+                                        @includeWhen($step === 'info', 'livewire.dashboard.components.login-form')
+                                        <div class="text-center">{!! __('messages.have_no_account', ['link' => route('register')]) !!}</div>
+                                    </div>
                         
-                                    <form wire:submit.prevent="login">
-                                        <div class="mb-3">
-                                            <label for="exampleInputEmail1" class="form-label">{{ __('global.username') }}</label>
-                                            <input type="email" class="form-control" id="exampleInputEmail1" wire:model="email"
-                                                aria-describedby="emailHelp">
-                                            <div>@error('email') {{ $message }} @enderror</div>
-                                        </div>
-                                        <div class="mb-4">
-                                            <label for="exampleInputPassword1" class="form-label">{{ __('global.password') }}</label>
-                                            <input type="password" class="form-control" id="exampleInputPassword1" wire:model="password">
-                                            <div>@error('password') {{ $message }} @enderror</div>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-between mb-4">
-                                            <div class="form-check">
-                                                <input class="form-check-input primary" type="checkbox" value="1"
-                                                    id="flexCheckChecked" checked wire:model="remember_me">
-                                                <label class="form-check-label text-dark" for="flexCheckChecked">
-                                                    {{ __('global.remember_me') }}
-                                                </label>
-                                            </div>
-                                            {{-- <a class="text-primary fw-bold" href="./index.html">Forgot Password ?</a> --}}
-                                        </div>
-                                        <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" >
-                                            <span class="spinner-border spinner-border-sm" wire:loading></span> {{ __('global.login') }}
-                                        </button>
-                                    </form>
-                                    <div class="text-center">{!! __('messages.have_no_account', ['link' => route('register')]) !!}</div>
                                 </div>
-                    
-                            </div>
-                            <div class="col-sm-6 px-0 d-none d-sm-block">
-                                <img src="{{ asset('Impact/assets/img/login.jpg') }}"
-                                    alt="Login image" class="w-100 vh-100" style="object-fit: cover; object-position: left;">
+                                <div class="col-sm-6 px-0 d-none d-sm-block">
+                                    <img src="{{ asset('Impact/assets/img/login.jpg') }}"
+                                        alt="Login image" class="w-100 vh-100" style="object-fit: cover; object-position: left;">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
+                </div>
             </div>
         </div>
-    </div>
+    @else
+        <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+            <div class="position-relative overflow-hidden radial-gradient min-vh-100 align-items-center justify-content-center">
+                <div class="align-items-center justify-content-center w-100">
+                    <section class="">
+                        <div class="container-fluid mb-4">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12 m-auto text-black">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="mt-2">
+                                            <img src="{{ $logo }}" alt="{{ $settings['title'] ?? env('APP_NAME') }}" width="220px">
+                                        </div>
+                                    </div>
+                                    <div class="h-custom-2 px-5 ms-xl-4 mt-3 pt-5 pt-xl-0 mt-xl-n5">
+                                        @includeWhen($step === 'confirm', 'livewire.dashboard.components.confirm')
+                                        @includeWhen($step === 'upload', 'livewire.dashboard.components.upload')
+                                        @includeWhen($step === 'payment', 'livewire.dashboard.components.payment')
+                                        <div class="text-center">{!! __('messages.have_account', ['link' => route('login')]) !!}</div>
+                                    </div>
+                                </div>
+                                {{-- <div class="col-sm-6 px-0 d-none d-sm-block">
+                                    <img src="{{ asset('Impact/assets/img/register.jpg') }}"
+                                        alt="Register image" class="w-100 vh-100" style="object-fit: cover; object-position: left;">
+                                </div> --}}
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>
+@script
+<script>
+    $wire.on('autoFocus', () => {
+        $(document).ready(function () {
+            console.log('invalid-input Focus');
+            $('.form-control').focus()
+        });
+    })
+</script>
+@endscript

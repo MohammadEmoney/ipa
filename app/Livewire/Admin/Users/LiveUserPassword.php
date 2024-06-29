@@ -16,14 +16,17 @@ class LiveUserPassword extends Component
 
     public function passwordValidation()
     {
-        $this->validate([
-            'data.current_password' => 'required',
-            'data.password' => 'required|confirmed|min:8|max:255',
-        ],[
-        ],[
-            'data.password' => __('validation.password'),
-            'data.current_password' => __('validation.current_password'),
-        ]);
+        $this->validate(
+            [
+                'data.current_password' => 'required|string',
+                'data.password' => 'required|confirmed|min:8|max:255',
+            ],
+            [],
+            [
+                'data.password' => __('global.password'),
+                'data.current_password' => __('global.current_password'),
+            ]
+        );
     }
 
     public function updatedData()

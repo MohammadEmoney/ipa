@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Layout;
 use App\Models\LayoutGroup;
 use App\Models\Page;
+use App\Models\Post;
 use App\Traits\AlertLiveComponent;
 use App\Traits\MediaTrait;
 use Illuminate\Support\Facades\DB;
@@ -55,6 +56,7 @@ class LiveLayoutEdit extends Component
         $this->data['tag'] =  $this->layout->tag;
         $this->data['data'] = $this->layout?->data;
         $this->data['filter'] = '';
+        $this->data['mainImage'] = $this->layout->getFirstMedia('mainImage');
         switch ($this->data['type']) {
             case EnumLayoutType::MENU:
             case EnumLayoutType::SLIDER:
@@ -65,8 +67,8 @@ class LiveLayoutEdit extends Component
                 $this->data['filter'] = $this->data['data']['select_item'];
                 if ($this->data['filter'] == EnumLayoutFilter::CATEGORY) {
                     $this->data['category'] = $this->data['data']['select_id'];
-                } elseif ($this->data['filter'] == EnumLayoutFilter::TAG) {
-                    $this->data['tag'] = $this->data['data']['select_id'];
+                } elseif ($this->data['filter'] == EnumLayoutFilter::SELECT) {
+                    $this->data['post'] = $this->data['data']['select_id'];
                 }
                 break;
         }
@@ -142,17 +144,17 @@ class LiveLayoutEdit extends Component
                         $this->alert(__('messages.select_category'))->error();
                         return false;
                     }
-                    if ($this->data['filter'] == EnumLayoutFilter::TAG && empty($this->data['tag'])) {
-                        $this->alert(__('messages.select_tag'))->error();
-                        return false;
-                    }
+                    // if ($this->data['filter'] == EnumLayoutFilter::TAG && empty($this->data['tag'])) {
+                    //     $this->alert(__('messages.select_tag'))->error();
+                    //     return false;
+                    // }
                     break;
             }
 
             $dataItem['select_item'] = $this->data['filter'] != '' ? $this->data['filter'] : $this->data['link_type'];
             if ($this->data['filter'] != '') {
-                if ($this->data['tag'] != '') {
-                    $dataItem['select_id'] = $this->data['tag'];
+                if ($this->data['post'] != '') {
+                    $dataItem['select_id'] = $this->data['post'];
                 } elseif ($this->data['category'] != '') {
                     $dataItem['select_id'] = $this->data['category'];
                 } else {
@@ -195,10 +197,11 @@ class LiveLayoutEdit extends Component
             ], $dta);
 
             $layout = $this->layout->update($dta);
-            $this->createImage($layout);
+            $this->createImage($this->layout);
 
             $this->alert(__('messages.layout_created_successfully'))->success()->autoClose()->redirect('admin.layouts.index', ['layoutGroup' => $this->layoutGroup]);
             DB::commit();
+            return redirect()->to(route('admin.layouts.index', ['layoutGroup' => $this->layoutGroup->id]));
 
         } catch (\Exception $exception) {
             DB::rollBack();
@@ -230,9 +233,10 @@ class LiveLayoutEdit extends Component
     {
         $categories = Category::query()->lang()->active()->get();
         // $tags = Tag::query()->language()->get();
+        $posts = Post::query()->lang()->get();
         $pages = Page::query()->lang()->get();
         $layouts = Layout::query()->lang()->get();
-        return view('livewire.admin.layouts.live-layout-edit', compact('categories', 'pages', 'layouts'))
+        return view('livewire.admin.layouts.live-layout-edit', compact('categories', 'pages', 'layouts', 'posts'))
             ->extends('layouts.admin-panel')
             ->section('content');
     }

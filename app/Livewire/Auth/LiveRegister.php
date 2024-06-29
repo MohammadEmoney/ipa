@@ -5,6 +5,7 @@ namespace App\Livewire\Auth;
 use App\Enums\EnumEducationTypes;
 use App\Enums\EnumInitialLevels;
 use App\Enums\EnumMilitaryStatus;
+use App\Mail\VerificationEmail;
 use App\Models\Course;
 use App\Models\User;
 use App\Rules\JDate;
@@ -12,12 +13,15 @@ use App\Rules\ValidNationalCode;
 use App\Traits\AlertLiveComponent;
 use App\Traits\DateTrait;
 use App\Traits\JobsTrait;
+use App\Traits\MediaTrait;
+use App\Traits\PaymentTrait;
 use App\Traits\SmsTrait;
 use Carbon\Carbon;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
@@ -25,7 +29,7 @@ use Livewire\WithFileUploads;
 
 class LiveRegister extends Component
 {
-    use AlertLiveComponent, WithFileUploads, DateTrait, JobsTrait, SmsTrait;
+    use AlertLiveComponent, WithFileUploads, DateTrait, MediaTrait, SmsTrait, PaymentTrait;
 
     public $data = [];
     public $firstname;
@@ -34,6 +38,9 @@ class LiveRegister extends Component
     public $step;
     public $otp_code;
     public $title;
+    public $orderAmount;
+    public $payableAmount;
+    public $tax;
     public $disabledCreate = true;
     public $disabledEdit = true;
     public $disableVerify = true;
@@ -45,7 +52,10 @@ class LiveRegister extends Component
                 return redirect()->to(route('admin.dashboard'));
             return redirect()->to(route('home'));
         }
-        $this->step = 'register';
+        $this->step = 'info';
+        // $this->step = 'payment';
+        // $this->user = User::find(9);
+        $this->payableAmount = $this->orderAmount = $settings['membership_fee'] ?? 0;
         $this->title = __('global.register');
     }
 
@@ -110,48 +120,71 @@ class LiveRegister extends Component
         ]);
 
         $user->assignRole('user');
-        // $this->sendCode($user);
-        auth()->loginUsingId($user->id);
-        $this->alert(__('messages.register_completed'))->success();
+        $this->sendCode($user);
+        // auth()->loginUsingId($user->id);
+        // $this->alert(__('messages.register_completed'))->success();
         DB::commit();
-        return redirect()->to(route('home'));
     }
 
     public function sendCode(User $user)
     {
         // Send Otp Sms
         try {
-            $this->step = 'verify';
+            $this->step = 'confirm';
+            $this->dispatch('autoFocus');
             $user->otp_code = rand(1111, 9999);
             $user->save();
 
-            $response = $this->sendVerificationCode($user->phone, $user->first_name, $user->otp_code);
-            Log::info(json_encode([$response]));
+            // $response = $this->sendVerificationCode($user->phone, $user->first_name, $user->otp_code);
+            // Log::info(json_encode([$response]));
 
-            $this->alert('جهت تکمیل ثبتنام و تایید شماره موبایل شما، کد چهار رقمی به شماره موبایل شما ارسال شد')->success();
+            Mail::to($user->email)->send(new VerificationEmail($user->otp_code));
+
+            $this->alert(__('messages.sent_code'))->success();
         } catch (\Exception $e) {
             Log::info(json_encode([$e->getMessage()]));
-            $this->alert('در ارسال کد مشکلی پیش آمده است.')->error();
+            $this->alert(__('messages.sent_code_problem'))->error();
             // $this->step = 'register';
         }
     }
 
     public function verification()
     {
+        // $this->alert(__('messages.incorrect_code'))->error();
         $this->validate([
             'otp_code' => 'required|numeric'
         ], [], [
-            'otp_code' => 'کد'
+            'otp_code' => __('global.otp_code')
         ]);
 
-        $redirect = 'profile.edit';
-
         if ($this->user->otp_code == $this->otp_code) {
-            $this->user->update(['otp_code' => null, 'phone_verified_at' => now()]);
-            auth()->loginUsingId($this->user->id);
-            $this->alert('ثبت نام با موفقیت انجام شد.')->success();
-            return redirect()->to(route($redirect));
+            $this->user->update(['otp_code' => null, 'email_verified_at' => now()]);
+            $this->step = 'upload';
+            $this->alert(__('messages.email_confirmed'))->success();
+        }else{
+            $this->alert(__('messages.incorrect_code'))->error();
         }
-        $this->alert('کد وارد شده صحیح نمی باشد.')->error();
+    }
+
+    public function submitUpload()
+    {
+        if(!isset($this->data['nationalCard']) ){
+            return $this->addError('data.nationalCard', __('messages.national_card_required'));
+        }
+        if(!isset($this->data['license']) ){
+            return $this->addError('data.license', __('messages.license_required'));
+        }
+
+        $this->createImage($this->user, 'nationalCard');
+        $this->createImage($this->user, 'license');
+
+        $this->alert(__('messages.image_uploaded'))->success();
+        $this->step = 'payment';
+    }
+
+    public function pay()
+    {
+        auth()->loginUsingId($this->user->id);
+        return redirect()->to(route('payment.create'));
     }
 }

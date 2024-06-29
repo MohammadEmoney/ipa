@@ -4,7 +4,6 @@ namespace App\Factories\LayoutFactories\Articles;
 
 use App\Strategies\LayoutStrategies\Articles\BestSellingArticleStrategy;
 use App\Strategies\LayoutStrategies\Articles\CategoryArticleStrategy;
-use App\Strategies\LayoutStrategies\Articles\DiscountArticleStrategy;
 use App\Strategies\LayoutStrategies\Articles\MostPopularArticleStrategy;
 use App\Strategies\LayoutStrategies\Articles\MostVisitedArticleStrategy;
 use App\Strategies\LayoutStrategies\Articles\NewestArticleStrategy;
@@ -30,8 +29,6 @@ class ArticleStrategyFactory {
                 return new RandomArticleStrategy();
             case 'bestselling':
                 return new BestSellingArticleStrategy();
-            case 'discount':
-                return new DiscountArticleStrategy();
             case 'category':
                 return new CategoryArticleStrategy();
             case 'tag':

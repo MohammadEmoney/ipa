@@ -2,27 +2,36 @@
 
 namespace App\Livewire\Auth;
 
+use App\Mail\VerificationEmail;
 use App\Models\User;
-use App\Rules\ValidNationalCode;
 use App\Traits\AlertLiveComponent;
+use App\Traits\MediaTrait;
+use App\Traits\PaymentTrait;
 use App\Traits\SmsTrait;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class LiveLogin extends Component
 {
     use AlertLiveComponent;
     use SmsTrait;
+    use WithFileUploads;
+    use MediaTrait;
+    use PaymentTrait;
 
-    public $step = 'send_code';
+    public $data = [];
+    public $step = 'info';
     public $national_code;
     public $user;
     public $email;
     public $password;
     public $otp_code;
     public $title;
+    public $payableAmount;
+    public $orderAmount;
     public $disableSend = true;
     public $disableVerify = true;
 
@@ -34,6 +43,7 @@ class LiveLogin extends Component
             return redirect()->to(route('home'));
         }
         $this->title = __('global.login');
+        $this->payableAmount = $this->orderAmount = $settings['membership_fee'] ?? 0;
     }
 
     public function render()
@@ -56,55 +66,122 @@ class LiveLogin extends Component
         }
     }
 
-    public function sendCode()
+    // public function sendCode()
+    // {
+    //     $this->validate([
+    //         'email' => ['required', 'email' , 'exists:users,email'],
+    //         'password' => 'required'
+    //     ],[
+    //         // 'exists: :national_code '
+    //     ],[
+    //         'email' => __('global.email'),
+    //         'password' => __('global.password'),
+    //     ]);
+
+
+    //     $this->user = $user = User::where('national_code', $this->national_code)->first();
+    //     if($user){
+    //         // Send Otp Sms
+    //         $user->otp_code = rand(1111, 9999);
+
+    //         $user->save();
+
+    //         $response = $this->sendVerificationCode($user->phone, $user->first_name, $user->otp_code);
+    //         Log::info(json_encode([$response]));
+
+    //         $this->alert('جهت ورود کد چهار رقمی به شماره موبایل شما ارسال شد')->success();
+
+    //         $this->step = 'verify';
+    //         $this->disableSend = false;
+    //     }else{
+    //         $this->alert('کاربر پیدا نشد.')->error();
+    //     }
+    // }
+
+    // public function verification()
+    // {
+    //     $this->validate([
+    //         'otp_code' => 'required|numeric'
+    //     ],[],[
+    //         'otp_code' => 'کد'
+    //     ]);
+
+    //     $redirect = $this->user?->userInfo?->type === 'student' ? 'profile.courses.select' : 'profile.edit';
+
+    //     if($this->user->otp_code == $this->otp_code){
+    //         $this->user->update(['otp_code' => null, 'phone_verified_at' => now()]);
+    //         auth()->loginUsingId($this->user->id);
+    //         $this->alert('ورود با موفقیت انجام شد.')->success();
+    //         return redirect()->to(route($redirect));
+    //     }
+    //     $this->alert('کد وارد شده صحیح نمی باشد.')->error();
+    // }
+
+    public function sendCode(User $user)
     {
-        $this->validate([
-            'email' => ['required', 'email' , 'exists:users,email'],
-            'password' => 'required'
-        ],[
-            // 'exists: :national_code '
-        ],[
-            'email' => __('global.email'),
-            'password' => __('global.password'),
-        ]);
-
-
-        $this->user = $user = User::where('national_code', $this->national_code)->first();
-        if($user){
-            // Send Otp Sms
+        // Send Otp Sms
+        try {
+            $this->step = 'confirm';
+            $this->dispatch('autoFocus');
             $user->otp_code = rand(1111, 9999);
-
             $user->save();
 
-            $response = $this->sendVerificationCode($user->phone, $user->first_name, $user->otp_code);
-            Log::info(json_encode([$response]));
+            // $response = $this->sendVerificationCode($user->phone, $user->first_name, $user->otp_code);
+            // Log::info(json_encode([$response]));
 
-            $this->alert('جهت ورود کد چهار رقمی به شماره موبایل شما ارسال شد')->success();
+            Mail::to($user->email)->send(new VerificationEmail($user->otp_code));
 
-            $this->step = 'verify';
-            $this->disableSend = false;
-        }else{
-            $this->alert('کاربر پیدا نشد.')->error();
+            $this->alert(__('messages.sent_code'))->success();
+        } catch (\Exception $e) {
+            Log::info(json_encode([$e->getMessage()]));
+            $this->alert(__('messages.sent_code_problem'))->error();
+            // $this->step = 'register';
         }
     }
 
     public function verification()
     {
+        // $this->alert(__('messages.incorrect_code'))->error();
         $this->validate([
             'otp_code' => 'required|numeric'
-        ],[],[
-            'otp_code' => 'کد'
+        ], [], [
+            'otp_code' => __('global.otp_code')
         ]);
 
-        $redirect = $this->user?->userInfo?->type === 'student' ? 'profile.courses.select' : 'profile.edit';
-
-        if($this->user->otp_code == $this->otp_code){
-            $this->user->update(['otp_code' => null, 'phone_verified_at' => now()]);
-            auth()->loginUsingId($this->user->id);
-            $this->alert('ورود با موفقیت انجام شد.')->success();
-            return redirect()->to(route($redirect));
+        if ($this->user->otp_code == $this->otp_code) {
+            $this->user->update(['otp_code' => null, 'email_verified_at' => now()]);
+            $this->step = 'upload';
+            $this->alert(__('messages.email_confirmed'))->success();
+        }else{
+            $this->alert(__('messages.incorrect_code'))->error();
         }
-        $this->alert('کد وارد شده صحیح نمی باشد.')->error();
+    }
+
+    public function submitUpload()
+    {
+        if(!isset($this->data['nationalCard']) ){
+            return $this->addError('data.nationalCard', __('messages.national_card_required'));
+        }
+        if(!isset($this->data['license']) ){
+            return $this->addError('data.license', __('messages.license_required'));
+        }
+
+        $this->createImage($this->user, 'nationalCard');
+        $this->createImage($this->user, 'license');
+
+        $this->alert(__('messages.image_uploaded'))->success();
+        $this->step = 'payment';
+    }
+
+    public function pay()
+    {
+        auth()->loginUsingId($this->user->id);
+        return redirect()->to(route('payment.create'));
+    }
+
+    public function setStep($step)
+    {
+        $this->step = $step;
     }
 
     public function login()
@@ -120,7 +197,17 @@ class LiveLogin extends Component
         ]);
  
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
-            return redirect()->intended('/');
+            $user = $this->user = Auth::user();
+            if(!$user->email_verified_at)
+                $this->sendCode($user);
+            elseif(!$user->getFirstMediaUrl('nationalCard') && !$user->getFirstMediaUrl('license'))
+                $this->setStep('upload');
+            elseif(!$user->is_active)
+                $this->setStep('payment');
+            else
+                return redirect()->intended('/fa/dashboard');
+        }else{
+            $this->alert(__('messages.login_failed'))->error();
         }
     }
 }

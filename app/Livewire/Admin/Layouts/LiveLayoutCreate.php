@@ -161,9 +161,10 @@ class LiveLayoutCreate extends Component
                 'data' => $dataItem,
                 'release_type' => $this->data['release_type'] ?? '',
                 'priority' => $this->data['priority'] ?? '',
-                'active' => $this->data['active'],
+                'active' => $this->data['active'] ?? 0,
                 'count_list' => (!empty($this->data['count_list']) ? $this->data['count_list'] : null),
                 'icon' => $this->data['icon'] ?? null,
+                'lang' => $this->data['lang'] ?? app()->getLocale(),
             ], $dta);
 
             $layout = Layout::query()->create($dta);
@@ -171,6 +172,7 @@ class LiveLayoutCreate extends Component
 
             $this->alert(__('messages.layout_created_successfully'))->success()->autoClose()->redirect('admin.layouts.index', ['layoutGroup' => $this->layoutGroup]);
             DB::commit();
+            return redirect()->to(route('admin.layouts.index', ['layoutGroup' => $this->layoutGroup->id]));
 
         } catch (\Exception $exception) {
             DB::rollBack();

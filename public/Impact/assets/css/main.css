@@ -644,7 +644,7 @@ section {
 }
 
 .about .content ul li {
-  padding: 0 0 10px 30px;
+  /* padding: 0 0 10px 30px; */
   position: relative;
 }
 
@@ -2857,3 +2857,10 @@ section {
   margin-right: 20px;
 }
 /* End of Uploud file input */
+#about li::before {
+  content: "\F26A";
+  font-family: 'bootstrap-icons'; 
+  font-size: 1.2em; 
+  padding: .5em 0 0 .5em;
+  color: var(--color-primary);
+}

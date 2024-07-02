@@ -9,7 +9,7 @@
 
         <div class="row gy-4">
             @foreach ($posts as $post)
-                <div class="col-xl-4 col-md-6">
+                <div class="col-xl-4 col-md-6 document-card">
                     <article>
         
                         <div class="post-img">

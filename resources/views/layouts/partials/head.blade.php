@@ -2,7 +2,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title> @yield('title', $title ?? env('APP_NAME'))</title>
-    <link rel="shortcut icon" type="image/png" href="/general/img/favicon-16x16.png" />
+    <link rel="shortcut icon" type="image/png" href="{{ $favicon ?: "/general/img/favicon-16x16.png" }}" />
     <link rel="stylesheet" href="https://unpkg.com/persian-datepicker@latest/dist/css/persian-datepicker.min.css">
 
     @if (App::isLocale('en'))

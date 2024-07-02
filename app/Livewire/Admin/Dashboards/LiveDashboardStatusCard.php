@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Admin\Dashboards;
 
+use App\Enums\EnumOrderStatus;
 use App\Models\Course;
+use App\Models\Order;
 use App\Models\Post;
 use App\Models\User;
 use Livewire\Component;
@@ -11,7 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 class LiveDashboardStatusCard extends Component
 {
     public $users;
-    public $staff;
+    public $activeUsers;
     public $orders;
     public $posts;
 
@@ -19,8 +21,8 @@ class LiveDashboardStatusCard extends Component
     {
         // dd(config('app.locale'));
         $this->users = User::count();
-        $this->staff = 0;
-        $this->orders = 0;
+        $this->activeUsers = User::role('user')->permission('active_user')->count();
+        $this->orders = Order::where('status' , EnumOrderStatus::COMPLETED)->sum('payable_amount');
         $this->posts = Post::count();
     }
 

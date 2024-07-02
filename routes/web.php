@@ -30,6 +30,14 @@ Route::group(['prefix' => '{locale?}'], function () {
             Route::get('pages', \App\Livewire\Admin\Pages\LivePageIndex::class)->name('pages.index')->middleware('can:page_index');
             Route::get('pages/create', \App\Livewire\Admin\Pages\LivePageCreate::class)->name('pages.create')->middleware('can:page_create');
             Route::get('pages/{page}/edit', \App\Livewire\Admin\Pages\LivePageEdit::class)->name('pages.edit')->middleware('can:page_edit');
+        // Documents
+            Route::get('documents', \App\Livewire\Admin\Documents\LiveDocumentIndex::class)->name('documents.index')->middleware('can:document_index');
+            Route::get('documents/create', \App\Livewire\Admin\Documents\LiveDocumentCreate::class)->name('documents.create')->middleware('can:document_create');
+            Route::get('documents/{document}/edit', \App\Livewire\Admin\Documents\LiveDocumentEdit::class)->name('documents.edit')->middleware('can:document_edit');
+        // Circulars
+            Route::get('circulars', \App\Livewire\Admin\Circulars\LiveCircularIndex::class)->name('circulars.index')->middleware('can:circular_index');
+            Route::get('circulars/create', \App\Livewire\Admin\Circulars\LiveCircularCreate::class)->name('circulars.create')->middleware('can:circular_create');
+            Route::get('circulars/{circular}/edit', \App\Livewire\Admin\Circulars\LiveCircularEdit::class)->name('circulars.edit')->middleware('can:circular_edit');
         // Categories
             Route::get('categories', \App\Livewire\Admin\Categories\LiveCategoryIndex::class)->name('categories.index')->middleware('can:category_index');
             Route::get('categories/create', \App\Livewire\Admin\Categories\LiveCategoryCreate::class)->name('categories.create')->middleware('can:category_create');
@@ -64,6 +72,11 @@ Route::group(['prefix' => '{locale?}'], function () {
                 Route::get('/', \App\Livewire\Dashboard\Orders\LiveOrderIndex::class)->name('index');
                 // Route::get('/{order}', \App\Livewire\Dashboard\Orders\LiveOrderIndex::class)->name('index');
             });
+
+            Route::get('documents', \App\Livewire\Dashboard\Documents\LiveDocumentIndex::class)->name('documents.index')->middleware('can:active_user');
+            Route::get('documents/{document:slug}', \App\Livewire\Dashboard\Documents\LiveDocumentShow::class)->name('documents.show')->middleware('can:active_user');
+            Route::get('circulars', \App\Livewire\Dashboard\Circulars\LiveCircularIndex::class)->name('circulars.index')->middleware('can:active_user');
+            Route::get('circulars/{circular:slug}', \App\Livewire\Dashboard\Circulars\LiveCircularShow::class)->name('circulars.show')->middleware('can:active_user');
     
             // Route::get('settings', \App\Livewire\Dashboard\Settings\LiveSettings::class)->name('settings.general')->middleware('can:general_settings');
     

@@ -67,6 +67,16 @@ class PermissionSeeder extends Seeder
             'category_edit',
             'category_delete',
             'category_show',
+            'document_index',
+            'document_create',
+            'document_edit',
+            'document_delete',
+            'document_show',
+            'circular_index',
+            'circular_create',
+            'circular_edit',
+            'circular_delete',
+            'circular_show',
             'active_user',
         ];
 

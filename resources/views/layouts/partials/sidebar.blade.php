@@ -67,7 +67,7 @@
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('admin.posts.index') }}" aria-expanded="false">
                             <span>
-                                <i class="ti ti-notes"></i>
+                                <i class="ti ti-article"></i>
                             </span>
                             <span class="hide-menu">{{ __('global.posts') }}</span>
                         </a>
@@ -79,6 +79,24 @@
                                 <i class="ti ti-note"></i>
                             </span>
                             <span class="hide-menu">{{ __('global.pages') }}</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('admin.documents.index') }}" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-notes"></i>
+                            </span>
+                            <span class="hide-menu">{{ __('global.documents') }}</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('admin.circulars.index') }}" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-license"></i>
+                            </span>
+                            <span class="hide-menu">{{ __('global.circular') }}</span>
                         </a>
                     </li>
                 @endcan

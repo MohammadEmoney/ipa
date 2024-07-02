@@ -37,20 +37,33 @@
                         <span class="hide-menu">{{ __('global.orders') }}</span>
                     </a>
                 </li>
-                {{-- <li class="nav-small-cap">
+                @can('active_user')
+                    <li class="nav-small-cap">
+                        <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                        <span class="hide-menu">{{ __('global.documents') }}</span>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('user.documents.index') }}" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-notes"></i>
+                            </span>
+                            <span class="hide-menu">{{ __('global.documents') }}</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('user.circulars.index') }}" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-license"></i>
+                            </span>
+                            <span class="hide-menu">{{ __('global.circular') }}</span>
+                        </a>
+                    </li>
+                @endcan
+                <li class="nav-small-cap">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">{{ __('global.settings') }}</span>
                 </li>
-                @can('general_settings')
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="{{ route('admin.settings.general') }}" aria-expanded="false">
-                            <span>
-                                <i class="ti ti-settings"></i>
-                            </span>
-                            <span class="hide-menu">{{ __('global.site_settings') }}</span>
-                        </a>
-                    </li>
-                @endcan --}}
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ route('user.users.password') }}" aria-expanded="false">
                         <span>
@@ -59,15 +72,13 @@
                         <span class="hide-menu">{{ __('global.password') }}</span>
                     </a>
                 </li>
-                @can('language_access')
-                    <li class="nav-small-cap">
-                        <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                        <span class="hide-menu">{{ __('global.default_language') }}</span>
-                    </li>
-                    <li class="sidebar-item">
-                        <livewire:admin.settings.live-default-language />
-                    </li>
-                @endcan
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">{{ __('global.lang') }}</span>
+                </li>
+                <li class="sidebar-item">
+                    <livewire:admin.settings.live-default-language />
+                </li>
             </ul>
         </nav>
         

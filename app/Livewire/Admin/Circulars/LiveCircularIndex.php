@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Livewire\Admin\Posts;
+namespace App\Livewire\Admin\Circulars;
 
-use App\Models\Post;
+use App\Models\Circular;
 use App\Traits\AlertLiveComponent;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class LivePostIndex extends Component
+class LiveCircularIndex extends Component
 {
     use AlertLiveComponent, WithPagination;
 
@@ -22,7 +22,7 @@ class LivePostIndex extends Component
 
     public function mount()
     {
-        $this->title = __('global.posts');
+        $this->title = __('global.circulars');
     }
 
     public function resetFilter()
@@ -30,27 +30,30 @@ class LivePostIndex extends Component
         $this->filter = [];
     }
 
-    public function show($id)
+    public function download($id)
     {
-        // return redirect()->to(route('admin.posts.show', $id));
+        $circular = Circular::query()->find($id);
+        if($circular->getFirstMedia('attachment'))
+            return $circular->getFirstMedia('attachment');
+        $this->alert(__('messages.file_not_exists'))->error();
     }
 
     public function create()
     {
-        return redirect()->to(route('admin.posts.create'));
+        return redirect()->to(route('admin.circulars.create'));
     }
 
     public function destroy($id)
     {
         if(auth()->user()->can('post_delete')){
-            $post = Post::query()->find($id);
+            $circular = Circular::query()->find($id);
 
-            if ($post) {
-                $post->delete();
-                $this->alert(__('messages.post_deleted'))->success();
+            if ($circular) {
+                $circular->delete();
+                $this->alert(__('messages.circular_deleted'))->success();
             }
             else{
-                $this->alert(__('messages.post_not_deleted'))->error();
+                $this->alert(__('messages.circular_not_deleted'))->error();
             }
         }else{
             $this->alert(__('messages.not_have_access'))->error();
@@ -59,32 +62,31 @@ class LivePostIndex extends Component
 
     public function edit($id)
     {
-        return redirect()->to(route('admin.posts.edit', ['post' => $id]));
+        return redirect()->to(route('admin.circulars.edit', ['circular' => $id]));
     }
 
     public function changeActiveStatus($id)
     {
-        $post = Post::find($id);
-        if($post){
-            $post->update(['is_active' => !$post->is_active]);
+        $circular = Circular::find($id);
+        if($circular){
+            $circular->update(['is_active' => !$circular->is_active]);
             $this->alert(__('messages.updated_successfully'))->success();
         }
     }
 
     public function render()
     {
-        $posts = Post::query()->with(['categories', 'mainCategory']);
+        $circulars = Circular::query()->with(['media']);
         $search = trim($this->search);
         if($search && mb_strlen($search) > 2){
-            $posts = $posts->where(function($query) use ($search){
+            $circulars = $circulars->where(function($query) use ($search){
                 $query->where('title', "like", "%$search%")
                     ->orWhere('slug', "like", "%$search%");
                     // ->orWhere('description', "like", "%$search%")
                     // ->orWhere('summary', "like", "%$search%");
             });
         }
-        $posts = $posts->orderBy($this->sort, $this->sortDirection)->paginate($this->paginate);
-
-        return view('livewire.admin.posts.live-post-index', compact('posts'))->extends('layouts.admin-panel')->section('content');
+        $circulars = $circulars->orderBy($this->sort, $this->sortDirection)->paginate($this->paginate);
+        return view('livewire.admin.circulars.live-circular-index', compact('circulars'))->extends('layouts.admin-panel')->section('content');
     }
 }

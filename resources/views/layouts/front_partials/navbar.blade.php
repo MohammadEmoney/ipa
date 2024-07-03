@@ -5,8 +5,8 @@
             <div class="row align-items-center justify-content-center">
                 <div class="col-md-8">
                     <div class="topbar-info d-flex flex-wrap">
-                        <a href="#" class="text-light me-4"><i class="fas fa-envelope text-white me-2"></i>{{ $settings['email'] ?? "Example@gmail.com" }}</a>
-                        <a href="#" class="text-light"><i class="fas fa-phone-alt text-white me-2"></i>{{ $settings['phone'] ?? "+01234567890" }}</a>
+                        {{-- <a href="#" class="text-light me-4"><i class="fas fa-envelope text-white me-2"></i>{{ $settings['email'] ?? "Example@gmail.com" }}</a>
+                        <a href="#" class="text-light"><i class="fas fa-phone-alt text-white me-2"></i>{{ $settings['phone'] ?? "+01234567890" }}</a> --}}
                     </div>
                 </div>
                 <div class="col-md-4">

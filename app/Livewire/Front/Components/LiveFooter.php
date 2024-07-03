@@ -13,7 +13,7 @@ class LiveFooter extends Component
     public function render()
     {
         $posts = Post::active()->lang()->latest()->take(3)->get();
-        $layoutGroup = $this->getLayoutGroup(null,'main-menu');
+        $layoutGroup = $this->getLayoutGroup(null,'footer-menu');
         $menu = $this->getLayouts($layoutGroup);
         $layoutGroup = $this->getLayoutGroup(null,'social-media');
         $socialMedia = $this->getLayouts($layoutGroup);

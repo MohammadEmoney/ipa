@@ -2717,6 +2717,7 @@ section {
 /*** Navbar Start ***/
 
 .fixed-top .container {
+  max-width: 100% !important;
   transition: 0.5s;
 }
 

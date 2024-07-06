@@ -22,6 +22,8 @@ return [
     'group_layout_updated_successfully' => 'گروه چیدمان با موفقیت بروزرسانی شد.',
     'layout_created_successfully' => 'چیدمان با موفقیت ثبت شد.',
     'layout_updated_successfully' => 'چیدمان با موفقیت بروزرسانی شد.',
+    'critic_created_successfully' => 'انتقادات پیشنهادات با موفقیت ثبت شد.',
+    'critic_updated_successfully' => 'انتقادات پیشنهادات با موفقیت بروزرسانی شد.',
     "user_login" => "با موفقیت وارد شدید.",
     'incorrect_login' => 'نام کاربری یا رمز عبور صحیح نمی باشد.',
     'updated_successfully' => 'با موفقیت بروزرسانی شد.',

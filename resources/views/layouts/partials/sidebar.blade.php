@@ -54,7 +54,8 @@
                         <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                         <span class="hide-menu">{{ __('global.posts') }}</span>
                     </li>
-
+                @endcan
+                @can('category_index')
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('admin.categories.index') }}" aria-expanded="false">
                             <span>
@@ -63,7 +64,8 @@
                             <span class="hide-menu">{{ __('global.categories') }}</span>
                         </a>
                     </li>
-
+                @endcan
+                @can('post_index')
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('admin.posts.index') }}" aria-expanded="false">
                             <span>
@@ -72,7 +74,8 @@
                             <span class="hide-menu">{{ __('global.posts') }}</span>
                         </a>
                     </li>
-
+                @endcan
+                @can('page_index')
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('admin.pages.index') }}" aria-expanded="false">
                             <span>
@@ -81,7 +84,8 @@
                             <span class="hide-menu">{{ __('global.pages') }}</span>
                         </a>
                     </li>
-
+                @endcan
+                @can('document_index')
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('admin.documents.index') }}" aria-expanded="false">
                             <span>
@@ -90,13 +94,24 @@
                             <span class="hide-menu">{{ __('global.documents') }}</span>
                         </a>
                     </li>
-
+                @endcan
+                @can('circular_index')
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('admin.circulars.index') }}" aria-expanded="false">
                             <span>
                                 <i class="ti ti-license"></i>
                             </span>
-                            <span class="hide-menu">{{ __('global.circular') }}</span>
+                            <span class="hide-menu">{{ __('global.circulars') }}</span>
+                        </a>
+                    </li>
+                @endcan
+                @can('critic_index')
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('admin.critics.index') }}" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-message-dots"></i>
+                            </span>
+                            <span class="hide-menu">{{ __('global.critics') }}</span>
                         </a>
                     </li>
                 @endcan

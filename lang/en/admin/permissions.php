@@ -54,4 +54,10 @@ return [
     'circular_edit'  => 'Circular Edit',
     'circular_delete'  => 'Circular Delete',
     'circular_show'  => 'Circular Show',
+    'circular_show'  => 'Circular Show',
+    'critic_index'  => 'Critic Index',
+    'critic_create'  => 'Critic Create',
+    'critic_edit'  => 'Critic Edit',
+    'critic_delete'  => 'Critic Delete',
+    'critic_show'  => 'Critic Show',
 ];

@@ -61,7 +61,7 @@
 </div> --}}
 
 <!-- Carousel Start -->
-<div class="container-fluid carousel-header vh-100 px-0" dir="ltr">
+<div class="container-fluid carousel-header vh-100 px-0" dir="ltr" style="margin-top: 8rem">
     <div id="carouselId" class="carousel slide" data-bs-ride="carousel">
         <ol class="carousel-indicators">
             <li data-bs-target="#carouselId" data-bs-slide-to="0" class="active"></li>

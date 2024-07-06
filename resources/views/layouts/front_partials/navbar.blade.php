@@ -11,9 +11,9 @@
                 </div>
                 <div class="col-md-4">
                     <div class="topbar-icon d-flex align-items-center justify-content-end">
-                        <a href="{{ \App\Generators\CustomUrlGenerator::localeRoute('en') }}" class="btn-square text-white me-2"><span class="fi fi-gb"></span></a>
-                        {{-- <a href="{{ \App\Generators\CustomUrlGenerator::localeRoute('ar') }}" class="btn-square text-white me-2"><span class="fi fi-sa"></span></a> --}}
-                        <a href="{{ \App\Generators\CustomUrlGenerator::localeRoute('fa') }}" class="btn-square text-white me-2"><span class="fi fi-ir"></span></a>
+                        <a href="{{ \App\Generators\CustomUrlGenerator::localeRoute('en') }}" class="btn-square text-white mt-2 me-2"><span class="fi fi-gb"></span></a>
+                        {{-- <a href="{{ \App\Generators\CustomUrlGenerator::localeRoute('ar') }}" class="btn-square text-white mt-2 me-2"><span class="fi fi-sa"></span></a> --}}
+                        <a href="{{ \App\Generators\CustomUrlGenerator::localeRoute('fa') }}" class="btn-square text-white mt-2 me-4"><span class="fi fi-ir"></span></a>
                     </div>
                 </div>
             </div>

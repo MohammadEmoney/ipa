@@ -2,6 +2,7 @@
 <script>
     var elementId = "{{ $selectorId ?? '' }}";
     var selectorName = 'data.' + "{{ $selectorId ?? '' }}";
+    var lang = "{{ app()->getLocale() }}";
     class MyUploadAdapter {
         // The constructor method.
         constructor( loader ) {
@@ -111,7 +112,13 @@
     ClassicEditor
         .create( document.querySelector( '#summary' ), {
             extraPlugins: [ SimpleUploadAdapterPlugin ],
+            language: {
+                // The UI will be English.
+                ui: lang,
 
+                // But the content will be edited in Arabic.
+                content: lang
+            }
             // More configuration options.
             // ...
         })
@@ -126,7 +133,13 @@
     ClassicEditor
         .create( document.querySelector( '#description' ) , {
             extraPlugins: [ SimpleUploadAdapterPlugin ],
+            language: {
+                // The UI will be English.
+                ui: lang,
 
+                // But the content will be edited in Arabic.
+                content: lang
+            }
             // More configuration options.
             // ...
         })
@@ -142,10 +155,17 @@
         // var selectorId = "about_us";
         // var selectorName = 'data.' + "about_us";
         console.log(elementId, selectorName);
+        ClassicEditor.config.contentsLangDirection = 'rtl';
         ClassicEditor
             .create( document.querySelector( '#' + elementId ) , {
                 extraPlugins: [ SimpleUploadAdapterPlugin ],
+                language: {
+                    // The UI will be English.
+                    ui: lang,
 
+                    // But the content will be edited in Arabic.
+                    content: lang
+                }
                 // More configuration options.
                 // ...
             })

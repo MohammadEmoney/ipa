@@ -187,5 +187,9 @@ return [
     'new_circular' => 'New Circular',
     'active_users' => 'Active User',
     'more' => 'More',
+    'critics' => 'Critics And Suggestions',
+    'create_critic' => 'Create Critics And Suggestions',
+    'edit_critic' => 'Edit Critics And Suggestions',
+    'user' => '',
     '' => '',
 ];

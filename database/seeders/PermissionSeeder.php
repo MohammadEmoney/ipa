@@ -77,6 +77,11 @@ class PermissionSeeder extends Seeder
             'circular_edit',
             'circular_delete',
             'circular_show',
+            'critic_index',
+            'critic_create',
+            'critic_edit',
+            'critic_delete',
+            'critic_show',
             'active_user',
         ];
 

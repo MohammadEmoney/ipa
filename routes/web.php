@@ -38,6 +38,9 @@ Route::group(['prefix' => '{locale?}'], function () {
             Route::get('circulars', \App\Livewire\Admin\Circulars\LiveCircularIndex::class)->name('circulars.index')->middleware('can:circular_index');
             Route::get('circulars/create', \App\Livewire\Admin\Circulars\LiveCircularCreate::class)->name('circulars.create')->middleware('can:circular_create');
             Route::get('circulars/{circular}/edit', \App\Livewire\Admin\Circulars\LiveCircularEdit::class)->name('circulars.edit')->middleware('can:circular_edit');
+        // Critics
+            Route::get('critics', \App\Livewire\Admin\Critics\LiveCriticIndex::class)->name('critics.index')->middleware('can:critic_index');
+            Route::get('critics/{critic}', \App\Livewire\Admin\Critics\LiveCriticShow::class)->name('critics.show')->middleware('can:critic_show');
         // Categories
             Route::get('categories', \App\Livewire\Admin\Categories\LiveCategoryIndex::class)->name('categories.index')->middleware('can:category_index');
             Route::get('categories/create', \App\Livewire\Admin\Categories\LiveCategoryCreate::class)->name('categories.create')->middleware('can:category_create');
@@ -77,6 +80,9 @@ Route::group(['prefix' => '{locale?}'], function () {
             Route::get('documents/{document:slug}', \App\Livewire\Dashboard\Documents\LiveDocumentShow::class)->name('documents.show')->middleware('can:active_user');
             Route::get('circulars', \App\Livewire\Dashboard\Circulars\LiveCircularIndex::class)->name('circulars.index')->middleware('can:active_user');
             Route::get('circulars/{circular:slug}', \App\Livewire\Dashboard\Circulars\LiveCircularShow::class)->name('circulars.show')->middleware('can:active_user');
+            Route::get('critics', \App\Livewire\Dashboard\Critics\LiveCriticIndex::class)->name('critics.index')->middleware('can:active_user');
+            Route::get('critics/create', \App\Livewire\Dashboard\Critics\LiveCriticCreate::class)->name('critics.create')->middleware('can:active_user');
+            Route::get('critics/{critic}', \App\Livewire\Dashboard\Critics\LiveCriticShow::class)->name('critics.show')->middleware('can:active_user');
     
             // Route::get('settings', \App\Livewire\Dashboard\Settings\LiveSettings::class)->name('settings.general')->middleware('can:general_settings');
     

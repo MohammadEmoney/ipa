@@ -8,7 +8,7 @@
         <span class="fa fa-bars text-primary"></span>
     </button>
     <div class="collapse navbar-collapse bg-light" id="navbarCollapse">
-        <div class="navbar-nav ms-auto">
+        <div class="navbar-nav ms-auto me-5">
             @foreach ($menu as $item)
                 @if($item->children()->count())
                     <div class="nav-item dropdown">

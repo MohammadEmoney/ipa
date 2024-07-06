@@ -54,4 +54,9 @@ return [
     'circular_edit'  => 'ویرایش بخشنامه',
     'circular_delete'  => 'حذف بخشنامه',
     'circular_show'  => 'نمایش بخشنامه',
+    'critic_index'  => 'لیست انتقادات پیشنهادات',
+    'critic_create'  => 'ایجاد انتقادات پیشنهادات',
+    'critic_edit'  => 'ویرایش انتقادات پیشنهادات',
+    'critic_delete'  => 'حذف انتقادات پیشنهادات',
+    'critic_show'  => 'نمایش انتقادات پیشنهادات',
 ];

@@ -59,6 +59,15 @@
                             <span class="hide-menu">{{ __('global.circular') }}</span>
                         </a>
                     </li>
+
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('user.critics.index') }}" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-message-dots"></i>
+                            </span>
+                            <span class="hide-menu">{{ __('global.critics') }}</span>
+                        </a>
+                    </li>
                 @endcan
                 <li class="nav-small-cap">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>

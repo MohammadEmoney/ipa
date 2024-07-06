@@ -32,6 +32,8 @@ return [
     'group_layout_updated_successfully' => 'Group Layout updated successfully',
     'layout_created_successfully' => 'Layout created successfully',
     'layout_updated_successfully' => 'Layout updated successfully',
+    'critic_created_successfully' => 'Critics and suggesstions created successfully',
+    'critic_updated_successfully' => 'Critics and suggesstions updated successfully',
     'user_login' => 'Logged in successfully',
     'incorrect_login' => 'Username or password is not correct',
     'updated_successfully' => 'Updated Successfully',

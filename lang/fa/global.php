@@ -116,6 +116,7 @@ return [
     'news' => 'اخبار',
     'recent_posts' => 'مقالات جدید',
     'recent_news' => 'اخبار جدید',
+    'recent_blog_posts' => 'مقالات اخیر',
     'contact_us' => 'تماس با ما',
     'useful_links' => 'لینک های مفید',
     'welcome' => 'خوش آمدید!!!',
@@ -189,5 +190,7 @@ return [
     'critics' => 'انتقادات پیشنهادات',
     'create_critic' => 'ایجاد انتقادات پیشنهادات',
     'edit_critic' => 'ویرایش انتقادات پیشنهادات',
+    'authentication' => 'احراز هویت',
+    'login_background' => 'تصویر زمینه صفحه ورود',
     '' => '',
 ];

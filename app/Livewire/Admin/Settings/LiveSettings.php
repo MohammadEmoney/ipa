@@ -40,6 +40,8 @@ class LiveSettings extends Component
         $this->data['lang'] = app()->getLocale();
         $this->data['logo'] = $this->setting->getFirstMedia('logo');
         $this->data['favicon'] = $this->setting->getFirstMedia('favicon');
+        $this->data['login'] = $this->setting->getFirstMedia('login');
+        $this->data['register'] = $this->setting->getFirstMedia('register');
     }
 
     public function updated($field,$values)
@@ -75,6 +77,8 @@ class LiveSettings extends Component
         $setting = $this->setting;
         $this->createImage($setting, 'logo');
         $this->createImage($setting, 'favicon');
+        $this->createImage($setting, 'login');
+        $this->createImage($setting, 'register');
         $setting->update([
             'data' => $this->data
         ]);

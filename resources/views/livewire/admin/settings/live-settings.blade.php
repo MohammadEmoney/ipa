@@ -31,6 +31,9 @@
                                             <li class="nav-item" role="presentation">
                                                 <button class="nav-link mouse-enter1" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">{{ __('global.financials') }}</button>
                                             </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link mouse-enter1" id="pills-authentication-tab" data-bs-toggle="pill" data-bs-target="#pills-authentication" type="button" role="tab" aria-controls="pills-authentication" aria-selected="false">{{ __('global.authentication') }}</button>
+                                            </li>
                                         </ul>
                                         <!-- Tabs Content -->
                                         <div class="tab-content bg-white p-4">
@@ -273,6 +276,71 @@
                                                                             @endforeach
                                                                         </select>
                                                                 </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-0">
+                                                                        <span class="spinner-border spinner-border-sm"
+                                                                            wire:loading></span> {{ __('global.submit') }}
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" wire:ignore.self id="pills-authentication" role="tabpanel" aria-labelledby="pills-authentication-tab">
+                                                <div class="row justify-content-center w-100">
+                                                    <div class="col-md-12">
+                                                        <form wire:submit.prevent="submit">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="mb-3">
+                                                                        <label for="formFile" class="form-label">{{ __('global.login_background') }}</label>
+                                                                        <input class="form-control" wire:model.live="data.login" type="file" id="formFile">
+                                                                        <div>
+                                                                            @error('data.login')
+                                                                                {{ $message }}
+                                                                            @enderror
+                                                                        </div>
+                                                                    </div>
+                                                                    @if (isset($data['login']) && !empty($data['login']))
+                                                                        @if(method_exists($data['login'], 'temporaryUrl'))
+                                                                            <div class="col-md-12 px-5 mb-3">
+                                                                                <img src="{{ $data['login']->temporaryUrl() }}" class="w-100">
+                                                                            </div>
+                                                                        @else
+                                                                            <div class="col-md-12 px-5 mb-3">
+                                                                                <img src="{{ $data['login']->getUrl() }}" class="w-100">
+                                                                                <span class="fs-4 position-absolute text-danger cursor-pointer" wire:click="deleteMedia({{ $data['login']->id }}, 'login')"><i class="ti ti-trash"></i></span>
+                                                                            </div>
+                                                                        @endif
+                                                                    @endif
+                                                                </div>
+                                                                {{-- <div class="col-md-6">
+                                                                    <div class="mb-3">
+                                                                        <label for="formFile" class="form-label">{{ __('global.register') }}</label>
+                                                                        <input class="form-control" wire:model.live="data.register" type="file" id="formFile">
+                                                                        <div>
+                                                                            @error('data.register')
+                                                                                {{ $message }}
+                                                                            @enderror
+                                                                        </div>
+                                                                    </div>
+                                                                    @if (isset($data['register']) && !empty($data['register']))
+                                                                        @if(method_exists($data['register'], 'temporaryUrl'))
+                                                                            <div class="col-md-12 px-5 mb-3">
+                                                                                <img src="{{ $data['register']->temporaryUrl() }}" style="max-width: 100px">
+                                                                            </div>
+                                                                        @else
+                                                                            <div class="col-md-12 px-5 mb-3">
+                                                                                <img src="{{ $data['register']->getUrl() }}" style="max-width: 100px">
+                                                                                <span class="fs-4 position-absolute text-danger cursor-pointer" wire:click="deleteMedia({{ $data['register']->id }}, 'register')"><i class="ti ti-trash"></i></span>
+                                                                            </div>
+                                                                        @endif
+                                                                    @endif
+                                                                </div> --}}
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-6">

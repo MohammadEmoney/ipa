@@ -190,6 +190,7 @@ return [
     'critics' => 'Critics And Suggestions',
     'create_critic' => 'Create Critics And Suggestions',
     'edit_critic' => 'Edit Critics And Suggestions',
-    'user' => '',
+    'authentication' => 'Authentication',
+    'login_background' => 'Login Background',
     '' => '',
 ];

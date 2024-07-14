@@ -10,7 +10,7 @@
                     <div class="col-md-6 d-flex align-items-center">
                         <div class="card-body">
                             <h5 class="card-title">{{ $layout->articles?->title }}</h5>
-                            <p class="card-text">{{ $layout->articles?->summary }}</p>
+                            <p class="card-text">{!! $layout->articles?->summary !!}</p>
                             <a href="{{ route('front.blog.show', ['post' => $layout->articles?->slug]) }}" class="btn btn-primary">{{ __('global.read_more') }}</a>
                         </div>
                     </div>

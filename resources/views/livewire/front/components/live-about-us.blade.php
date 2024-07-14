@@ -12,12 +12,12 @@
                 <div class="col-lg-6">
                     <div class="{{ $loop->last ? "content ps-0 ps-lg-5" : "" }} description">
                         {!! $layout->description ?: "" !!}
-                        @if ($loop->last)
+                        {{-- @if ($loop->last)
                             <div class="position-relative mt-4">
                                 <img src="{{ $layout->getFirstMediaUrl('mainImage') ?: "/Impact/assets/img/about-2.jpg" }}" class="img-fluid rounded-4" alt="">
                                 <a href="{{ $layout->link ?: "#" }}" class="glightbox play-btn"></a>
                             </div>
-                        @endif
+                        @endif --}}
                     </div>
                 </div>
             @endforeach

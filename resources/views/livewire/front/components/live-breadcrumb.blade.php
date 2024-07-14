@@ -5,7 +5,7 @@
         <div class="row d-flex justify-content-center">
           <div class="col-lg-6 text-center mt-5">
             <h2 class="mt-5">{{ $title }}</h2>
-            <p>{{ $subTitle }}</p>
+            <p>{!! $subTitle !!}</p>
           </div>
         </div>
       </div>

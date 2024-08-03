@@ -144,39 +144,9 @@
 
 
 @push('scripts')
-
+    @include('admin.components.ckeditor')
     <script>
-        var dir = "{{ App::isLocale('en') ? "ltr" : "rtl" }}";
-        ClassicEditor
-            .create( document.querySelector( '#description' ) )
-            .then( editor => {
-                editor.model.document.on('change:data', () => {
-                    @this.set('data.description', editor.getData());
-                })
-            } )
-            .catch( error => {
-                    console.error( error );
-            } );
-        $(document).ready(function () {
-
-            $(`#register_date`).pDatepicker({
-                format: 'YYYY-MM-DD',
-                autoClose: true,
-                onSelect: function(unix) {
-                    var propertyName = $(this).data('property');
-                    console.log(propertyName);
-                    @this.set(`data.register_date`, new persianDate(unix).format('YYYY-MM-DD'), true);
-                }
-            });
-
-            $('.select2').select2({
-                placeholder: '{{ __('global.select_item') }}',
-                dir:  dir,
-                containerCssClass: 'select-sm',
-                allowClear: !0
-            });
-        });
-
+        
         function livewireSelect2(component, event) {
             @this.set(component, $(event).val())
         }

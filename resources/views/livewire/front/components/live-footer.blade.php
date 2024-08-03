@@ -44,7 +44,9 @@
             <strong>{{ __('global.phone_number') }}:</strong> {{ $settings['phone'] ?? "" }}<br>
             <strong>{{ __('global.email') }}:</strong> {{ $settings['email'] ?? ""}}<br>
           </p>
-
+          <div>
+            <a referrerpolicy='origin' target='_blank' href='https://trustseal.enamad.ir/?id=509818&Code=IQw8viVvgnMLPt7vPXGpHaVMJxHc23HT'><img referrerpolicy='origin' src='https://trustseal.enamad.ir/logo.aspx?id=509818&Code=IQw8viVvgnMLPt7vPXGpHaVMJxHc23HT' alt='' style='cursor:pointer' code='IQw8viVvgnMLPt7vPXGpHaVMJxHc23HT'></a>
+          </div>
         </div>
 
       </div>
@@ -57,7 +59,7 @@
       <div class="credits">
         <!-- All the links in the footer should remain intact. -->
         <!-- You can delete the links only if you purchased the pro version. -->
-        {{-- Designed by <a href="https://emcode.ir/">Emcode</a> --}}
+        <!-- Designed by <a href="https://emcode.ir/">Emcode</a> -->
       </div>
     </div>
 

@@ -78,7 +78,7 @@
                                     </div>
                         
                                 </div>
-                                <div class="col-sm-6 px-0 d-none d-sm-block">
+                                <div class="col-sm-6 px-0 d-none d-sm-block" style="max-width: 30em;">
                                     <img src="{{ $background ?: asset('Impact/assets/img/login.jpg') }}"
                                         alt="Login image" class="w-100 vh-100" style="object-fit: cover; object-position: left;">
                                 </div>

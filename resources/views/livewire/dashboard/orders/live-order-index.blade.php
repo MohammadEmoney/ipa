@@ -122,7 +122,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $orders->links("pagination::bootstrap-5") }}
+                {{ $orders->links() }}
             </div>
         </div>
     </div>

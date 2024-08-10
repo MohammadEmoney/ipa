@@ -71,6 +71,11 @@ class LivePageIndex extends Component
         }
     }
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         $pages = Page::query()->with(['createdBy', 'updatedBy']);

@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'credit_card' => 'کارت به کارت',
-    'cash' => 'نقدی',
-    'pos' => 'دستگاه کارتخوان',
-    'online' => 'پرداخت آنلاین',
-    'cheque' => 'چک',
+    'credit_card' => 'Card to card transfer',
+    'cash' => 'Cash',
+    'pos' => 'Card reader',
+    'online' => 'Online payment',
+    'cheque' => 'Cheque',
 ];

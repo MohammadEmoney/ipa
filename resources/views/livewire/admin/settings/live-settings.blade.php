@@ -252,6 +252,46 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
+                                                                <div class="col-md-12 mb-3">
+                                                                    <label for="exampleInputtext1" class="form-label">{{ __('global.payment_via') }}</label>
+                                                                        <select id="payment_via" class="form-control"
+                                                                            wire:model.live="data.payment_via">
+                                                                            <option value="">{{ __('global.select_item') }}</option>
+                                                                            @foreach ($paymentMethods as $key => $value)
+                                                                                <option value="{{ $key }}">{{ $value }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="mb-3">
+                                                                        <label for="cardNumber" class="form-label">{{ __('global.card_number') }}
+                                                                            *</label>
+                                                                        <input type="text" class="form-control"
+                                                                            wire:model.blur="data.card_number" id="cardNumber" oninput="formatCardNumber(this)"
+                                                                            aria-describedby="textHelp" placeholder="xxxx-xxxx-xxxx-xxxx">
+                                                                        <div>
+                                                                            @error('data.card_number')
+                                                                                {{ $message }}
+                                                                            @enderror
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="mb-3">
+                                                                        <label for="cardOwner" class="form-label">{{ __('global.card_owner') }}
+                                                                            *</label>
+                                                                        <input type="text" class="form-control"
+                                                                            wire:model.blur="data.card_owner" id="cardOwner"
+                                                                            aria-describedby="textHelp" placeholder="{{ __('global.card_owner_name') }}">
+                                                                        <div>
+                                                                            @error('data.card_owner')
+                                                                                {{ $message }}
+                                                                            @enderror
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
                                                                 <div class="col-md-6">
                                                                     <div class="mb-3">
                                                                         <label for="exampleInputtext1" class="form-label">{{ __('global.zarinpal_merchant_id') }}
@@ -368,4 +408,21 @@
 </div>
 @push('scripts')
     @include('admin.components.ckeditor', ['selectorId' => 'about_us'])
+    <script>
+        function formatCardNumber(input) {
+            // Remove all non-digit characters
+            let value = input.value.replace(/\D/g, '');
+
+            // Format the value with hyphens after every 4 digits
+            let formattedValue = '';
+            for (let i = 0; i < value.length; i += 4) {
+                if (i > 0) {
+                    formattedValue += '-';
+                }
+                formattedValue += value.substring(i, i + 4);
+            }
+
+            input.value = formattedValue;
+        }
+    </script>
 @endpush

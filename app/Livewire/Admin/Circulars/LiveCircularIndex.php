@@ -74,6 +74,11 @@ class LiveCircularIndex extends Component
         }
     }
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         $circulars = Circular::query()->with(['media']);

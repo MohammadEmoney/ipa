@@ -70,6 +70,7 @@ class LiveUserEdit extends Component
 
     public function loadData()
     {
+        $this->data['is_active'] = $this->user->is_active ? true : false;
         $this->data['first_name'] = $this->user->first_name;
         $this->data['last_name'] = $this->user->last_name;
         $this->data['phone'] = $this->user->phone;
@@ -87,6 +88,8 @@ class LiveUserEdit extends Component
         $this->data['compnay_phone'] = $this->user->userInfo?->compnay_phone;
 
         $this->data['avatar'] = $this->user->getFirstMedia('avatar');
+        $this->data['nationalCard'] = $this->user->getFirstMedia('nationalCard');
+        $this->data['license'] = $this->user->getFirstMedia('license');
     }
 
     public function selectAll()

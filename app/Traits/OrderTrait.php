@@ -2,7 +2,12 @@
 
 namespace App\Traits;
 
+use App\Enums\EnumOrderStatus;
+use App\Enums\EnumPaymentMethods;
+use App\Enums\EnumPaymentTypes;
 use App\Models\Order;
+use App\Models\User;
+use App\Repositories\SettingsRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Morilog\Jalali\Jalalian;
@@ -75,5 +80,23 @@ trait OrderTrait
     {
         $order = Order::where('user_id', $userId)->where('type', $type)->latest()->first();
         return $order?->order_number ?: 1;
+    }
+
+    public function createOrder(User $user, $paymentMethod, $gateway = null, $status = EnumOrderStatus::CREATED) : Order
+    {
+        $settings = new SettingsRepository;
+        $price = $settings->getByKey('membership_fee');
+        return Order::create([
+            'user_id' => $user->id,
+            'track_number' => $this->generateUniqueCode(Order::class, 'track_number'),
+            'tax' => 0,
+            'discount_amount' => 0,
+            'order_amount' => $price ?: 0,
+            'payable_amount' => $price ?: 0,
+            'payment_type' => EnumPaymentTypes::FULL,
+            'payment_method' => $paymentMethod,
+            'gateway' => $gateway,
+            'status' => $status,
+        ]);
     }
 }

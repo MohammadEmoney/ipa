@@ -73,6 +73,11 @@ class LiveLayoutIndex extends Component
             $this->alert(__('messages.updated_successfully'))->success();
         }
     }
+
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
     
     public function render()
     {

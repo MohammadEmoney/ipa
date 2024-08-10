@@ -71,6 +71,11 @@ class LiveGroupLayoutIndex extends Component
         }
     }
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         $layoutGroups = LayoutGroup::query()->with(['layouts']);

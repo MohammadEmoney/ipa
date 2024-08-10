@@ -2862,7 +2862,7 @@ section {
 .about .description img{
     max-width: 100%;
     height: auto;
-    border-radius: var(--bs-border-radius-xl)!important;
+    /* border-radius: var(--bs-border-radius-xl)!important; */
     margin-bottom: 1.5rem!important;
 }
 /* End Of About description img */

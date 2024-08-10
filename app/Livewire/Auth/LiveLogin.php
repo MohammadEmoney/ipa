@@ -2,13 +2,20 @@
 
 namespace App\Livewire\Auth;
 
+use App\Enums\EnumOrderStatus;
+use App\Enums\EnumPaymentMethods;
 use App\Mail\VerificationEmail;
 use App\Models\User;
+use App\Repositories\SettingsRepository;
 use App\Traits\AlertLiveComponent;
 use App\Traits\MediaTrait;
+use App\Traits\NotificationTrait;
+use App\Traits\OrderTrait;
 use App\Traits\PaymentTrait;
 use App\Traits\SmsTrait;
+use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
@@ -21,6 +28,8 @@ class LiveLogin extends Component
     use WithFileUploads;
     use MediaTrait;
     use PaymentTrait;
+    use OrderTrait;
+    use NotificationTrait;
 
     public $data = [];
     public $step = 'info';
@@ -175,8 +184,25 @@ class LiveLogin extends Component
 
     public function pay()
     {
-        auth()->loginUsingId($this->user->id);
-        return redirect()->to(route('payment.create'));
+        try {
+            $setting = new SettingsRepository();
+            if($setting->getByKey('payment_via') === 'credit_card'){
+                DB::beginTransaction();
+                $order = $this->createOrder($this->user, EnumPaymentMethods::CREDIT_CARD, null, EnumOrderStatus::PENDING_CONFIRM);
+                $this->createImage($order, 'bankReceipt');
+                $this->adminNewOrderNotifications($order);
+                DB::commit();
+                $this->alert(__('messages.bank_receipt_upload_success'))->success()->redirect('home');
+            }elseif($setting->getByKey('payment_via') === 'online'){
+                auth()->loginUsingId($this->user->id);
+                return redirect()->to(route('payment.create'));
+            }else{
+                $this->alert(__('messages.register_error'))->error();
+            }
+        } catch (Exception $e) {
+            Log::info($e->getMessage());
+            $this->alert(__('messages.register_error'))->error();
+        }
     }
 
     public function setStep($step)

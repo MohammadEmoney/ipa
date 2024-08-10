@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="/panel/src/assets/libs/select2/select2.min.css" />
     {{-- <link rel="stylesheet" href="/panel/src/assets/css/bootstrap.rtl.css" /> --}}
     <link href="/general/flag-icons/css/flag-icons.min.css" rel="stylesheet">
-    
     @livewireStyles
     @stack('styles')
 </head>

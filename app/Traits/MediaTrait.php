@@ -156,6 +156,7 @@ trait MediaTrait
                 ->addMedia($this->data[$collection]->getRealPath())
                 ->usingName($this->data[$collection]->getClientOriginalName())
                 ->toMediaCollection($collection);
+                $this->data[$collection] = null;
         }
     }
 

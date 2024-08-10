@@ -118,7 +118,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $layouts->links("pagination::bootstrap-5") }}
+                {{ $layouts->links() }}
             </div>
         </div>
     </div>

@@ -37,6 +37,28 @@
     });
 </script>
 
+<script>
+    const thumbnail = document.getElementById("img-thumbnail");
+    const modal = document.getElementById("img-modal");
+    const modalImg = document.getElementById("img01");
+    const closeBtn = document.getElementById("close-btn");
+
+    thumbnail.onclick = function(){
+        modal.style.display = "block";
+        modalImg.src = this.src; // Set the modal image source to the thumbnail source
+    }
+
+    closeBtn.onclick = function() { 
+        modal.style.display = "none"; 
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
 @livewireScripts
 
 @stack('scripts')

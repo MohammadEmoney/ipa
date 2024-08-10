@@ -62,6 +62,11 @@ class LiveOrderIndex extends Component
     {
         $this->filter = [];
     }
+
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
     
     public function render()
     {

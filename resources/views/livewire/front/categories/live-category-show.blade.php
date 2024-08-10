@@ -36,7 +36,7 @@
           </div><!-- End blog posts list -->
   
           <div class="blog-pagination">
-            {{ $posts->links("pagination::bootstrap-5") }}
+            {{ $posts->links() }}
           </div><!-- End blog pagination -->
   
         </div>

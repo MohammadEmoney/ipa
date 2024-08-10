@@ -67,6 +67,11 @@ class LiveCriticIndex extends Component
         }
     }
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         $critics = Critic::query()->whereBelongsTo(Auth::user());

@@ -21,7 +21,7 @@
             @else
                 <div class="col-md-6 px-5 mb-3">
                     <img src="{{ $data['nationalCard']->getUrl() }}" class="w-100" style="max-height: 20em">
-                    <span class="fs-4 position-absolute text-danger cursor-pointer" wire:click="deleteMedia({{ $data['avatar']->id }}, 'avatar')"><i class="ti ti-trash"></i></span>
+                    <span class="fs-4 position-absolute text-danger cursor-pointer" wire:click="deleteMedia({{ $data['nationalCard']->id }}, 'nationalCard')"><i class="ti ti-trash"></i></span>
                 </div>
             @endif
         @endif
@@ -47,7 +47,7 @@
             @else
                 <div class="col-md-6 px-5 mb-3">
                     <img src="{{ $data['license']->getUrl() }}" class="w-100" style="max-height: 20em">
-                    <span class="fs-4 position-absolute text-danger cursor-pointer" wire:click="deleteMedia({{ $data['avatar']->id }}, 'avatar')"><i class="ti ti-trash"></i></span>
+                    <span class="fs-4 position-absolute text-danger cursor-pointer" wire:click="deleteMedia({{ $data['license']->id }}, 'license')"><i class="ti ti-trash"></i></span>
                 </div>
             @endif
         @endif

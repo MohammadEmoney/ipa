@@ -71,6 +71,11 @@ class LiveCategoryIndex extends Component
         }
     }
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         $categories = Category::query()->with(['parent']);

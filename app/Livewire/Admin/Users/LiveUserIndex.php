@@ -57,6 +57,20 @@ class LiveUserIndex extends Component
         return redirect()->to(route('admin.users.edit', ['user' => $id]));
     }
 
+    public function changeActiveStatus($id)
+    {
+        $user = User::find($id);
+        if($user){
+            $user->update(['is_active' => !$user->is_active]);
+            $this->alert(__('messages.updated_successfully'))->success();
+        }
+    }
+
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         $users = User::query()->with(['userInfo']);

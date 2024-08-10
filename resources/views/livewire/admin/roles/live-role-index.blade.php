@@ -28,7 +28,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $roles->links("pagination::bootstrap-5") }}
+                {{ $roles->links() }}
             </div>
         </div>
     </div>

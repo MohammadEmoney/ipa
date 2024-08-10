@@ -74,6 +74,11 @@ class LiveDocumentIndex extends Component
         }
     }
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         $documents = Document::query()->with(['media']);

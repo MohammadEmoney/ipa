@@ -131,6 +131,16 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label class="form-label">{{ __('global.is_active') }}</label>
+                                    <div class="form-check form-switch d-flex ps-0 {{ app()->getLocale() === "en" ? "" : "flex-row-reverse justify-content-end" }}">
+                                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ __('global.inactive') }}</label>
+                                        <input class="form-check-input mx-2" type="checkbox" role="switch" id="flexSwitchCheckDefault" wire:model.defer="data.is_active">
+                                        <label class="form-check-label" for="flexSwitchCheckDefault">{{ __('global.active') }}</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="row">

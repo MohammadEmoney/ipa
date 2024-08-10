@@ -63,7 +63,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $critics->links("pagination::bootstrap-5") }}
+                {{ $critics->links() }}
             </div>
         </div>
     </div>

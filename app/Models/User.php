@@ -85,6 +85,9 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
         $this
             ->addMediaConversion('license')
             ->nonQueued();
+        $this
+            ->addMediaConversion('bankReceipt')
+            ->nonQueued();
     }
 
     /**

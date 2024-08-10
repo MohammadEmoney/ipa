@@ -6,7 +6,7 @@
         @can('card_status')
             <div class="col-xl-3 col-sm-6 col-12 cursor-pointer" wire:click="redirectTo('admin.users.index')">
                 <div class="card shadow border-0">
-                    <div class="card-body">
+                    <div class="card-body {{ $newUser ? "bg-warning-subtle" : "" }}">
                         <div class="row">
                             <div class="col">
                                 <span class="h6 font-semibold text-muted text-sm d-block mb-2">{{ __('global.registerd_users') }}</span>
@@ -23,7 +23,7 @@
             </div>
             <div class="col-xl-3 col-sm-6 col-12 cursor-pointer" wire:click="redirectTo('admin.users.index')">
                 <div class="card shadow border-0">
-                    <div class="card-body">
+                    <div class="card-body {{ $newActiveUser ? "bg-danger-subtle" : "" }}">
                         <div class="row">
                             <div class="col">
                                 <span class="h6 font-semibold text-muted text-sm d-block mb-2">{{ __('global.active_users') }}</span>
@@ -46,7 +46,7 @@
             </div>
             <div class="col-xl-3 col-sm-6 col-12 cursor-pointer" wire:click="redirectTo('admin.posts.index')">
                 <div class="card shadow border-0">
-                    <div class="card-body">
+                    <div class="card-body {{ $newPost ? "bg-secondary-subtle" : "" }}">
                         <div class="row">
                             <div class="col">
                                 <span class="h6 font-semibold text-muted text-sm d-block mb-2">{{ __('global.posts') }}</span>
@@ -67,9 +67,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-sm-6 col-12 cursor-pointer" wire:click="redirectTo('admin.dashboard')">
+            <div class="col-xl-3 col-sm-6 col-12 cursor-pointer" wire:click="redirectTo('admin.orders.index')">
                 <div class="card shadow border-0">
-                    <div class="card-body">
+                    <div class="card-body {{ $newOrder ? "bg-success-subtle" : "" }}">
                         <div class="row">
                             <div class="col">
                                 <span class="h6 font-semibold text-muted text-sm d-block mb-2">{{ __('global.orders') }} ({{ __('global.toman') }})</span>

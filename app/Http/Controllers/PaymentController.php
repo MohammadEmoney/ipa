@@ -12,6 +12,7 @@ use App\Enums\EnumPaymentTypes;
 use App\Models\Order;
 use App\Models\Setting;
 use App\Repositories\SettingsRepository;
+use App\Traits\NotificationTrait;
 use App\Traits\PaymentTrait;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +25,7 @@ use Shetabit\Multipay\Invoice;
 
 class PaymentController extends Controller
 {
-    use PaymentTrait;
+    use PaymentTrait, NotificationTrait;
 
     public $settings;
 
@@ -79,6 +80,7 @@ class PaymentController extends Controller
                     ]);
                 }
             )->pay()->render();
+            $this->adminNewOrderNotifications($order);
             DB::commit();
             return $res;
             

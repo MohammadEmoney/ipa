@@ -117,6 +117,20 @@
                 @endcan
                 <li class="nav-small-cap">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">{{ __('global.financials') }}</span>
+                </li>
+                @can('order_index')
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('admin.orders.index') }}" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-shopping-cart"></i>
+                            </span>
+                            <span class="hide-menu">{{ __('global.orders') }}</span>
+                        </a>
+                    </li>
+                @endcan
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">{{ __('global.settings') }}</span>
                 </li>
                 @can('general_settings')

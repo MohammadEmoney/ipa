@@ -71,6 +71,11 @@ class LivePostIndex extends Component
         }
     }
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         $posts = Post::query()->with(['categories', 'mainCategory']);

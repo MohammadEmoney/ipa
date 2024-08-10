@@ -48,6 +48,11 @@ class LiveCircularIndex extends Component
         return redirect()->to(route('user.circulars.show', $id));
     }
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
         $circulars = Circular::query()->lang()->with(['media']);

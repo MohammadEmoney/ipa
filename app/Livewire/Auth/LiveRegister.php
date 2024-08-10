@@ -5,18 +5,24 @@ namespace App\Livewire\Auth;
 use App\Enums\EnumEducationTypes;
 use App\Enums\EnumInitialLevels;
 use App\Enums\EnumMilitaryStatus;
+use App\Enums\EnumOrderStatus;
+use App\Enums\EnumPaymentMethods;
 use App\Mail\VerificationEmail;
 use App\Models\Course;
 use App\Models\User;
+use App\Repositories\SettingsRepository;
 use App\Rules\JDate;
 use App\Rules\ValidNationalCode;
 use App\Traits\AlertLiveComponent;
 use App\Traits\DateTrait;
 use App\Traits\JobsTrait;
 use App\Traits\MediaTrait;
+use App\Traits\NotificationTrait;
+use App\Traits\OrderTrait;
 use App\Traits\PaymentTrait;
 use App\Traits\SmsTrait;
 use Carbon\Carbon;
+use Exception;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -29,10 +35,11 @@ use Livewire\WithFileUploads;
 
 class LiveRegister extends Component
 {
-    use AlertLiveComponent, WithFileUploads, DateTrait, MediaTrait, SmsTrait, PaymentTrait;
+    use AlertLiveComponent, WithFileUploads, DateTrait, MediaTrait, SmsTrait, PaymentTrait, OrderTrait, NotificationTrait;
 
     public $data = [];
     public $firstname;
+    public $tempReceipt;
     public $user;
     public $currentTab = 'student';
     public $step;
@@ -54,7 +61,7 @@ class LiveRegister extends Component
         }
         $this->step = 'info';
         // $this->step = 'payment';
-        // $this->user = User::find(9);
+        // $this->user = User::find(14);
         $this->payableAmount = $this->orderAmount = $settings['membership_fee'] ?? 0;
         $this->title = __('global.register');
     }
@@ -184,7 +191,24 @@ class LiveRegister extends Component
 
     public function pay()
     {
-        auth()->loginUsingId($this->user->id);
-        return redirect()->to(route('payment.create'));
+        try {
+            $setting = new SettingsRepository();
+            if($setting->getByKey('payment_via') === 'credit_card'){
+                DB::beginTransaction();
+                $order = $this->createOrder($this->user, EnumPaymentMethods::CREDIT_CARD, null, EnumOrderStatus::PENDING_CONFIRM);
+                $this->createImage($order, 'bankReceipt');
+                $this->adminNewOrderNotifications($order);
+                DB::commit();
+                $this->alert(__('messages.bank_receipt_upload_success'))->success()->redirect('home');
+            }elseif($setting->getByKey('payment_via') === 'online'){
+                auth()->loginUsingId($this->user->id);
+                return redirect()->to(route('payment.create'));
+            }else{
+                $this->alert(__('messages.register_error'))->error();
+            }
+        } catch (Exception $e) {
+            Log::info($e->getMessage());
+            $this->alert(__('messages.register_error'))->error();
+        }
     }
 }

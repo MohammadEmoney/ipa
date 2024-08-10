@@ -119,7 +119,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $layoutGroups->links("pagination::bootstrap-5") }}
+                {{ $layoutGroups->links() }}
             </div>
         </div>
     </div>

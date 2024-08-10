@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Settings;
 
 use App\Enums\EnumLanguages;
+use App\Enums\EnumPaymentMethods;
 use App\Enums\EnumPaymentMode;
 use App\Models\Setting;
 use App\Repositories\SettingsRepository;
@@ -25,6 +26,13 @@ class LiveSettings extends Component
         $this->step = 'public';
         $this->title = __('global.settings');
         $this->load();
+    }
+
+    public function rules()
+    {
+        return [
+            'card_number' => 'nullable|regex:/^\d{4}-\d{4}-\d{4}-\d{4}$/',
+        ];
     }
 
     public function setTab($select)
@@ -89,9 +97,9 @@ class LiveSettings extends Component
     
     public function render()
     {
-        // dd(\App\Enums\EnumTimeZone::getTranslatedAll());
         $langs = EnumLanguages::getTranslatedAll();
         $zarinpalModes = EnumPaymentMode::getTranslatedAll();
-        return view('livewire.admin.settings.live-settings', compact('langs', 'zarinpalModes'))->extends('layouts.admin-panel')->section('content');
+        $paymentMethods = EnumPaymentMethods::getTranslatedAll();
+        return view('livewire.admin.settings.live-settings', compact('langs', 'zarinpalModes', 'paymentMethods'))->extends('layouts.admin-panel')->section('content');
     }
 }

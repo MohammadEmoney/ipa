@@ -7,7 +7,7 @@
         <div class="message-body">
             <a wire:poll wire:click="readNotification()" href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
                 <i class="ti ti-license fs-6"></i>
-                <p class="mb-0 fs-3"> {{ __('global.new_circular') }} {{ $count }}</p>
+                <p class="mb-0 fs-3"> {{ __('global.new_order') }} {{ $count }}</p>
             </a>
         </div>
     </div>

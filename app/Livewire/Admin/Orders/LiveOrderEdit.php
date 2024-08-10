@@ -119,22 +119,6 @@ class LiveOrderEdit extends Component
         if($field == 'type'){
             $this->dispatch('select2Initiation');
         }
-        if($field == 'data.semester_id'){
-            $semester = Semester::find($this->data['semester_id'] ?? null);
-            $this->data['order_amount'] = $semester?->tuition_fee;
-        }
-        if($field == 'data.book_id'){
-            $book = Book::find($value ?? null);
-            $this->data['order_amount'] = $book?->price;
-        }
-        // if(isset($this->data['student_id']) && isset($this->data['semester_id'])){
-        //     $student = User::find($this->data['student_id']);
-        //     $semester = Semester::find($this->data['semester_id'] ?? null);
-        //     if($student && $semester){
-        //         $this->generateRenewalNumber($student);
-        //         $this->data['contract_number'] = $this->generateContractNumber($student->userInfo?->gender, $semester);
-        //     }
-        // }
         if($field === 'data.payment_type' && $value === "installment"){
             $this->loadDatePicker();
         }

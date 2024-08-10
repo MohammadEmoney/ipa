@@ -26,6 +26,11 @@ Route::group(['prefix' => '{locale?}'], function () {
             Route::get('posts', \App\Livewire\Admin\Posts\LivePostIndex::class)->name('posts.index')->middleware('can:post_index');
             Route::get('posts/create', \App\Livewire\Admin\Posts\LivePostCreate::class)->name('posts.create')->middleware('can:post_create');
             Route::get('posts/{post}/edit', \App\Livewire\Admin\Posts\LivePostEdit::class)->name('posts.edit')->middleware('can:post_edit');
+        // Orders
+            Route::get('orders', \App\Livewire\Admin\Orders\LiveOrderIndex::class)->name('orders.index')->middleware('can:order_index');
+            Route::get('orders/create', \App\Livewire\Admin\Orders\LiveOrderCreate::class)->name('orders.create')->middleware('can:order_create');
+            Route::get('orders/{order}', \App\Livewire\Admin\Orders\LiveOrderShow::class)->name('orders.show')->middleware('can:order_show');
+            Route::get('orders/{order}/edit', \App\Livewire\Admin\Orders\LiveOrderEdit::class)->name('orders.edit')->middleware('can:order_edit');
         // Pages
             Route::get('pages', \App\Livewire\Admin\Pages\LivePageIndex::class)->name('pages.index')->middleware('can:page_index');
             Route::get('pages/create', \App\Livewire\Admin\Pages\LivePageCreate::class)->name('pages.create')->middleware('can:page_create');
@@ -70,7 +75,7 @@ Route::group(['prefix' => '{locale?}'], function () {
             Route::get('/', \App\Livewire\Dashboard\LiveDashboard::class)->name('dashboard');
             Route::get('users/password', \App\Livewire\Dashboard\Users\LiveUserPassword::class)->name('users.password');
     
-        // Layouts
+        // Orders
             Route::prefix('orders')->name('orders.')->group(function () {
                 Route::get('/', \App\Livewire\Dashboard\Orders\LiveOrderIndex::class)->name('index');
                 // Route::get('/{order}', \App\Livewire\Dashboard\Orders\LiveOrderIndex::class)->name('index');

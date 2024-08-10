@@ -9,9 +9,5 @@
             <div>{!! $layout->description !!}</div>
             <a class="cta-btn" href="{{ $layout->link }}">{{ $layout->data['btn_title'] ?? __('global.call_to_action') }}</a>
         </div>
-    @else
-        <div>
-        
-        </div>
     @endif
 </section><!-- End Call To Action Section -->

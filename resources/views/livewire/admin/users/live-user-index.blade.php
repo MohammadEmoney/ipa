@@ -20,6 +20,7 @@
                             <th class="text-nowrap" scope="col">{{ __('global.phone_number') }}</th>
                             <th scope="col">{{ __('global.email') }}</th>
                             <th scope="col">{{ __('global.address') }}</th>
+                            <th scope="col">{{ __('global.confirm_status') }}</th>
                             <th scope="col">{{ __('global.user_role') }}</th>
                             <th class="text-nowrap" scope="col">{{ __('global.register_date') }}</th>
                             <th scope="col">{{ __('global.actions') }}</th>
@@ -33,6 +34,11 @@
                                 <td>{{ $user->phone }}</td>
                                 <td class="text-nowrap">{{ $user->email ?: "-" }}</td>
                                 <td><span class="d-inline-block text-truncate" style="max-width: 100px;" title="{{ $user->userInfo?->address ?: "-" }}">{{ $user->userInfo?->address ?: "-" }}</span></td>
+                                <td class="text-nowrap text-center">
+                                    <div class="form-switch">
+                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" @checked($user->is_active) wire:click="changeActiveStatus({{ $user->id }})">
+                                    </div>
+                                </td>
                                 <td class="text-nowrap">{{ $user->getRoleNames()?->first() ? \App\Enums\EnumUserRoles::trans($user->getRoleNames()?->first()) : "-" }}</td>
                                 <td class="text-nowrap">{{ \Morilog\Jalali\Jalalian::fromDateTime($user->userInfo?->register_date)->format('Y-m-d') }}</td>
                                 <td>
@@ -46,7 +52,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $users->links("pagination::bootstrap-5") }}
+                {{ $users->links() }}
             </div>
         </div>
     </div>

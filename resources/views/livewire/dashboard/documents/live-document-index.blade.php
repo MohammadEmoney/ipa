@@ -104,7 +104,7 @@
                         </div>
                     </div>
                 </section>
-                {{ $documents->links("pagination::bootstrap-5") }}
+                {{ $documents->links() }}
             </div>
         </div>
     </div>

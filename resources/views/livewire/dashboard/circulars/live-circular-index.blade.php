@@ -109,7 +109,7 @@
                         </div>
                     </div>
                   </section>
-                {{ $circulars->links("pagination::bootstrap-5") }}
+                {{ $circulars->links() }}
             </div>
         </div>
     </div>

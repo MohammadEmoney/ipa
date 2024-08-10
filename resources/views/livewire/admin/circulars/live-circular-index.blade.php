@@ -120,7 +120,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $circulars->links("pagination::bootstrap-5") }}
+                {{ $circulars->links() }}
             </div>
         </div>
     </div>

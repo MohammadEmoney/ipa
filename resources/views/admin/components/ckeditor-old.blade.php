@@ -1,5 +1,8 @@
 
 <script>
+    var elementId = "{{ $selectorId ?? '' }}";
+    var selectorName = 'data.' + "{{ $selectorId ?? '' }}";
+    var lang = "{{ app()->getLocale() }}";
     class MyUploadAdapter {
         // The constructor method.
         constructor( loader ) {
@@ -103,12 +106,78 @@
             return new MyUploadAdapter( loader );
         };
     }
-</script>
-<script>
-    var elementId = "";
-    var selectorName = "";
-    var lang = "{{ app()->getLocale() }}";
 
+    
+    let summaray, description;
+    ClassicEditor
+        .create( document.querySelector( '#summary' ), {
+            extraPlugins: [ SimpleUploadAdapterPlugin ],
+            language: {
+                // The UI will be English.
+                ui: lang,
+
+                // But the content will be edited in Arabic.
+                content: lang
+            }
+            // More configuration options.
+            // ...
+        })
+        .then( editor => {
+                console.log( editor );
+                summaray = editor;
+                detectFocusOut(editor, 'data.summary');
+        } )
+        .catch( error => {
+                // console.error( error );
+        } );
+    ClassicEditor
+        .create( document.querySelector( '#description' ) , {
+            extraPlugins: [ SimpleUploadAdapterPlugin ],
+            language: {
+                // The UI will be English.
+                ui: lang,
+
+                // But the content will be edited in Arabic.
+                content: lang
+            }
+            // More configuration options.
+            // ...
+        })
+        .then( editor => {
+                console.log( editor );
+                description = editor;
+                detectFocusOut(editor, 'data.description');
+        } )
+        .catch( error => {
+                // console.error( error );
+        } );
+        
+        // var selectorId = "about_us";
+        // var selectorName = 'data.' + "about_us";
+        console.log(elementId, selectorName);
+        ClassicEditor.config.contentsLangDirection = 'rtl';
+        ClassicEditor
+            .create( document.querySelector( '#' + elementId ) , {
+                extraPlugins: [ SimpleUploadAdapterPlugin ],
+                language: {
+                    // The UI will be English.
+                    ui: lang,
+
+                    // But the content will be edited in Arabic.
+                    content: lang
+                }
+                // More configuration options.
+                // ...
+            })
+            .then( editor => {
+                    console.log( editor );
+                    detectFocusOut(editor, selectorName);
+            } )
+            .catch( error => {
+                    // console.error( error );
+            } );
+            
+    
     function detectFocusOut(editor, propertyName) {
         let bodyChanged;
         editor.model.document.on('change:data', () => {
@@ -122,31 +191,3 @@
         })
     }
 </script>
-@foreach ($selectorIds as $key => $selectorId)
-    <script>
-        elementId = "{{ $selectorId }}";
-        selectorName = 'data.' + "{{ $key }}";
-        
-        // console.log(selectorName);
-        ClassicEditor
-            .create(document.querySelector('#' + elementId), {
-                extraPlugins: [SimpleUploadAdapterPlugin],
-                language: {
-                    // The UI will be English.
-                    ui: lang,
-
-                    // But the content will be edited in Arabic.
-                    content: lang
-                },
-                // More configuration options.
-                // ...
-            })
-            .then(editor => {
-                console.log(editor, selectorName);
-                detectFocusOut(editor, selectorName);
-            })
-            .catch(error => {
-                    // console.error(error);
-            } );
-    </script>
-@endforeach

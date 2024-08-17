@@ -407,7 +407,9 @@
         </div>
 </div>
 @push('scripts')
-    @include('admin.components.ckeditor', ['selectorId' => 'about_us'])
+    @include('admin.components.ckeditor', ['selectorIds' => [
+        'about_us' => 'about_us' 
+    ]])
     <script>
         function formatCardNumber(input) {
             // Remove all non-digit characters

@@ -68,10 +68,12 @@ class LivePageCreate extends Component
                 'title' => $this->data['title'],
                 'slug' =>  Str::slug($this->data['slug'] ?? ""),
                 'description' => $this->data['description'] ?? null,
+                'private_description' => $this->data['private_description'] ?? null,
                 'is_active' => true,
                 'created_by' => Auth::id(),
             ]);
             $this->createImage($page);
+            $this->createImage($page, 'attachment');
             $this->alert(__('messages.page_created_successfully'))->success();
             return redirect()->to(route('admin.pages.index'));
         } catch (Exception $e) {

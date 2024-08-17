@@ -7,6 +7,7 @@ use App\Enums\EnumInitialLevels;
 use App\Enums\EnumMilitaryStatus;
 use App\Enums\EnumOrderStatus;
 use App\Enums\EnumPaymentMethods;
+use App\Enums\EnumUserSituation;
 use App\Mail\VerificationEmail;
 use App\Models\Course;
 use App\Models\User;
@@ -73,7 +74,8 @@ class LiveRegister extends Component
 
     public function render()
     {
-        return view('livewire.auth.live-register')->extends('layouts.front')->section('content');
+        $situations = EnumUserSituation::getTranslatedAll();
+        return view('livewire.auth.live-register', compact('situations'))->extends('layouts.front')->section('content');
     }
 
     public function validations()
@@ -84,12 +86,18 @@ class LiveRegister extends Component
             'data.phone' => 'required|regex:/^09[0-9]{9}$/|unique:users,phone',
             'data.email' => 'required|email|unique:users,email',
             'data.password' => 'required|min:8|confirmed',
+            'data.situation' => 'required|in:' . EnumUserSituation::asStringValues(),
+            'data.university' => 'required_if:situation,' . EnumUserSituation::STUDENT,
+            'data.company_name' => 'required_if:situation,' . EnumUserSituation::EMPLOYED,
         ], [], [
             'data.first_name' => __('global.first_name'),
             'data.last_name' => __('global.last_name'),
             'data.email' =>  __('global.email'),
             'data.phone' => __('global.phone_number'),
             'data.password' => __('global.password'),
+            'data.situation' => __('global.job_status'),
+            'data.university' => __('global.university_name'),
+            'data.company_name' => __('global.company_name'),
         ]);
     }
 
@@ -124,6 +132,9 @@ class LiveRegister extends Component
 
         $user->userInfo()->create([
             'phone_1' => $this->data['phone'] ?? null,
+            'situation' => $this->data['situation'] ?? null,
+            'university' => $this->data['university'] ?? null,
+            'company_name' => $this->data['company_name'] ?? null,
         ]);
 
         $user->assignRole('user');

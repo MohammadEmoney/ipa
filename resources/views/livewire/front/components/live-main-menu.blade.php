@@ -1,7 +1,7 @@
 <nav class="navbar navbar-light bg-light navbar-expand-xl">
     <a href="{{ route('home') }}" class="navbar-brand ms-3">
         {{-- <h1 class="text-primary display-5">Environs</h1> --}}
-        <img src="{{ $logo }}" alt="" class="img-fluid" style="width: 10em;">
+        <img src="{{ $logo }}" alt="" class="img-fluid" style="width: 8em;">
         {{-- <img src="{{ asset('Impact/assets/img/ipa_logo.png') }}" alt="" class="img-fluid" style="width: 10em;"> --}}
     </a>
     <button class="navbar-toggler py-2 px-3 me-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -24,7 +24,25 @@
                 @endif
             @endforeach
             @auth
-                <livewire:auth.live-logout />
+                <ul class="navbar-nav mb-2 mb-lg-0 profile-menu"> 
+                    <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dashboard" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{{ route('user.dashboard') }}">
+                            <i class="fas fa-home fa-fw"></i> <span class="text-black">{{ __('global.dashboard') }}</span></a>
+                        </li>
+                        {{-- <li><a class="dropdown-item" href="#"><i class="fas fa-cog fa-fw"></i> Settings</a></li> --}}
+                        {{-- <li><hr class="dropdown-divider"></li> --}}
+                        {{-- <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt fa-fw"></i> Log Out</a></li> --}}
+                        <li>
+                            <livewire:auth.live-logout />
+                        </li>
+                    </ul>
+                    </li>
+                </ul>
+                
             @endauth
 
             @guest

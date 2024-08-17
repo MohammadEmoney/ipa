@@ -7,6 +7,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 trait MediaTrait
 {
+    use AlertLiveComponent;
+
     protected function createImages(User $user)
     {
         if(isset($this->data['national_card_image']) &&
@@ -199,5 +201,13 @@ trait MediaTrait
     {
         Media::find($id)?->delete();
         $this->data[$collection] = null;
+    }
+
+    public function download($collection = 'attachment')
+    {
+        $document = $this->document;
+        if($document->getFirstMedia($collection))
+            return $document->getFirstMedia($collection);
+        $this->alert(__('messages.file_not_exists'))->error();
     }
 }

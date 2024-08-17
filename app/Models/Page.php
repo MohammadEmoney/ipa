@@ -32,6 +32,8 @@ class Page extends Model implements HasMedia
         'updated_by',
         'published_at',
         'is_active',
+        'private_description',
+        'is_private',
     ];
 
     protected $casts = [
@@ -71,6 +73,14 @@ class Page extends Model implements HasMedia
     public function scopeActive($query)
     {
         $query->where('is_active', 1);
+    }
+
+    /**
+     * Active Scope
+     */
+    public function scopePrivate($query)
+    {
+        $query->where('is_private', 1);
     }
     
     /**

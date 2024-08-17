@@ -167,7 +167,10 @@
 
 
 @push('scripts')
-    @include('admin.components.ckeditor')
+    @include('admin.components.ckeditor', ['selectorIds' => [
+        'summary' => 'summary' 
+        'description' => 'description' 
+    ]])
     <script>
         $(document).ready(function () {
             function livewireSelect2(component, event) {

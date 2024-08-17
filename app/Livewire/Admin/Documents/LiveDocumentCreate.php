@@ -9,6 +9,7 @@ use App\Enums\EnumLanguages;
 use App\Traits\MediaTrait;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 
@@ -61,6 +62,7 @@ class LiveDocumentCreate extends Component
             return $this->addError('data.attachment', __('messages.document_main_image_required'));
         }
         try {
+            DB::beginTransaction();
             $document =  Document::create([
                 'lang' => $this->data['lang'] ?? app()->getLocale(),
                 'title' => $this->data['title'],
@@ -70,6 +72,7 @@ class LiveDocumentCreate extends Component
                 'created_by' => Auth::id(),
             ]);
             $this->createImage($document, 'attachment');
+            DB::commit();
             $this->alert(__('messages.document_created_successfully'))->success();
             return redirect()->to(route('admin.documents.index'));
         } catch (Exception $e) {

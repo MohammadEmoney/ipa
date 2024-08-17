@@ -32,15 +32,21 @@
                 @endif
             @endif
         </div>
-    @elseif ($settings['payment_via'] ?? "-" === "online")
-        
-    @endif
-    
-    <div class="row">
-        <div class="col-md-12">
-            <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" >
-                <span class="spinner-border spinner-border-sm" wire:loading></span> {{ __('global.pay') }}
-            </button>
+
+        <div class="row">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" >
+                    <span class="spinner-border spinner-border-sm" wire:loading></span> {{ __('global.payment_announcement') }}
+                </button>
+            </div>
         </div>
-    </div>
+    @elseif ($settings['payment_via'] ?? "-" === "online")
+        <div class="row">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" >
+                    <span class="spinner-border spinner-border-sm" wire:loading></span> {{ __('global.pay') }}
+                </button>
+            </div>
+        </div>
+    @endif
 </form>

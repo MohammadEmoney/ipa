@@ -33,8 +33,10 @@ class LivePageEdit extends Component
             'title' => $page->title,
             'slug' => $page->slug,
             'description' => $page->description,
+            'private_description' => $page->private_description,
         ];
         $this->data['mainImage'] = $page->getFirstMedia('mainImage');
+        $this->data['attachment'] = $page->getFirstMedia('attachment');
     }
 
     public function validations()
@@ -45,6 +47,7 @@ class LivePageEdit extends Component
                 'data.title' => 'required|string|min:2|max:255',
                 'data.slug' => 'required|unique:pages,slug,' . $this->page->id,
                 'data.description' => 'required|string',
+                'data.private_description' => 'nullable|string',
             ],
             [],
             [
@@ -52,6 +55,7 @@ class LivePageEdit extends Component
                 'data.title' => __('global.title'),
                 'data.slug' => __('global.slug'),
                 'data.description' =>__('global.description'),
+                'data.private_description' =>__('global.private_description'),
             ]
         );
     }
@@ -78,10 +82,12 @@ class LivePageEdit extends Component
                 'title' => $this->data['title'],
                 'slug' =>  Str::slug($this->data['slug'] ?? ""),
                 'description' => $this->data['description'] ?? null,
+                'private_description' => $this->data['private_description'] ?? null,
                 'updated_by' => Auth::id(),
             ]);
 
             $this->createImage($this->page);
+            $this->createImage($this->page, 'attachment');
             $this->alert(__('messages.page_created_successfully'))->success();
             return redirect()->to(route('admin.pages.index'));
         } catch (Exception $e) {

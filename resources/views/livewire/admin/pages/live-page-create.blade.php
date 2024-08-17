@@ -99,6 +99,47 @@
                                                     @enderror
                                                 </div>
                                             </div>
+
+                                            <div class="container my-4">
+                                                <div class="d-flex align-items-center">
+                                                    <hr class="flex-grow-1">
+                                                    <span class="mx-2">{{ __('global.private_section') }}</span>
+                                                    <hr class="flex-grow-1">
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="mb-3">
+                                                            <label for="formFile" class="form-label">{{ __('global.file') }}
+                                                                *</label>
+                                                            <input class="form-control"
+                                                                wire:model.live="data.attachment"
+                                                                type="file" id="formFile">
+                                                        </div>
+                                                    </div>
+                                                    @if (isset($data['attachment']))
+                                                        @if(method_exists($data['attachment'], 'temporaryUrl'))
+                                                            <div class="col-md-6 px-5 mb-3">
+                                                                <span><i class="ti ti-file-check text-success" style="font-size: 4rem"></i></span>
+                                                            </div>
+                                                        @endif
+                                                    @endif
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12 mb-3" wire:ignore>
+                                                    <label for="private_description" class="form-label">{{ __('global.private_description') }}</label>
+                                                    <textarea id="private_description" class="form-control" cols="30" rows="10" wire:model="data.private_description">{{ $this->data['private_description'] ?? null }}</textarea>
+                                                </div>
+                                                <div>
+                                                    @error('data.private_description')
+                                                        {{ $message }}
+                                                    @enderror
+                                                </div>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <button type="submit"
@@ -120,9 +161,11 @@
     </div>
 </div>
 
-
 @push('scripts')
-    @include('admin.components.ckeditor')
+    @include('admin.components.ckeditor', ['selectorIds' => [
+            'description' => 'description',
+            'private_description' => 'private_description',
+        ]])
     <script>
         var dir = "{{ App::isLocale('en') ? "ltr" : "rtl" }}";
         function livewireSelect2(component, event) {

@@ -11,6 +11,42 @@
                     <div class="col-md-4">
                         <input type="text" class="form-control border-info" wire:model.live.debounce.600="search" placeholder="{{ __('global.search') }} ...">
                     </div>
+                    <div class="col-md-2">
+                        <div class="accordion" id="accordionExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingFilter" wire:ignore>
+                                    <button class="accordion-button collapsed p-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                                        {{ __('global.filter') }}:
+                                    </button>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-md-12">
+                        <div id="collapseFilter" class="accordion-collapse collapse" aria-labelledby="headingFilter" data-bs-parent="#accordionExample" wire:ignore.self>
+                            <div class="accordion-body">
+                                <div class="row">
+                                    <div class="col-12 mb-3">
+                                        <button class="btn btn-info" wire:click="resetFilter()" type="button">{{ __('global.reset_filter') }}</button>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+\                                            <select  id="" class="form-control" wire:model.live="filters.situation">
+                                                <option value="">{{ __('global.job_status') }}</option>
+                                                @foreach ($situations as $key => $value )
+                                                    <option value="{{ $key }}">{{ $value }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <table class="table">
                     <thead>
@@ -19,6 +55,7 @@
                             <th scope="col">{{ __('global.full_name') }}</th>
                             <th class="text-nowrap" scope="col">{{ __('global.phone_number') }}</th>
                             <th scope="col">{{ __('global.email') }}</th>
+                            <th scope="col">{{ __('global.job_status') }}</th>
                             <th scope="col">{{ __('global.address') }}</th>
                             <th scope="col">{{ __('global.confirm_status') }}</th>
                             <th scope="col">{{ __('global.user_role') }}</th>
@@ -33,6 +70,12 @@
                                 <td class="text-nowrap cursor-pointer" wire:click="edit({{ $user->id }}, {{ $user->type }})">{{ $user->full_name }}</td>
                                 <td>{{ $user->phone }}</td>
                                 <td class="text-nowrap">{{ $user->email ?: "-" }}</td>
+                                <td class="text-nowrap">
+                                    {{ App\Enums\EnumUserSituation::trans($user->userInfo?->situation) ?: "-" }} 
+                                    @if ($user->userInfo?->situation)
+                                        ({{ $user->userInfo?->situation === App\Enums\EnumUserSituation::STUDENT ? $user->userInfo?->university : ($user->userInfo?->situation === App\Enums\EnumUserSituation::EMPLOYED ? $user->userInfo?->company_name : "-") }})
+                                    @endif
+                                </td>
                                 <td><span class="d-inline-block text-truncate" style="max-width: 100px;" title="{{ $user->userInfo?->address ?: "-" }}">{{ $user->userInfo?->address ?: "-" }}</span></td>
                                 <td class="text-nowrap text-center">
                                     <div class="form-switch">

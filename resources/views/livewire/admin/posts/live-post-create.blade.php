@@ -166,7 +166,10 @@
 
 
 @push('scripts')
-    @include('admin.components.ckeditor')
+    @include('admin.components.ckeditor', ['selectorIds' => [
+        'summary' => 'summary',
+        'description' => 'description',
+    ]])
     <script>
         var dir = "{{ App::isLocale('en') ? "ltr" : "rtl" }}";
         function livewireSelect2(component, event) {

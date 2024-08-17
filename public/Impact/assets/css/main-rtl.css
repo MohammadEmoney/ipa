@@ -2758,6 +2758,9 @@ section {
       transition: .5s;
       opacity: 0;
   }
+  .navbar .nav-item .dropdown-menu-dashboard {
+      left: 0;
+  }
 }
 
 @media (max-width: 1200px) {

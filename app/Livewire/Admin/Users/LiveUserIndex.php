@@ -2,15 +2,17 @@
 
 namespace App\Livewire\Admin\Users;
 
+use App\Enums\EnumUserSituation;
 use App\Enums\EnumUserType;
 use App\Models\User;
 use App\Traits\AlertLiveComponent;
+use App\Traits\FilterTrait;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class LiveUserIndex extends Component
 {
-    use AlertLiveComponent, WithPagination;
+    use AlertLiveComponent, WithPagination, FilterTrait;
 
     protected $listeners = [ 'destroy'];
 
@@ -88,8 +90,11 @@ class LiveUserIndex extends Component
                     });
             });
         }
+        if($situation = data_get($this->filters, 'situation')){
+            $users = $users->whereRelation('userInfo', 'situation', $situation);
+        }
         $users = $users->orderBy($this->sort, $this->sortDirection)->paginate($this->paginate);
-
-        return view('livewire.admin.users.live-user-index', compact('users'))->extends('layouts.admin-panel')->section('content');
+        $situations = EnumUserSituation::getTranslatedAll();
+        return view('livewire.admin.users.live-user-index', compact('users', 'situations'))->extends('layouts.admin-panel')->section('content');
     }
 }

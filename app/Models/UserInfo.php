@@ -23,6 +23,8 @@ class UserInfo extends Model
         'phone_1',
         'phone_2',
         'job_title',
+        'situation',
+        'university',
         'company_name',
         'company_phone',
         'company_address',

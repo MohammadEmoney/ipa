@@ -36,14 +36,6 @@ class LiveDocumentEdit extends Component
         $this->data['attachment'] = $document->getFirstMedia('attachment');
     }
 
-    public function download()
-    {
-        $document = $this->document;
-        if($document->getFirstMedia('attachment'))
-            return $document->getFirstMedia('attachment');
-        $this->alert(__('messages.file_not_exists'))->error();
-    }
-
     public function validations()
     {
         $this->validate(

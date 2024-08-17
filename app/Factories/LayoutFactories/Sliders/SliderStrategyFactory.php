@@ -8,10 +8,13 @@ use App\Strategies\LayoutStrategies\Slider\PageSliderStrategy;
 use App\Strategies\LayoutStrategies\Slider\StaticSliderStrategy;
 use App\Strategies\LayoutStrategies\Slider\TagSliderStrategy;
 use App\Strategies\LayoutStrategies\Products\SelectProductStrategy;
+use App\Strategies\LayoutStrategies\Slider\EmptySliderStrategy;
 
 class SliderStrategyFactory {
     public static function getStrategy($selectItem) {
         switch ($selectItem) {
+            case 'empty':
+                return new EmptySliderStrategy();
             case 'none':
                 return new NoneSliderStrategy();
             case 'static':

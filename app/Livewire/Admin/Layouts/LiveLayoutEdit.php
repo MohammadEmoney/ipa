@@ -94,7 +94,7 @@ class LiveLayoutEdit extends Component
         try {
             $data = Validator::make($this->data, [
                 'parent_id' => 'nullable|exists:layouts,id',
-                'title' => 'required|string|max:255',
+                'title' => 'nullable|string|max:255',
                 'description' => 'nullable|string|min:2|max:32000',
                 'tag' => 'nullable|string|max:255',
                 'type' => 'required|in:' . EnumLayoutType::asStringValues(),

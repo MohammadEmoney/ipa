@@ -30,8 +30,10 @@
                         <i class="fas fa-user"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dashboard" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{{ route('user.dashboard') }}">
-                            <i class="fas fa-home fa-fw"></i> <span class="text-black">{{ __('global.dashboard') }}</span></a>
+                        <li>
+                            <a class="dropdown-item" href="@if (Auth::user()->hasRole('user')) {{ route('user.dashboard') }} @else {{ route('admin.dashboard') }} @endif">
+                                <i class="fas fa-home fa-fw"></i> <span class="text-black">{{ __('global.dashboard') }}</span>
+                            </a>
                         </li>
                         {{-- <li><a class="dropdown-item" href="#"><i class="fas fa-cog fa-fw"></i> Settings</a></li> --}}
                         {{-- <li><hr class="dropdown-divider"></li> --}}

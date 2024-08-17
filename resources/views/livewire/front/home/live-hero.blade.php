@@ -71,15 +71,20 @@
         <div class="carousel-inner" role="listbox">
           @foreach ($sliders as $key => $slider)
             <div class="carousel-item {{ $loop->first ? "active" : "" }}">
-                <img src="{{ $slider->getFirstMediaUrl('mainImage') ?: "/Impact/assets/img/carousel-1.jpg" }}" class="img-fluid" alt="{{ $slider->title }}">
+                <img src="{{ $slider->getFirstMediaUrl('mainImage') ?: "/Impact/assets/img/carousel-1.jpg" }}" class="img-fluid" alt="{{ $slider->title ?: env('APP_NAME') }}">
                 <div class="carousel-caption">
                     <div class="p-3" style="max-width: 900px;">
-                        <h1 class="fs-1 display-1 text-capitalize text-white mb-4">{{ $slider->title }}</h1>
-                        <p class="mb-5 fs-5">{!! $slider->description !!}
-                        </p>
-                        <div class="d-flex align-items-center justify-content-center">
-                            <a class="btn-hover-bg btn btn-primary text-white py-3 px-5" href="{{ $slider->link ?: "#about" }}">{{ __('global.about_us') }}</a>
-                        </div>
+                        @if ($slider->title)
+                            <h1 class="fs-1 display-1 text-capitalize text-white mb-4">{{ $slider->title }}</h1>
+                        @endif
+                        @if ($slider->description)
+                            <p class="mb-5 fs-5">{!! $slider->description !!}</p>
+                        @endif
+                        @if ($slider->link)
+                            <div class="d-flex align-items-center justify-content-center">
+                                <a class="btn-hover-bg btn btn-primary text-white py-3 px-5" href="{{ $slider->link ?: "#about" }}">{{ __('global.about_us') }}</a>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

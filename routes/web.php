@@ -81,6 +81,9 @@ Route::group(['prefix' => '{locale?}'], function () {
                 // Route::get('/{order}', \App\Livewire\Dashboard\Orders\LiveOrderIndex::class)->name('index');
             });
 
+            Route::get('profile', \App\Livewire\Dashboard\Profiles\LiveProfileEdit::class)->name('profile.edit')->middleware('can:active_user');
+            Route::get('news', \App\Livewire\Dashboard\News\LiveNewsIndex::class)->name('news.index')->middleware('can:active_user');
+            Route::get('news/{post:slug}', \App\Livewire\Dashboard\News\LiveNewsShow::class)->name('news.show')->middleware('can:active_user');
             Route::get('documents', \App\Livewire\Dashboard\Documents\LiveDocumentIndex::class)->name('documents.index')->middleware('can:active_user');
             Route::get('documents/{document:slug}', \App\Livewire\Dashboard\Documents\LiveDocumentShow::class)->name('documents.show')->middleware('can:active_user');
             Route::get('circulars', \App\Livewire\Dashboard\Circulars\LiveCircularIndex::class)->name('circulars.index')->middleware('can:active_user');

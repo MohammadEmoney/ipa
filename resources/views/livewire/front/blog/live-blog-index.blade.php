@@ -1,5 +1,9 @@
 <div>
-    <livewire:front.components.live-breadcrumb :title="__('global.news')" :items="[['title' => __('global.home'), 'route' => route('home')], ['title' => __('global.news')]]" />
+    <livewire:front.components.live-breadcrumb 
+      :title="__('global.news')" 
+      :items="[['title' => __('global.home'), 'route' => route('home')], ['title' => __('global.news')]]" 
+      wire:key="breadcrumb-{{ $posts->currentPage() }}" 
+    />
   
     <!-- ======= Blog Section ======= -->
     <section id="blog" class="blog">
@@ -41,7 +45,7 @@
           </div><!-- End blog posts list -->
   
           <div class="blog-pagination">
-              {{ $posts->links() }}
+              {{ $posts->links('livewire::bootstrap') }}
           </div><!-- End blog pagination -->
   
         </div>

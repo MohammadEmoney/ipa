@@ -35,9 +35,11 @@ class Post extends Model implements HasMedia
         'updated_by',
         'published_at',
         'is_active',
+        'is_private',
     ];
 
     protected $casts = [
+        'is_private' => 'boolean',
         'published_at' => 'datetime',
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
@@ -114,6 +116,23 @@ class Post extends Model implements HasMedia
     public function scopeActive($query)
     {
         $query->where('is_active', 1);
+    }
+
+    /**
+     * Public Scope
+     */
+    public function scopePublic($query)
+    {
+        $query->where('is_private', 0);
+    }
+    
+
+    /**
+     * Private Scope
+     */
+    public function scopePrivate($query)
+    {
+        $query->where('is_private', 1);
     }
     
     /**

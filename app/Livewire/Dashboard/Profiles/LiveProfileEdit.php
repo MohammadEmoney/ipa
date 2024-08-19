@@ -5,6 +5,7 @@ namespace App\Livewire\Dashboard\Profiles;
 use App\Enums\EnumEducationTypes;
 use App\Enums\EnumInitialLevels;
 use App\Enums\EnumMilitaryStatus;
+use App\Enums\EnumUserSituation;
 use App\Traits\StaffTrait;
 use App\Traits\StudentTrait;
 use App\Models\Course;
@@ -27,19 +28,15 @@ class LiveProfileEdit extends Component
     use AlertLiveComponent;
     use WithFileUploads;
     use DateTrait;
-    use JobsTrait;
     use MediaTrait;
-    use StudentTrait;
-    use StaffTrait;
 
     public $step = "personalInfo";
     public $stepNumber = 1;
     public $progressValue = 0;
     public $user;
+    public $title;
     public $data;
     public $edit = true;
-    // public $editPage = true;
-    // public $haveJobReference = true;
     public $type;
     
     public $firstname;
@@ -47,10 +44,108 @@ class LiveProfileEdit extends Component
     public $disabledCreate = true;
     public $disabledEdit = true;
 
-    public function updated()
+    public function mount()
     {
-        // $this->dispatch('select2');
-        // $this->loadScripts();
+        $this->user = $user = auth()->user();
+        $this->type = $user->userInfo?->type ?: 'student';
+        $this->data['first_name'] = $user->first_name;
+        $this->data['last_name'] = $user->last_name;
+        $this->data['email'] = $user->email;
+        $this->data['phone'] = $user->phone;
+        $this->data['national_code'] = $user->userInfo?->national_code;
+        $this->data['birth_date'] = Jalalian::fromDateTime($user->userInfo?->birth_date)->format('Y-m-d');
+        $this->data['phone_1'] = $user->userInfo?->phone_1;
+        $this->data['phone_2'] = $user->userInfo?->phone_2;
+        $this->data['address'] = $user->userInfo?->address;
+        $this->data['job_title'] = $user->userInfo?->job_title;
+        $this->data['situation'] = $user->userInfo?->situation;
+        $this->data['education'] = $user->userInfo?->education;
+        $this->data['university'] = $user->userInfo?->university;
+        $this->data['company_name'] = $user->userInfo?->company_name;
+
+        $this->data['avatar'] = $this->user->getFirstMedia('avatar');
+        $this->data['nationalCard'] = $this->user->getFirstMedia('nationalCard');
+        $this->data['license'] = $this->user->getFirstMedia('license');
+
+        $this->title = __('global.edit_profile');
+    }
+
+    public function validations()
+    {
+        $this->validate([
+            'data.first_name' => 'required|string|max:255',
+            'data.last_name' => 'required|string|max:255',
+            // 'data.landline_phone' => 'nullable|regex:/^0[0-9]{10}$/',
+            'data.phone' => 'required|regex:/^09[0-9]{9}$/|unique:users,phone,' . $this->user->id,
+            // 'data.phone_2' => 'required|regex:/^09[0-9]{9}$/',
+            'data.address' => 'nullable|string|max:2550',
+            // 'data.job' => 'nullable|string|max:255',
+            // 'data.education' => 'nullable|string|max:255',
+            'data.email' => 'required|email|max:255|unique:users,email,' . $this->user->id,
+            'data.password' => 'nullable|confirmed|min:8|max:255',
+            // 'data.gender' => 'required|in:male,female|max:255',
+            // 'data.avatar' => 'nullable|image|max:2048',
+            'data.situation' => 'required|in:' . EnumUserSituation::asStringValues(),
+            'data.university' => 'required_if:situation,' . EnumUserSituation::STUDENT,
+            'data.company_name' => 'required_if:situation,' . EnumUserSituation::EMPLOYED,
+        ],[],
+        [
+            'data.father_name' => 'نام پدر',
+            'data.birth_date' => 'تاریخ تولد',
+            'data.national_code' => 'کد ملی',
+            'data.landline_phone' => 'شماره تلفن',
+            'data.phone_1' => 'شماره موبایل 1',
+            'data.phone_2' => 'شماره موبایل 2',
+            'data.address' => __('global.address'),
+            'data.avatar' => __('global.upload_image'),
+            'data.first_name' => __('global.first_name'),
+            'data.last_name' => __('global.last_name'),
+            'data.email' =>  __('global.email'),
+            'data.phone' => __('global.phone_number'),
+            'data.password' => __('global.password'),
+            'data.role' => __('global.user_role'),
+            'data.gender' => __('global.gender'),
+            'data.situation' => __('global.job_status'),
+            'data.university' => __('global.university_name'),
+            'data.company_name' => __('global.company_name'),
+        ]);
+    }
+
+    public function submit()
+    {
+        try {
+            $this->validations();
+            $user = $this->user;
+            $user->update([
+                'first_name' => $this->data['first_name'] ?? null,
+                'last_name' => $this->data['last_name'] ?? null,
+                'email' => $this->data['email'] ?? null,
+                'phone' => $this->data['phone'] ?? null,
+            ]);
+
+            $user->userInfo()->update([
+                'national_code' => $this->data['national_code'] ?? null,
+                'birth_date' => isset($this->data['birth_date']) ? $this->convertToGeorgianDate($this->data['birth_date']) : null,
+                'landline_phone' => $this->data['landline_phone'] ?? null,
+                'phone_1' => $this->data['phone'] ?? null,
+                'phone_2' => $this->data['phone_2'] ?? null,
+                'address' => $this->data['address'] ?? null,
+                'job_title' => $this->data['job_title'] ?? null,
+                'company_name' => $this->data['company_name'] ?? null,
+                'company_phone' => $this->data['company_phone'] ?? null,
+                'company_address' => $this->data['company_address'] ?? null,
+                'education' => $this->data['education'] ?? null,
+                'situation' => $this->data['situation'] ?? null,
+                'university' => $this->data['university'] ?? null,
+            ]);
+
+            $this->createImage($user, 'avatar');
+            $this->createImage($user, 'nationalCard');
+            $this->createImage($user, 'license');
+            $this->alert(__('messages.profile_updated_successfully'))->success();
+        } catch (\Exception $e) {
+            $this->alert($e->getMessage())->error();
+        }
     }
 
     public function loadScripts()
@@ -58,106 +153,10 @@ class LiveProfileEdit extends Component
         $this->dispatch('persianDate');
     }
 
-    public function mount()
-    {
-        $this->user = $user = auth()->user();
-        $this->type = $user->userInfo?->type ?: 'student';
-        $this->data['first_name'] = $user->first_name;
-        $this->data['last_name'] = $user->last_name;
-        $this->data['national_code'] = $user->national_code;
-        $this->data['gender'] = $this->user->userInfo->gender;
-        $this->data['email'] = $user->email;
-        $this->data['phone'] = $user->phone;
-        $this->data['father_name'] = $user->userInfo->father_name;
-        $this->data['birth_date'] = Jalalian::fromDateTime($this->user->userInfo->birth_date)->format('Y-m-d');
-        $this->data['register_date'] = Jalalian::fromDateTime($this->user->userInfo->register_date)->format('Y-m-d');
-        $this->data['landline_phone'] = $user->userInfo->landline_phone;
-        $this->data['mobile_1'] = $user->userInfo->mobile_1;
-        $this->data['mobile_2'] = $user->userInfo->mobile_2;
-        $this->data['address'] = $user->userInfo->address;
-        $this->data['job'] = $user->userInfo->job;
-        $this->data['education'] = $user->userInfo->education;
-        $this->data['preferd_course'] = $user->userInfo->preferd_course;
-        $this->data['initial_level'] = $user->userInfo->initial_level;
-        $this->data['email'] = $user->userInfo->email;
-        $this->data['refferal_name'] = $user->userInfo->refferal_name;
-        $this->data['refferal_national_code'] = $user->userInfo->refferal_national_code;
-        $this->data['refferal_phone'] = $user->userInfo->refferal_phone;
-        $this->data['mariage_status'] = $user->userInfo->mariage_status;
-        $this->data['military_status'] = $user->userInfo->military_status;
-
-        $this->data['national_card_image'] = $this->user->getFirstMedia('national_card');
-        $this->data['personal_image'] = $this->user->getFirstMedia('personal_image');
-        $this->data['id_first_page_image'] = $this->user->getFirstMedia('id_first_page');
-        $this->data['id_second_page_image'] = $this->user->getFirstMedia('id_second_page');
-        $this->data['document_image_1'] = $this->user->getFirstMedia('document_1');
-        $this->data['document_image_2'] = $this->user->getFirstMedia('document_2');
-        $this->data['document_image_3'] = $this->user->getFirstMedia('document_3');
-        $this->data['document_image_4'] = $this->user->getFirstMedia('document_4');
-        $this->data['document_image_5'] = $this->user->getFirstMedia('document_5');
-        $this->data['document_image_6'] = $this->user->getFirstMedia('document_6');
-        $this->data['document_image_7'] = $this->user->getFirstMedia('document_7');
-        $this->data['document_image_8'] = $this->user->getFirstMedia('document_8');
-
-        foreach($this->user->jobReferences as $job)
-            $this->tempJobs[$job->id] = [
-                "id" => $job->id,
-                "user_id" => $job->user_id,
-                "company_name" => $job->company_name,
-                "role" => $job->role,
-                "date_start" => Jalalian::fromDateTime($job->date_start)->format('Y-m-d'),
-                "date_end" => Jalalian::fromDateTime($job->date_end)->format('Y-m-d'),
-                "description" => $job->description,
-            ];
-            // $this->tempJobs[$job->id] = $job->toArray();
-
-        if(!$this->user->register_complete){
-            $this->alert($this->user->first_name . ' عزیز لطفا برای استفاده از خدمات وبسایت ابتدا اطلاعات کاربری خود را تکمیل نمایید.')->error();
-        }
-    }
-
-    public function setStep ( $step, $stepNumber )
-    {
-        $this->step = $step;
-        $this->stepNumber = $stepNumber;
-        $this->progressValue = ($stepNumber - 1) * 100 / 2;
-        $this->loadScripts();
-    }
-
-    public function completeRegistration (  )
-    {
-        $user = $this->user;
-        if(
-            $user &&
-            $user->userInfo->type === "staff" &&
-            $user->user_info->gender &&
-            $user->user_info->father_name &&
-            $user->user_info->birth_date &&
-            $user->user_info->mobile_1 &&
-            $user->user_info->mobile_2 &&
-            $user->user_info->address &&
-            $user->user_info->job &&
-            $user->user_info->education &&
-            $user->user_info->email &&
-            $user->user_info->mariage_status &&
-            $user->getFirstMedia('national_card') &&
-            $user->getFirstMedia('personal_image') &&
-            $user->getFirstMedia('id_first_page') &&
-            $user->getFirstMedia('id_second_page') &&
-            $user->getFirstMedia('document_1') &&
-            $user->getFirstMedia('document_2') &&
-            $user->getFirstMedia('document_3')
-        ){
-            $user->update(['register_complete' => true]);
-        }
-    }
-
     public function render()
     {
         $educations = EnumEducationTypes::getTranslatedAll();
-        $courses = Course::active()->get();
-        $initialLevels = EnumInitialLevels::getTranslatedAll();
-        $militaryStatuses = EnumMilitaryStatus::getTranslatedAll();
-        return view('livewire.dashboard.profiles.live-profile-edit', compact('initialLevels', 'courses', 'educations', 'militaryStatuses'));
+        $situations = EnumUserSituation::getTranslatedAll();
+        return view('livewire.dashboard.profiles.live-profile-edit', compact('situations', 'educations'))->extends('layouts.panel')->section('content');
     }
 }

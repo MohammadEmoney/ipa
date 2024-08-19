@@ -34,6 +34,8 @@ class LivePostEdit extends Component
             'slug' => $post->slug,
             'summary' => $post->summary,
             'description' => $post->description,
+            'is_active' => $post->is_active ? true : false,
+            'is_private' => $post->is_private ? true : false,
             'category_id' => $post->mainCategory?->first()?->id,
             'categories' => $post->categories->pluck('id')->toArray(),
         ];
@@ -88,6 +90,8 @@ class LivePostEdit extends Component
                 'lang' => $this->data['lang'],
                 'title' => $this->data['title'],
                 'slug' =>  Str::slug($this->data['slug'] ?? ""),
+                'is_private' => $this->data['is_private'] ?? false,
+                'is_active' => $this->data['is_active'] ?? false,
                 'summary' => $this->data['summary'] ?? 0,
                 'description' => $this->data['description'] ?? null,
                 'updated_by' => Auth::id(),

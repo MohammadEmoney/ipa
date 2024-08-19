@@ -97,6 +97,7 @@
                             <th scope="col">{{ __('global.published_at') }}</th>
                             <th scope="col">{{ __('global.created_at') }}</th>
                             <th scope="col">{{ __('global.active') }}</th>
+                            <th scope="col">{{ __('global.is_private') }}</th>
                             <th scope="col">{{ __('global.actions') }}</th>
                         </tr>
                     </thead>
@@ -121,6 +122,11 @@
                                 <td class="text-nowrap">
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" @checked($post->is_active) wire:click="changeActiveStatus({{ $post->id }})">
+                                    </div>
+                                </td>
+                                <td class="text-nowrap">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" @checked($post->is_private) wire:click="changeAccessStatus({{ $post->id }})">
                                     </div>
                                 </td>
                                 <td class="text-nowrap">

@@ -61,6 +61,15 @@
                     </li>
 
                     <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('user.news.index') }}" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-article"></i>
+                            </span>
+                            <span class="hide-menu">{{ __('global.news') }}</span>
+                        </a>
+                    </li>
+
+                    <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('user.critics.index') }}" aria-expanded="false">
                             <span>
                                 <i class="ti ti-message-dots"></i>
@@ -74,6 +83,14 @@
                     <span class="hide-menu">{{ __('global.settings') }}</span>
                 </li>
                 <li class="sidebar-item">
+                    <a class="sidebar-link" href="{{ route('user.profile.edit') }}" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-user"></i>
+                        </span>
+                        <span class="hide-menu">{{ __('global.profile') }}</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
                     <a class="sidebar-link" href="{{ route('user.users.password') }}" aria-expanded="false">
                         <span>
                             <i class="ti ti-key"></i>
@@ -81,6 +98,7 @@
                         <span class="hide-menu">{{ __('global.password') }}</span>
                     </a>
                 </li>
+                
                 <li class="nav-small-cap">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">{{ __('global.lang') }}</span>

@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="mb-3">
                             <label for="phoneInputtext1" class="form-label">{{ __('global.phone_number') }}
                                 *</label>
@@ -42,9 +42,7 @@
                             <div>@error('data.phone') {{ $message }} @enderror</div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">{{ __('global.email') }} *</label>
                             <input type="email" autocomplete="username" class="form-control" wire:model="data.email"
@@ -52,6 +50,42 @@
                             <div>@error('data.email') {{ $message }} @enderror</div>
                         </div>
                     </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="exampleInputtext1"
+                                class="form-label">{{ __('global.job_status') }} *</label>
+                            <select  id="" class="form-control" wire:model.live="data.situation">
+                                <option value="">{{ __('global.select_item') }}</option>
+                                @foreach ($situations as $key => $value )
+                                    <option value="{{ $key }}">{{ $value }}</option>
+                                @endforeach
+                            </select>
+                            <div>@error('data.situation') {{ $message }} @enderror</div>
+                        </div>
+                    </div>
+                    @if(isset($data['situation']) && $data['situation'] === "student")
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="university" class="form-label">{{ __('global.university_name') }}
+                                    *</label>
+                                <input type="text" class="form-control" wire:model="data.university"
+                                    id="university" aria-describedby="textHelp" placeholder="{{ __('global.example') }}: {{ __('global.university_of_tehran') }}">
+                                <div>@error('data.university') {{ $message }} @enderror</div>
+                            </div>
+                        </div>
+                    @elseif (isset($data['situation']) && $data['situation'] === "employed")
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="company" class="form-label">{{ __('global.company_name') }}
+                                    *</label>
+                                <input type="text" class="form-control" wire:model="data.company_name"
+                                    id="company" aria-describedby="textHelp" placeholder="{{ __('global.company_name') }}">
+                                <div>@error('data.company_name') {{ $message }} @enderror</div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
           </div>

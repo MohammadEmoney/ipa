@@ -6,9 +6,12 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class LiveBlogIndex extends Component
 {
+    use WithPagination;
+
     public $paginate = 9;
     public $sort = 'created_at';
     public $sortDirection = 'DESC';
@@ -29,7 +32,7 @@ class LiveBlogIndex extends Component
 
     public function render()
     {
-        $posts = Post::query()->active()->lang()->with(['categories', 'mainCategory', 'createdBy']);
+        $posts = Post::query()->active()->public()->lang()->with(['categories', 'mainCategory', 'createdBy']);
         $search = trim($this->search);
         if($search && mb_strlen($search) > 2){
             $posts = $posts->where(function($query) use ($search){

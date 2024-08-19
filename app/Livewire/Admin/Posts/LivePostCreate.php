@@ -27,6 +27,9 @@ class LivePostCreate extends Component
     public function mount()
     {
         $this->title = __('global.create_post');
+        $this->data = [
+            'is_active' => true,
+        ];
     }
 
     public function validations()
@@ -78,7 +81,8 @@ class LivePostCreate extends Component
                 'slug' =>  Str::slug($this->data['slug'] ?? ""),
                 'summary' => $this->data['summary'] ?? 0,
                 'description' => $this->data['description'] ?? null,
-                'is_active' => true,
+                'is_private' => $this->data['is_private'] ?? false,
+                'is_active' => $this->data['is_active'] ?? false,
                 'created_by' => Auth::id(),
             ]);
 

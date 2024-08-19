@@ -217,5 +217,11 @@ return [
     'payment_announcement' => 'اعلام پرداخت',
     'private_description' => 'توضیحات خصوصی',
     'private_section' => 'بخش خصوصی',
+    'profile' => 'پروفایل',
+    'edit_profile' => 'ویرایش پروفایل',
+    'exclusive' => 'اختصاصی',
+    'is_private' => 'وضعیت دسترسی',
+    'private' => 'اختصاصی',
+    'public' => 'عمومی',
     '' => '',
 ];

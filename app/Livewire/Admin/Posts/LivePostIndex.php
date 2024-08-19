@@ -71,6 +71,15 @@ class LivePostIndex extends Component
         }
     }
 
+    public function changeAccessStatus($id)
+    {
+        $post = Post::find($id);
+        if($post){
+            $post->update(['is_private' => !$post->is_private]);
+            $this->alert(__('messages.updated_successfully'))->success();
+        }
+    }
+
     public function updatedSearch()
     {
         $this->resetPage();

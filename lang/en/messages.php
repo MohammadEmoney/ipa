@@ -9,6 +9,7 @@ return [
     'not_have_access' => 'You don\'t have access to this part!',
     'password_changed' => 'Password updated successfully',
     'current_password_not_correct' => 'Current Password is not correct.',
+    'profile_updated_successfully' => 'Profile updated successfully',
     'post_deleted' => 'Post has been deleted',
     'post_not_deleted' => 'Post hasn\'t been deleted',
     'post_main_image_required' => 'The main image is required.',

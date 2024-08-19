@@ -9,6 +9,7 @@ return [
     'not_have_access' => 'شما اجازه دسترسی به این بخش را ندارید!',
     'password_changed' => 'رمز عبور با موفقیت تغییر یافت.',
     'current_password_not_correct' => 'رمز فعلی صحیح نمی باشد.',
+    'profile_updated_successfully' => 'پروفایل با موفقیت بروزرسانی شد',
     'post_deleted' => 'مقاله حذف شد',
     'post_not_deleted' => 'مقاله حذف نشد',
     'post_main_image_required' => 'تصویر اصلی الزامی می باشد.',

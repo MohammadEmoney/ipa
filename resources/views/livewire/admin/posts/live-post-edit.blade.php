@@ -52,13 +52,33 @@
                                             <div class="row">
                                                 <div class="col-md-6 mb-3">
                                                     <label for="exampleInputtext1" class="form-label">{{ __('global.lang') }}</label>
-                                                        <select id="langs" class="form-control"
-                                                            wire:model.live="data.lang">
-                                                            <option value="">{{ __('global.select_item') }}</option>
-                                                            @foreach ($langs as $key => $value)
-                                                                <option value="{{ $key }}">{{ $value }}</option>
-                                                            @endforeach
-                                                        </select>
+                                                    <select id="langs" class="form-control"
+                                                        wire:model.live="data.lang">
+                                                        <option value="">{{ __('global.select_item') }}</option>
+                                                        @foreach ($langs as $key => $value)
+                                                            <option value="{{ $key }}">{{ $value }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group mb-3">
+                                                        <label class="form-label">{{ __('global.is_active') }}</label>
+                                                        <div class="form-check form-switch d-flex ps-0 {{ app()->getLocale() === "en" ? "" : "flex-row-reverse justify-content-end" }}">
+                                                            <label class="form-check-label" for="flexSwitchCheckDefault">{{ __('global.inactive') }}</label>
+                                                            <input class="form-check-input mx-2" type="checkbox" role="switch" id="flexSwitchCheckDefault" wire:model.defer="data.is_active">
+                                                            <label class="form-check-label" for="flexSwitchCheckDefault">{{ __('global.active') }}</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group mb-3">
+                                                        <label class="form-label">{{ __('global.is_private') }}</label>
+                                                        <div class="form-check form-switch d-flex ps-0 {{ app()->getLocale() === "en" ? "" : "flex-row-reverse justify-content-end" }}">
+                                                            <label class="form-check-label" for="flexSwitchCheckDefault">{{ __('global.public') }}</label>
+                                                            <input class="form-check-input mx-2" type="checkbox" role="switch" id="flexSwitchCheckDefault" wire:model.defer="data.is_private">
+                                                            <label class="form-check-label" for="flexSwitchCheckDefault">{{ __('global.private') }}</label>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-6 mb-3">
                                                     <div class="" wire:ignore>
@@ -168,7 +188,7 @@
 
 @push('scripts')
     @include('admin.components.ckeditor', ['selectorIds' => [
-        'summary' => 'summary' 
+        'summary' => 'summary',
         'description' => 'description' 
     ]])
     <script>

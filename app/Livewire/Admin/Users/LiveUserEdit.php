@@ -2,19 +2,13 @@
 
 namespace App\Livewire\Admin\Users;
 
-use App\Enums\EnumEducationTypes;
-use App\Enums\EnumInitialLevels;
-use App\Enums\EnumMilitaryStatus;
 use App\Enums\EnumUserRoles;
-use App\Enums\EnumUserType;
-use App\Models\Course;
-use App\Models\JobReference;
+use App\Enums\EnumUserSituation;
 use App\Models\User;
-use App\Rules\JDate;
-use App\Rules\ValidNationalCode;
 use App\Traits\AlertLiveComponent;
 use App\Traits\DateTrait;
 use App\Traits\MediaTrait;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -86,6 +80,9 @@ class LiveUserEdit extends Component
         $this->data['compnay_name'] = $this->user->userInfo?->compnay_name;
         $this->data['compnay_address'] = $this->user->userInfo?->compnay_address;
         $this->data['compnay_phone'] = $this->user->userInfo?->compnay_phone;
+        $this->data['situation'] = $this->user->userInfo?->situation;
+        $this->data['university'] = $this->user->userInfo?->university;
+        $this->data['company_name'] = $this->user->userInfo?->company_name;
 
         $this->data['avatar'] = $this->user->getFirstMedia('avatar');
         $this->data['nationalCard'] = $this->user->getFirstMedia('nationalCard');
@@ -117,6 +114,9 @@ class LiveUserEdit extends Component
             // 'data.gender' => 'required|in:male,female|max:255',
             // 'data.avatar' => 'nullable|image|max:2048',
             'data.role' =>  'required|exists:roles,name',
+            'data.situation' => 'required|in:' . EnumUserSituation::asStringValues(),
+            'data.university' => 'required_if:situation,' . EnumUserSituation::STUDENT,
+            'data.company_name' => 'required_if:situation,' . EnumUserSituation::EMPLOYED,
         ],[],
         [
             'data.father_name' => 'نام پدر',
@@ -134,49 +134,62 @@ class LiveUserEdit extends Component
             'data.password' => __('global.password'),
             'data.role' => __('global.user_role'),
             'data.gender' => __('global.gender'),
+            'data.situation' => __('global.job_status'),
+            'data.university' => __('global.university_name'),
+            'data.company_name' => __('global.company_name'),
         ]);
     }
 
     public function submit()
     {
-        $this->authorize('user_edit');
-        $this->validations();
-        $user = $this->user;
-        $user->update([
-            'first_name' => $this->data['first_name'] ?? null,
-            'last_name' => $this->data['last_name'] ?? null,
-            'email' => $this->data['email'] ?? null,
-            'phone' => $this->data['phone'] ?? null,
-        ]);
+        try {
+            $this->authorize('user_edit');
+            $this->validations();
+            DB::beginTransaction();
+            $user = $this->user;
+            $user->update([
+                'first_name' => $this->data['first_name'] ?? null,
+                'last_name' => $this->data['last_name'] ?? null,
+                'email' => $this->data['email'] ?? null,
+                'phone' => $this->data['phone'] ?? null,
+            ]);
 
-        if(isset($this->data['password']))
-            $user->update(['password' => Hash::make($this->data['password'])]);
+            if(isset($this->data['password']))
+                $user->update(['password' => Hash::make($this->data['password'])]);
 
-        $user->userInfo()->update([
-            'national_code' => $this->data['national_code'] ?? null,
-            'birth_date' => isset($this->data['birth_date']) ? $this->convertToGeorgianDate($this->data['birth_date']) : null,
-            'landline_phone' => $this->data['landline_phone'] ?? null,
-            'phone_1' => $this->data['phone_1'] ?? null,
-            'phone_2' => $this->data['phone_2'] ?? null,
-            'address' => $this->data['address'] ?? null,
-            'job_title' => $this->data['job_title'] ?? null,
-            'company_name' => $this->data['company_name'] ?? null,
-            'company_phone' => $this->data['company_phone'] ?? null,
-            'company_address' => $this->data['company_address'] ?? null,
-            'education' => $this->data['education'] ?? null,
-        ]);
+            $user->userInfo()->update([
+                'national_code' => $this->data['national_code'] ?? null,
+                'birth_date' => isset($this->data['birth_date']) ? $this->convertToGeorgianDate($this->data['birth_date']) : null,
+                'landline_phone' => $this->data['landline_phone'] ?? null,
+                'phone_1' => $this->data['phone_1'] ?? null,
+                'phone_2' => $this->data['phone_2'] ?? null,
+                'address' => $this->data['address'] ?? null,
+                'job_title' => $this->data['job_title'] ?? null,
+                'company_name' => $this->data['company_name'] ?? null,
+                'company_phone' => $this->data['company_phone'] ?? null,
+                'company_address' => $this->data['company_address'] ?? null,
+                'education' => $this->data['education'] ?? null,
+                'situation' => $this->data['situation'] ?? null,
+                'university' => $this->data['university'] ?? null,
+            ]);
 
-        $this->createImage($user, 'avatar');
+            $this->createImage($user, 'avatar');
+            $this->createImage($user, 'nationalCode');
+            $this->createImage($user, 'lisence');
 
-        $user->syncRoles($this->data['role'] ?? EnumUserRoles::USER);
-        $selectedPermissions = collect($this->data['direct_permissions'])->map(function($value, $key){
-            if($value)
-                return $key;
-        })->filter();
-        $permissions = Permission::whereIn('id', $selectedPermissions)->pluck('name');
-        $user->syncPermissions($permissions);
-        $this->alert(__('messages.user_updated_successfully'))->success();
-        return redirect()->to(route('admin.users.index'));
+            $user->syncRoles($this->data['role'] ?? EnumUserRoles::USER);
+            $selectedPermissions = collect($this->data['direct_permissions'])->map(function($value, $key){
+                if($value)
+                    return $key;
+            })->filter();
+            $permissions = Permission::whereIn('id', $selectedPermissions)->pluck('name');
+            $user->syncPermissions($permissions);
+            DB::commit();
+            $this->alert(__('messages.user_updated_successfully'))->success();
+            return redirect()->to(route('admin.users.index'));
+        } catch (\Exception $e) {
+            $this->alert($e->getMessage())->error();
+        }
     }
 
     public function deleteMedia($id, $collection)
@@ -189,6 +202,7 @@ class LiveUserEdit extends Component
     {
         $roles = Role::get();
         $permissions = Permission::get();
-        return view('livewire.admin.users.live-user-edit', compact('roles', 'permissions'))->extends(('layouts.admin-panel'))->section('content');
+        $situations = EnumUserSituation::getTranslatedAll();
+        return view('livewire.admin.users.live-user-edit', compact('roles', 'permissions', 'situations'))->extends(('layouts.admin-panel'))->section('content');
     }
 }

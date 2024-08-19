@@ -217,5 +217,11 @@ return [
     'payment_announcement' => 'payment announcement',
     'private_description' => 'Private Description',
     'private_section' => 'Private Section',
+    'profile' => 'Profile',
+    'edit_profile' => 'Edit Profile',
+    'exclusive' => 'Exclusive',
+    'is_private' => 'Access Status',
+    'private' => 'Private',
+    'public' => 'Public',
     '' => '',
 ];

@@ -32,7 +32,8 @@
             placeholder: "{{ __('global.select_item') }}",
             dir: dir,
             containerCssClass: 'select-sm',
-            allowClear: !0
+            allowClear: !0,
+            width: "100%"
         });
     });
 </script>

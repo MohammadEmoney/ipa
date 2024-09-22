@@ -35,7 +35,7 @@
                                 <div class="row mb-3">
                                     <div class="col-md-4">
                                         <div class="mb-3">
-\                                            <select  id="" class="form-control" wire:model.live="filters.situation">
+                                            <select  id="" class="form-control" wire:model.live="filters.situation">
                                                 <option value="">{{ __('global.job_status') }}</option>
                                                 @foreach ($situations as $key => $value )
                                                     <option value="{{ $key }}">{{ $value }}</option>

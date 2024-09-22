@@ -252,10 +252,11 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col-md-12 mb-3">
+                                                                <div class="col-md-12 mb-3" wire:ignore>
                                                                     <label for="exampleInputtext1" class="form-label">{{ __('global.payment_via') }}</label>
-                                                                        <select id="payment_via" class="form-control"
-                                                                            wire:model.live="data.payment_via">
+                                                                        <select id="payment_via" class="form-control select2"
+                                                                            onchange="livewireSelect2Multi('data.payment_via', this)"
+                                                                            wire:model.live="data.payment_via" multiple>
                                                                             <option value="">{{ __('global.select_item') }}</option>
                                                                             @foreach ($paymentMethods as $key => $value)
                                                                                 <option value="{{ $key }}">{{ $value }}</option>
@@ -358,29 +359,6 @@
                                                                         @endif
                                                                     @endif
                                                                 </div>
-                                                                {{-- <div class="col-md-6">
-                                                                    <div class="mb-3">
-                                                                        <label for="formFile" class="form-label">{{ __('global.register') }}</label>
-                                                                        <input class="form-control" wire:model.live="data.register" type="file" id="formFile">
-                                                                        <div>
-                                                                            @error('data.register')
-                                                                                {{ $message }}
-                                                                            @enderror
-                                                                        </div>
-                                                                    </div>
-                                                                    @if (isset($data['register']) && !empty($data['register']))
-                                                                        @if(method_exists($data['register'], 'temporaryUrl'))
-                                                                            <div class="col-md-12 px-5 mb-3">
-                                                                                <img src="{{ $data['register']->temporaryUrl() }}" style="max-width: 100px">
-                                                                            </div>
-                                                                        @else
-                                                                            <div class="col-md-12 px-5 mb-3">
-                                                                                <img src="{{ $data['register']->getUrl() }}" style="max-width: 100px">
-                                                                                <span class="fs-4 position-absolute text-danger cursor-pointer" wire:click="deleteMedia({{ $data['register']->id }}, 'register')"><i class="ti ti-trash"></i></span>
-                                                                            </div>
-                                                                        @endif
-                                                                    @endif
-                                                                </div> --}}
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-md-6">
@@ -411,6 +389,23 @@
         'about_us' => 'about_us' 
     ]])
     <script>
+        function livewireSelect2Multi(component, event) {
+            var selectedValues = [];
+            $(event).find('option:selected').each(function () {
+                selectedValues.push($(this).val());
+            });
+            @this.set(component, selectedValues)
+        }
+
+        var data = [];
+        var categoryIds = {!! json_encode($data['payment_via']?? []) !!};
+        $.each(categoryIds, function (key, value) {
+            data.push(value);
+        });
+
+        $('#payment_via').val(data).trigger('change');
+
+
         function formatCardNumber(input) {
             // Remove all non-digit characters
             let value = input.value.replace(/\D/g, '');

@@ -66,6 +66,7 @@ class LiveLayoutCreate extends Component
             $data = Validator::make($this->data, [
                 'parent_id' => 'nullable|exists:layouts,id',
                 'title' => 'nullable|string|max:255',
+                'button_title' => 'nullable|string|max:255',
                 'description' => 'nullable|string|min:2|max:32000',
                 'tag' => 'nullable|string|max:255',
                 'type' => 'required|in:' . EnumLayoutType::asStringValues(),
@@ -155,6 +156,7 @@ class LiveLayoutCreate extends Component
                 'parent_id' => $this->data['parent_id'] ?? null,
                 'layout_group_id' => $this->layoutGroup->id,
                 'title' => $this->data['title'],
+                'button_title' => $this->data['button_title'] ?? null,
                 'description' => $this->data['description'] ?? null,
                 'tag' => $this->data['taggable'] ?? '',
                 'type' => $this->data['type'],

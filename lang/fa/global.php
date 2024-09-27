@@ -223,5 +223,6 @@ return [
     'is_private' => 'وضعیت دسترسی',
     'private' => 'اختصاصی',
     'public' => 'عمومی',
+    'button_title' => 'عنوان دکمه',
     '' => '',
 ];

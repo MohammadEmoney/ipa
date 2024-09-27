@@ -40,6 +40,7 @@ class LiveLayoutEdit extends Component
     public function load()
     {
         $this->data['title'] = $this->layout->title;
+        $this->data['button_title'] = $this->layout->button_title;
         $this->data['parent_id'] = $this->layout->parent_id;
         $this->data['description'] = $this->layout->description;
         $this->data['icon'] = $this->layout->icon;
@@ -95,6 +96,7 @@ class LiveLayoutEdit extends Component
             $data = Validator::make($this->data, [
                 'parent_id' => 'nullable|exists:layouts,id',
                 'title' => 'nullable|string|max:255',
+                'button_title' => 'nullable|string|max:255',
                 'description' => 'nullable|string|min:2|max:32000',
                 'tag' => 'nullable|string|max:255',
                 'type' => 'required|in:' . EnumLayoutType::asStringValues(),
@@ -184,6 +186,7 @@ class LiveLayoutEdit extends Component
                 'parent_id' => $this->data['parent_id'] ?? null,
                 'layout_group_id' => $this->layoutGroup->id,
                 'title' => $this->data['title'],
+                'button_title' => $this->data['button_title'] ?? null,
                 'description' => $this->data['description'] ?? null,
                 'tag' => $this->data['taggable'] ?? '',
                 'type' => $this->data['type'],

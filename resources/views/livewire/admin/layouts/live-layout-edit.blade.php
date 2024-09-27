@@ -132,6 +132,22 @@
                                             </div>
 
                                             <div class="row">
+                                                <div class="col-md-6">
+                                                   <div class="mb-3">
+                                                       <label for="exampleInputtext1" class="form-label">{{ __('global.button_title') }}</label>
+                                                       <input type="text" class="form-control"
+                                                           wire:model.blur="data.button_title" id="exampleInputtext1"
+                                                           aria-describedby="textHelp" placeholder="{{ __('global.button_title') }}">
+                                                       <div>
+                                                           @error('data.button_title')
+                                                               {{ $message }}
+                                                           @enderror
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                           </div>
+
+                                            <div class="row">
                                                 <div class="col-md-12 mb-3" wire:ignore>
                                                     <label for="description" class="form-label">{{ __('global.description') }}</label>
                                                     <textarea id="description" class="form-control" cols="30" rows="10" wire:model="data.description">{{ $this->data['description'] ?? null }}</textarea>

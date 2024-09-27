@@ -223,5 +223,6 @@ return [
     'is_private' => 'Access Status',
     'private' => 'Private',
     'public' => 'Public',
+    'button_title' => 'Button Title',
     '' => '',
 ];

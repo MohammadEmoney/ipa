@@ -25,6 +25,7 @@ class Layout extends Model implements HasMedia
         'data',
         'title',
         'description',
+        'button_title',
         'release_type',
         'start_date_release',
         'end_date_release',

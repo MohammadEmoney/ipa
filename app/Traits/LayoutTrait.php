@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Enums\EnumLayoutReleaseType;
 use App\Factories\LayoutFactories\Articles\ArticleStrategyFactory;
 use App\Factories\LayoutFactories\Menu\MenuStrategyFactory;
 use App\Factories\LayoutFactories\Products\ProductStrategyFactory;
@@ -53,7 +54,17 @@ trait LayoutTrait
             $sliders = $sliders->map(function($value, $key){
                 $data = $value->data;
                 $limit = $value->count_list;
-                if($value->end_date_release === null || $value->end_date_release >= now()){
+                if (
+                    $value->is_active &&
+                    (
+                        $value->release_type === EnumLayoutReleaseType::RELEASE || 
+                        (
+                            $value->release_type === 'date' && 
+                            $value->end_date_release >= now() && 
+                            $value->start_date_release <= now()
+                        )
+                    )
+                ) {
                     if($value->end_date_release){
                         $date = Carbon::parse($value->end_date_release);
                         $value->year = $date->year;
@@ -107,11 +118,12 @@ trait LayoutTrait
                             }
                         }
                     }
+                    return $value;
                 }
-                return $value;
-            });
-            if(!empty($limit) || !empty($layoutGroup->count_list))
-                $sliders=$sliders->take($limit ?: $layoutGroup->count_list);
+                return null;
+            })->filter();
+            // if(!empty($limit) || !empty($layoutGroup->count_list))
+            //     $sliders=$sliders->take($limit ?: $layoutGroup->count_list);
         }
         return $sliders ?: collect([]);
     }
@@ -122,7 +134,17 @@ trait LayoutTrait
             $sliders = $sliders->map(function($value, $key){
                 $limit = $value->count_list;
                 $data = $value->data;
-                if($value->end_date_release === null || $value->end_date_release >= now()){
+                if (
+                    $value->is_active &&
+                    (
+                        $value->release_type === EnumLayoutReleaseType::RELEASE || 
+                        (
+                            $value->release_type === 'date' && 
+                            $value->end_date_release >= now() && 
+                            $value->start_date_release <= now()
+                        )
+                    )
+                ) {
                     if($value->end_date_release){
                         $date = Carbon::parse($value->end_date_release);
                         $value->year = $date->year;
@@ -182,9 +204,10 @@ trait LayoutTrait
                             }
                         }
                     }
+                    return $value;
                 }
-                return $value;
-            });
+                return null;
+            })->filter();
             // if(!empty($limit) || !empty($layoutGroup->count_list))
             //     $sliders=$sliders->take($limit ?: $layoutGroup->count_list);
         }

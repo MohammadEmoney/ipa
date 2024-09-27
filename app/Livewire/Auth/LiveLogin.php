@@ -186,14 +186,14 @@ class LiveLogin extends Component
     {
         try {
             $setting = new SettingsRepository();
-            if($setting->getByKey('payment_via') === 'credit_card'){
+            if($this->data['payment_method'] === 'credit_card'){
                 DB::beginTransaction();
                 $order = $this->createOrder($this->user, EnumPaymentMethods::CREDIT_CARD, null, EnumOrderStatus::PENDING_CONFIRM);
                 $this->createImage($order, 'bankReceipt');
                 $this->adminNewOrderNotifications($order);
                 DB::commit();
                 $this->alert(__('messages.bank_receipt_upload_success'))->success()->redirect('home');
-            }elseif($setting->getByKey('payment_via') === 'online'){
+            }elseif($this->data['payment_method'] === 'online'){
                 auth()->loginUsingId($this->user->id);
                 return redirect()->to(route('payment.create'));
             }else{

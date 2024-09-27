@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <livewire:admin.components.live-breadcrumb :items="[['title' => __('global.categories'), 'route' => route('admin.categories.index')], ['title' => $title]]" />
+    <livewire:admin.components.live-breadcrumb :items="[['title' => $title]]" />
         <div class="card">
             <div class="card-body">
                 <h3 class="">{{ $title }}</h3>

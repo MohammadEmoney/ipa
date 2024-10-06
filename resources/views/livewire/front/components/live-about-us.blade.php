@@ -9,7 +9,7 @@
 
             <div class="row gy-4">
                 @foreach ($layouts as $layout)
-                    <div class="col-lg-12">
+                    <div class="col-lg-10 mx-auto">
                         <div class="{{ $loop->last ? "content ps-0 ps-lg-5" : "" }} description">
                             {!! $layout->description ?: "" !!}
                             {{-- @if ($loop->last)

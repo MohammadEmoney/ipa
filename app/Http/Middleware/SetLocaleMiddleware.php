@@ -27,7 +27,7 @@ class SetLocaleMiddleware
         $allowedLocales = $settings->getLanguages()->data;
 
         // Check if the locale is valid
-        if($locale !== 'livewire'){
+        if($locale !== 'livewire' && !is_null($locale)){
             if (!is_array($allowedLocales) || empty($allowedLocales) || !in_array($locale, $allowedLocales)) {
                 abort(404); // Show 404 page if the language is not allowed
             }

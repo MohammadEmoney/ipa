@@ -129,9 +129,7 @@ Route::group(['prefix' => '{locale?}'], function () {
 // Route::get('register', [RegisterController::class, 'register'])->name('register');
 // Route::get('get-code/{code}', [LoginController::class, 'getCode'])->name('code');
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+
 
 // Auth::routes();
 

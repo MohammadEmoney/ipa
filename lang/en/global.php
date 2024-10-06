@@ -224,5 +224,6 @@ return [
     'private' => 'Private',
     'public' => 'Public',
     'button_title' => 'Button Title',
+    'languages' => 'Languages',
     '' => '',
 ];

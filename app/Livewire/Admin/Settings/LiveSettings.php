@@ -18,8 +18,10 @@ class LiveSettings extends Component
 
     public string $title;
     public $data = [];
+    public $languages = [];
     public $step;
     public $setting;
+    public $languageSetting;
 
     public function mount()
     {
@@ -45,7 +47,9 @@ class LiveSettings extends Component
         $settings = new SettingsRepository();
         $this->setting = $settings->get();
         $this->data = $this->setting->data;
+        $this->languageSetting = $languages = $settings->getLanguages();
         $this->data['lang'] = app()->getLocale();
+        $this->languages = $languages->data ?: [];
         $this->data['logo'] = $this->setting->getFirstMedia('logo');
         $this->data['favicon'] = $this->setting->getFirstMedia('favicon');
         $this->data['login'] = $this->setting->getFirstMedia('login');
@@ -82,6 +86,7 @@ class LiveSettings extends Component
     }
     public function submit()
     {
+        $languageSetting = $this->languageSetting;
         $setting = $this->setting;
         $this->createImage($setting, 'logo');
         $this->createImage($setting, 'favicon');
@@ -89,6 +94,9 @@ class LiveSettings extends Component
         $this->createImage($setting, 'register');
         $setting->update([
             'data' => $this->data
+        ]);
+        $languageSetting->update([
+            'data' => $this->languages
         ]);
 
         $this->alert(__('messages.settings_updated'))->success()->autoClose();

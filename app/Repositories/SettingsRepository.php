@@ -11,6 +11,11 @@ class SettingsRepository
         return Setting::firstOrCreate(['lang' => app()->getLocale()], ['data' => []]);
     }
 
+    public function getLanguages()
+    {
+        return Setting::firstOrCreate(['lang' => 'all'], ['data' => []]);
+    }
+
     public function getByKey(string $key)
     {
         $settings = $this->get();

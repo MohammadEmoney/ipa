@@ -26,6 +26,7 @@ class RepositoryServiceProvider extends ServiceProvider
             $view->with('settings', app(SettingsRepository::class)->get()?->data);
             $view->with('logo', app(SettingsRepository::class)->get()?->getFirstMediaUrl('logo'));
             $view->with('favicon', app(SettingsRepository::class)->get()?->getFirstMediaUrl('favicon'));
+            $view->with('languages', app(SettingsRepository::class)->getLanguages()?->data);
         });
         view()->composer('livewire.auth.live-login', function ($view) {
             $view->with('background', app(SettingsRepository::class)->get()?->getFirstMediaUrl('login'));

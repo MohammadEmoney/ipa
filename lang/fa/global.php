@@ -224,5 +224,6 @@ return [
     'private' => 'اختصاصی',
     'public' => 'عمومی',
     'button_title' => 'عنوان دکمه',
+    'languages' => 'زبان ها',
     '' => '',
 ];

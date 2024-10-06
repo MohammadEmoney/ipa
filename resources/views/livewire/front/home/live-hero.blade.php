@@ -1,4 +1,4 @@
-<div class="container-fluid carousel-header vh-100 px-0" dir="ltr" style="margin-top: 6rem">
+<div class="container-fluid carousel-header vh-100 px-0" dir="ltr" style="margin-top: {{ count($languages) > 1 ? "6rem" : "4rem" }}">
     <div id="carouselId" class="carousel slide" data-bs-ride="carousel">
         <ol class="carousel-indicators">
             @foreach ($sliders as $key => $slider)

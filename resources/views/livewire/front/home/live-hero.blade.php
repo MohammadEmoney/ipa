@@ -19,7 +19,7 @@
                         @endif
                         @if ($slider->link && $slider->button_title)
                             <div class="d-flex align-items-center justify-content-center">
-                                <a class="btn-hover-bg btn btn-primary text-white py-3 px-5" href="{{ $slider->link ?: "#about" }}">{{ $slider->button_title }}</a>
+                                <a class="btn btn-hover-bg btn-primary px-2 px-sm-5 py-1 py-sm-3 text-white" href="{{ $slider->link ?: "#about" }}">{{ $slider->button_title }}</a>
                             </div>
                         @endif
                     </div>

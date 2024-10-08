@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -81,15 +82,18 @@ class LiveRegister extends Component
     public function validations()
     {
         $this->validate([
-            'data.first_name' => 'required|string|max:255',
-            'data.last_name' => 'required|string|max:255',
+            'data.first_name' => 'required|string|uni_regex:^[\x{0621}-\x{0628}\x{062A}-\x{063A}\x{0641}-\x{0642}\x{0644}-\x{0648}\x{064E}-\x{0651}\x{0655}\x{067E}\x{0686}\x{0698}\x{06A9}\x{06AF}\x{06BE}\x{06CC} ]+$|max:255',
+            'data.last_name' => 'required|string|uni_regex:^[\x{0621}-\x{0628}\x{062A}-\x{063A}\x{0641}-\x{0642}\x{0644}-\x{0648}\x{064E}-\x{0651}\x{0655}\x{067E}\x{0686}\x{0698}\x{06A9}\x{06AF}\x{06BE}\x{06CC} ]+$|max:255',
             'data.phone' => 'required|regex:/^09[0-9]{9}$/|unique:users,phone',
             'data.email' => 'required|email|unique:users,email',
-            'data.password' => 'required|min:8|confirmed',
+            'data.password' => ['required', Password::min(8)->mixedCase()->numbers()->symbols(), 'confirmed'],
             'data.situation' => 'required|in:' . EnumUserSituation::asStringValues(),
             'data.university' => 'required_if:situation,' . EnumUserSituation::STUDENT,
             'data.company_name' => 'required_if:situation,' . EnumUserSituation::EMPLOYED,
-        ], [], [
+        ], [
+            'data.first_name.uni_regex' => 'لطفا از حروف فارسی برای نام خود استفاده نمایید.',
+            'data.last_name.uni_regex' => 'لطفا از حروف فارسی برای نام خانوادگی خود استفاده نمایید.',
+        ], [
             'data.first_name' => __('global.first_name'),
             'data.last_name' => __('global.last_name'),
             'data.email' =>  __('global.email'),

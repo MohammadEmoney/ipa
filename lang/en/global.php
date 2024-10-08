@@ -28,6 +28,7 @@ return [
     'search' => 'Search',
     'full_name' => 'Full Name',
     'phone_number' => 'Phone Number',
+    'phone_number_2' => 'Phone Number 2',
     'second_phone_number' => 'Second Phone Number',
     'email' => 'Email',
     'address' => 'Address',

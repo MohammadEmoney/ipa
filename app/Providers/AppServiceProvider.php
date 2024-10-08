@@ -29,6 +29,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->app['validator']->extend('uni_regex', function ($attribute, $value, $parameters, $validator) {
+            return mb_ereg_match($parameters[0], $value);
+        });
+     
+        $this->app['validator']->replacer('uni_regex', function ($message, $attribute, $rule, $parameters) {
+            $message = str_replace(':attribute', $attribute, $message);
+            return $message;
+        });
         Gate::before(function ($user, $ability) {
             return $user->hasRole('super-admin') ? true : null;
         });

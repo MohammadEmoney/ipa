@@ -28,6 +28,7 @@ return [
     'search' => 'جستجو',
     'full_name' => 'نام و نام خانوادگی',
     'phone_number' => 'شماره همراه',
+    'phone_number_2' => 'شماره همراه 2',
     'second_phone_number' => 'شماره همراه 2',
     'email' => 'ایمیل',
     'address' => 'آدرس',

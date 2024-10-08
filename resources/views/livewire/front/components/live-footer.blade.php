@@ -41,8 +41,15 @@
           <p>
             {!! $settings['address'] !!}
             <br>
-            <strong>{{ __('global.phone_number') }}:</strong> {{ $settings['phone'] ?? "" }}<br>
-            <strong>{{ __('global.email') }}:</strong> {{ $settings['email'] ?? ""}}<br>
+            @if (!empty($settings['phone']))
+              <strong>{{ __('global.phone_number') }}:</strong> {{ $settings['phone'] }}<br>
+            @endif
+            @if (!empty($settings['second_phone']))
+              <strong>{{ __('global.phone_number_2') }}:</strong> {{ $settings['second_phone'] }}<br>
+            @endif
+            @if (!empty($settings['email']))
+              <strong>{{ __('global.email') }}:</strong> {{ $settings['email'] }}<br>
+            @endif
           </p>
           <div>
             <a referrerpolicy='origin' target='_blank' href='https://trustseal.enamad.ir/?id=509818&Code=IQw8viVvgnMLPt7vPXGpHaVMJxHc23HT'><img referrerpolicy='origin' src='https://trustseal.enamad.ir/logo.aspx?id=509818&Code=IQw8viVvgnMLPt7vPXGpHaVMJxHc23HT' alt='' style='cursor:pointer' code='IQw8viVvgnMLPt7vPXGpHaVMJxHc23HT'></a>

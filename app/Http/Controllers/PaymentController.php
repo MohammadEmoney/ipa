@@ -17,6 +17,7 @@ use App\Traits\PaymentTrait;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
 use Shetabit\Multipay\Exceptions\InvalidPaymentException;
@@ -59,14 +60,13 @@ class PaymentController extends Controller
             $gateway = strtolower($order->gateway);
             $invoice = (new Invoice)->amount($price);
             $paymentMethod = $order->payment_method;
-            // $config = $this->getPaymentConfig($gateway);
             $config = [
-                'merchantId' => $this->settings->getByKey('zarinpal_merchant_id') ?: env('ZARINPAL_MERCHANT_ID'),
+                'merchantId' => $this->settings->getByKey('merchant_id') ?: env('ZARINPAL_MERCHANT_ID'),
                 'currency' => env('ZARINPAL_CURRENCY'),
                 'mode' => $this->settings->getByKey('zarinpal_mode') ?: env('ZARINPAL_MODE'),
                 'description' => "payment using zarinpal",
             ];
-                // dd($gateway, $config, $price, $order, route("payment.verify"));
+            Log::info(json_encode($config));
             $res = ShetaBitPayment::via($gateway)->config($config)->callbackUrl(route("payment.verify"))->purchase(
                 $invoice,
                 function ($driver, $transactionId) use ($price, $order, $gateway, $paymentMethod) {

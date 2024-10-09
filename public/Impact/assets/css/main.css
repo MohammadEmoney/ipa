@@ -2818,11 +2818,20 @@ section {
 }
 /*** Carousel End ***/
 
+.about .description {
+  text-wrap: pretty;
+  text-align:justify
+}
+
+.about .description figure{
+  text-align: center;
+}
+
 .about .description img{
   max-width: 100%;
   height: auto;
   /* border-radius: var(--bs-border-radius-xl)!important; */
-  margin-bottom: 1.5rem!important;
+  margin: 1.5rem auto;
 }
 
 /* Uploud file input */

@@ -2862,11 +2862,21 @@ section {
 /*** Carousel End ***/
 
 /* About description img */
+.about .description {
+  text-wrap: pretty;
+  text-align:justify
+}
+
 .about .description img{
     max-width: 100%;
     height: auto;
+    margin: 1.5rem auto;
     /* border-radius: var(--bs-border-radius-xl)!important; */
-    margin-bottom: 1.5rem!important;
+    /* margin-bottom: 1.5rem!important; */
+}
+
+.about .description figure{
+  text-align: center;
 }
 /* End Of About description img */
 

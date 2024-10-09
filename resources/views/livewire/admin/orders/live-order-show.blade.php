@@ -23,15 +23,17 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row mb-3">
-                                <div class="col-md-3 col-6 mb-3 text-center">
-                                    {{ __('global.first_name') }}: <a href="{{ route('admin.users.edit', ['user' => $user->id]) }}">{{ $user->first_name }}</a>
-                                </div>
-                                <div class="col-md-3 col-6 mb-3 text-center">
-                                    {{ __('global.last_name') }}: <a href="{{ route('admin.users.edit', ['user' => $user->id]) }}">{{ $user->last_name }}</a>
-                                </div>
-                                <div class="col-md-3 col-6 mb-3 text-center">
-                                    {{ __('global.phone_number') }}: <span @cannot('user_view_mobile') class="phone-number" @endcannot dir="ltr">{{ $user->phone }}</span>
-                                </div>
+                                @if ($user)
+                                    <div class="col-md-3 col-6 mb-3 text-center">
+                                        {{ __('global.first_name') }}: <a href="{{ route('admin.users.edit', ['user' => $user->id]) }}">{{ $user->first_name }}</a>
+                                    </div>
+                                    <div class="col-md-3 col-6 mb-3 text-center">
+                                        {{ __('global.last_name') }}: <a href="{{ route('admin.users.edit', ['user' => $user->id]) }}">{{ $user->last_name }}</a>
+                                    </div>
+                                    <div class="col-md-3 col-6 mb-3 text-center">
+                                        {{ __('global.phone_number') }}: <span @cannot('user_view_mobile') class="phone-number" @endcannot dir="ltr">{{ $user->phone }}</span>
+                                    </div>
+                                @endif
                             </div>
     
                             {{-- <div class="row">
@@ -167,8 +169,11 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <img src="{{ $order->getFirstMediaUrl('bankReceipt') }}" alt="Thumbnail" class="img-thumbnail" id="img-thumbnail">
-                                                    {{-- <img src="{{ $order->getFirstMediaUrl('bankReceipt') }}" class="w-25 img-full-screen"> --}}
+                                                    @if ($order->getFirstMediaUrl('bankReceipt'))
+                                                        <img src="{{ $order->getFirstMediaUrl('bankReceipt') }}" alt="Thumbnail" class="img-thumbnail" id="img-thumbnail">
+                                                    @else
+                                                        -
+                                                    @endif
                                                 </td>
                                             </tr>
                                         </tbody>

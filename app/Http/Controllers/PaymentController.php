@@ -59,15 +59,18 @@ class PaymentController extends Controller
             $price = (int)$order->payable_amount;
             $gateway = strtolower($order->gateway);
             $invoice = (new Invoice)->amount($price);
+            
             $paymentMethod = $order->payment_method;
             $config = [
                 'merchantId' => $this->settings->getByKey('merchant_id') ?: env('ZARINPAL_MERCHANT_ID'),
-                'currency' => env('ZARINPAL_CURRENCY'),
+                'currency' => env('ZARINPAL_CURRENCY', 'T'),
                 'mode' => $this->settings->getByKey('zarinpal_mode') ?: env('ZARINPAL_MODE'),
                 'description' => "payment using zarinpal",
             ];
             Log::info(json_encode($config));
-            $res = ShetaBitPayment::via($gateway)->config($config)->callbackUrl(route("payment.verify"))->purchase(
+            Log::info(route("payment.verify"));
+            // $res = ShetaBitPayment::via($gateway)->config($config)->callbackUrl(route("payment.verify"))->purchase(
+            $res = ShetaBitPayment::via($gateway)->purchase(
                 $invoice,
                 function ($driver, $transactionId) use ($price, $order, $gateway, $paymentMethod) {
                     $order->transctions()->create([
@@ -95,8 +98,6 @@ class PaymentController extends Controller
 
     public function verify(Request $request)
     {
-        // dd($request->all());
-        // $paymentDetails = $this->getPaymentDetails($request);
         $paymentDetails = [
             'payment' => Transaction::where('transaction_id', $request->Authority)->first(),
             'responseCode' => $request->Status,
@@ -123,14 +124,17 @@ class PaymentController extends Controller
                 DB::commit();
                 return view('front.payments.success', compact('payment', 'order'))->with('success', 'پرداخت با موفقیت انجام شد.');
             }else{
+                Log::info(json_encode($paymentDetails));
                 // $payment->update(['status_id' => Status::where('name', 'failed')->payment()->first()?->id ?: 7]);
                 $payment->update(['status' => EnumPaymentStatus::FAILED]);
                 return view('front.payments.failed', compact('order'))->with('error' , 'پرداخت موفقیت آمیز نبود.');
             }
         } catch (Exception $exception) {
+            Log::info(json_encode(['failed' => $exception->getMessage()]));
             $payment->update(['status' => EnumPaymentStatus::FAILED]);
             return view('front.payments.failed', compact('order'))->with('error' , $exception->getMessage());
         } catch (InvalidPaymentException $exception) {
+            Log::info(json_encode(['invalid_payment_failed' => $exception->getMessage()]));
             $payment->update(['status' => EnumPaymentStatus::FAILED]);
             return view('front.payments.failed', compact('order'))->with('error' , $exception->getMessage());
         }

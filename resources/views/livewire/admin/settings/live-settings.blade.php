@@ -231,7 +231,7 @@
                                                                         <div class="mb-3">
                                                                             <label for="membership_fee" class="form-label">{{ __('global.membership_fee') }} ({{ __('global.toman') }})
                                                                                 *</label>
-                                                                            <input type="number" class="form-control numeric num2persian" step="10000" dir="ltr"
+                                                                            <input type="number" class="form-control numeric num2persian" step="1000" dir="ltr"
                                                                                 wire:model.live.debounce.800ms="data.membership_fee" id="membership_fee"
                                                                                 aria-describedby="textHelp" placeholder="{{ __('global.membership_fee') }}">
                                                                             <span class="error" id="lbl-membership_fee" wire:ignore></span>

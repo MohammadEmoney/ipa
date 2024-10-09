@@ -7,8 +7,8 @@
         </ol>
         <div class="carousel-inner" role="listbox">
           @foreach ($sliders as $key => $slider)
-            <a href="{{ $slider->link }}">
-                <div class="carousel-item {{ $loop->first ? "active" : "" }}">
+            <a href="{{ $slider->link ?: "#" }}">
+                <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
                     <img src="{{ $slider->getFirstMediaUrl('mainImage') ?: "/Impact/assets/img/carousel-1.jpg" }}" class="img-fluid" alt="{{ $slider->title ?: env('APP_NAME') }}">
                     <div class="carousel-caption">
                         <div class="p-3" style="max-width: 900px;">

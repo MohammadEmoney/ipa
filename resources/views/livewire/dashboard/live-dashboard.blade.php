@@ -82,6 +82,21 @@
                     </section>
                 </div>
             </div>
+        @else
+            <div class="card mb-4">
+                <div class="card-body document">
+                    {{-- <div class="d-flex justify-content-between">
+                        <h4>{{ __('global.membership_fee') }}</h4>
+                    </div> --}}
+                    <section>
+                        <div class="row gy-4">
+                            <div class="col-md-6 col-sm-12 m-auto text-black mt-3">
+                                @include('livewire.dashboard.components.payment')
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
         @endcan
 </div>
 

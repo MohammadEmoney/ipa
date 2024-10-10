@@ -7,9 +7,10 @@
             aria-describedby="emailHelp">
         <div>@error('email') {{ $message }} @enderror</div>
     </div>
-    <div class="mb-4">
+    <div class="mb-4 position-relative">
         <label for="exampleInputPassword1" class="form-label">{{ __('global.password') }}</label>
         <input type="password" class="form-control" id="exampleInputPassword1" wire:model="password">
+        <i class="fa fa-eye password-icon"></i>
         <div>@error('password') {{ $message }} @enderror</div>
     </div>
     <div class="d-flex align-items-center justify-content-between mb-4">

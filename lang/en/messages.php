@@ -77,5 +77,8 @@ return [
     'order_status_updated' => 'Order status successfully edited.',
     'order_disprove' => 'Unconfirmed successfully. User changed to inactive status. Order status changed to Unconfirmed.',
     'order_disprove_error' => 'Unfortunately, a problem occurred, the user was not found.',
+    'not_active_error_message' => 'Your account is not active. Please make the membership payment first to activate your account. Otherwise, your account will be deleted within 48 hours.',
+    'register_support_text' => 'For support, please send a message to the following number on Telegram:',
+    'register_support_sub_text' => 'To ensure a faster response, please provide details about your issue.',
     '' => '',
 ];

@@ -85,6 +85,7 @@ class PaymentController extends Controller
             )->pay()->render();
             $this->adminNewOrderNotifications($order);
             DB::commit();
+            $order->update(['status' => EnumOrderStatus::PENDING_PAYMENT]);
             return $res;
             
         } catch (ValidationException $exception) {
@@ -106,12 +107,13 @@ class PaymentController extends Controller
         $payment = $paymentDetails['payment'];
         $order = $payment->order;
         if (!$payment) {
+            Log::info(json_encode(['failed' => 'payment not fount', 'paymentDetails' => $paymentDetails]));
             return view('front.payments.failed', compact('order'))->with('error' , 'اطلاعات کافی برای درگاه پرداخت وجود ندارد. با پشتیبانی تماس بگیرد. تشکر از صبوری شما');
         }
         try {
+            $receipt = ShetaBitPayment::amount((int)$payment->amount)->transactionId($paymentDetails['transactionId'])->verify();
             if($paymentDetails['responseCode'] == "OK"){
                 DB::beginTransaction();
-                $receipt = ShetaBitPayment::amount((int)$payment->amount)->transactionId($paymentDetails['transactionId'])->verify();
                 $payment->update(['status' => EnumPaymentStatus::COMPLETED]);
                 $order = $payment->order;
 
@@ -122,10 +124,10 @@ class PaymentController extends Controller
                     $user?->update(['is_active' => true]);
                 }
                 DB::commit();
+                Log::info(json_encode(['success' => 'payment was success.', 'order_id' => $order->id]));
                 return view('front.payments.success', compact('payment', 'order'))->with('success', 'پرداخت با موفقیت انجام شد.');
             }else{
-                Log::info(json_encode($paymentDetails));
-                // $payment->update(['status_id' => Status::where('name', 'failed')->payment()->first()?->id ?: 7]);
+                Log::info(json_encode(['failed' => 'payment request was NOK' , 'paymentDetails' => $paymentDetails]));
                 $payment->update(['status' => EnumPaymentStatus::FAILED]);
                 return view('front.payments.failed', compact('order'))->with('error' , 'پرداخت موفقیت آمیز نبود.');
             }

@@ -226,5 +226,7 @@ return [
     'public' => 'Public',
     'button_title' => 'Button Title',
     'languages' => 'Languages',
+    'telegram_id' => 'Telegram ID',
+    'support' => 'Support',
     '' => '',
 ];

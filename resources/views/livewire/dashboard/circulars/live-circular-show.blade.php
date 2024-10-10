@@ -14,7 +14,7 @@
                         </div>
                         <div class="col-lg-4 col-md-8 col-12">
                             <div class="d-flex justify-content-center mb-3">
-                                <i class="ti ti-file fs-8"></i> <span class="mt-1">{{ $circular->getFirstMedia('attachment')->human_readable_size }}</span>
+                                <i class="ti ti-file fs-8"></i> <span class="mt-1">{{ $circular->getFirstMedia('attachment')?->human_readable_size }}</span>
                             </div>
                             <div class="d-flex">
                                 <button class="btn btn-primary w-100" wire:click="download()">{{ __('global.download') }}</button>

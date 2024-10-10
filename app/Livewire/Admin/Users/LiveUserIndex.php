@@ -9,6 +9,7 @@ use App\Traits\AlertLiveComponent;
 use App\Traits\FilterTrait;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Spatie\Permission\Models\Permission;
 
 class LiveUserIndex extends Component
 {
@@ -64,6 +65,12 @@ class LiveUserIndex extends Component
         $user = User::find($id);
         if($user){
             $user->update(['is_active' => !$user->is_active]);
+            $permission = Permission::findByName('active_user');
+            if ($user->hasPermissionTo($permission)) {
+                $user->revokePermissionTo($permission);
+            } else {
+                $user->givePermissionTo($permission);
+            }
             $this->alert(__('messages.updated_successfully'))->success();
         }
     }

@@ -2937,3 +2937,10 @@ section {
       min-height: 37vh 
   }
 }
+
+.password-icon {
+  position: absolute;
+  top: 2.7em;
+  left: 1em;
+  cursor: pointer;
+}

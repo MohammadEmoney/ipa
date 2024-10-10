@@ -130,3 +130,20 @@
     })
 </script>
 @endscript
+
+@push('scripts')
+    <script>
+        $('.password-icon').on('click', function() {
+            console.log('asdasd');
+            
+            $(this).toggleClass('fa-eye-slash').toggleClass('fa-eye'); // toggle our classes for the eye icon
+            var type = $(this).siblings("input").attr("type");
+            // now test it's value
+            if( type === 'password' ){
+                $(this).siblings("input").attr("type", "text");
+            }else{
+                $(this).siblings("input").attr("type", "password");
+            }
+        });
+    </script>
+@endpush

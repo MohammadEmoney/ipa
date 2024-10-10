@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Users;
 
 use App\Models\User;
 use App\Traits\AlertLiveComponent;
+use Exception;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -56,12 +57,22 @@ class LiveDeletedUsers extends Component
             $user = User::query()->withTrashed()->find($id);
 
             if ($user) {
-                $user->clearMediaCollection('avatar');
-                $user->userInfo()?->delete();
-                $user->syncRoles([]);
-                $user->forceDelete();
-                $this->alert(__('messages.user_deleted'))->success();
-                return redirect()->to(route('admin.users.trash'));
+                try {
+                    $user->clearMediaCollection('avatar');
+                    $user->clearMediaCollection('nationalCard');
+                    $user->clearMediaCollection('license');
+                    $user->clearMediaCollection('bankReceipt');
+                    $user->userInfo()?->delete();
+                    $user->transactions()?->delete();
+                    $user->orders()?->clearMediaCollection('bankReceipt');
+                    $user->orders()?->delete();
+                    $user->syncRoles([]);
+                    $user->forceDelete();
+                    $this->alert(__('messages.user_deleted'))->success();
+                    return redirect()->to(route('admin.users.trash'));
+                } catch (Exception $e) {
+                    $this->alert($e->getMessage())->error();
+                }
             }
             else{
                 $this->alert(__('messages.user_not_deleted'))->error();

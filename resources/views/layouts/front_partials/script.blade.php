@@ -21,3 +21,4 @@
 <script src="/Impact/assets/js/main.js"></script>
 <script src="/Impact/assets/js/custom.js"></script>
 @livewireScripts
+@stack('scripts')

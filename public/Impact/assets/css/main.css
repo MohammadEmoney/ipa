@@ -2877,3 +2877,10 @@ section {
   padding: .5em 0 0 .5em;
   color: var(--color-primary);
 }
+
+.password-icon {
+  position: absolute;
+  top: 2.7em;
+  right: 1em;
+  cursor: pointer;
+}

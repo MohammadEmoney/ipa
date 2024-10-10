@@ -122,6 +122,7 @@ class LiveRegister extends Component
 
     public function submit()
     {
+        $this->dispatch('autoFocus');
         $this->validations();
 
         DB::beginTransaction();

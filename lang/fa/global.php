@@ -226,5 +226,7 @@ return [
     'public' => 'عمومی',
     'button_title' => 'عنوان دکمه',
     'languages' => 'زبان ها',
+    'telegram_id' => 'آی دی تلگرام',
+    'support' => 'پشتیبانی',
     '' => '',
 ];

@@ -360,7 +360,9 @@ return [
             'zaringateApiVerificationUrl' => 'https://ir.zarinpal.com/pg/services/WebGate/wsdl',
 
             'mode' => 'sandbox', // can be normal, sandbox, zaringate
+            // 'merchantId' => '85f6b17a-29fe-4651-9642-3863a38aa12d',
             'merchantId' => 'edb016ee-f53f-4119-a98d-fcf40a986a62',
+            // 'callbackUrl' => 'https://iranianpilotsassociation.ir/fa/payment/verify',
             'callbackUrl' => 'http://127.0.0.1:8000/fa/payment/verify',
             'description' => 'payment using zarinpal',
             'currency' => 'T', //Can be R, T (Rial, Toman)

@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Users;
 
 use App\Enums\EnumUserRoles;
 use App\Enums\EnumUserSituation;
+use App\Models\Airline;
 use App\Models\User;
 use App\Traits\AlertLiveComponent;
 use App\Traits\DateTrait;
@@ -202,7 +203,8 @@ class LiveUserEdit extends Component
     {
         $roles = Role::get();
         $permissions = Permission::get();
+        $airlines = Airline::active()->get();
         $situations = EnumUserSituation::getTranslatedAll();
-        return view('livewire.admin.users.live-user-edit', compact('roles', 'permissions', 'situations'))->extends(('layouts.admin-panel'))->section('content');
+        return view('livewire.admin.users.live-user-edit', compact('roles', 'permissions', 'situations', 'airlines'))->extends(('layouts.admin-panel'))->section('content');
     }
 }

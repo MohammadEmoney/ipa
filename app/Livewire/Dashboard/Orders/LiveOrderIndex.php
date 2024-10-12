@@ -7,10 +7,11 @@ use App\Models\Order;
 use App\Traits\AlertLiveComponent;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class LiveOrderIndex extends Component
 {
-    use AlertLiveComponent;
+    use AlertLiveComponent, WithPagination;
 
     protected $listeners = ['destroy'];
 

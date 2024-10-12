@@ -43,6 +43,26 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <select  id="" class="form-control" wire:model.live="filters.airline">
+                                                <option value="">{{ __('global.airlines') }}</option>
+                                                @foreach (\App\Models\Airline::active()->get() as $value )
+                                                    <option value="{{ $value->id }}">{{ $value->title }} ( {{ $value->title_en }} )</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between col-md-4">
+                                        <div class="d-flex form-group justify-content-around mb-3">
+                                            <label class="form-label ms-3">{{ __('global.is_active') }}</label>
+                                            <div class="form-check form-switch d-flex ps-0 {{ app()->getLocale() === "en" ? "" : "flex-row-reverse justify-content-end" }}">
+                                                <label class="form-check-label" for="flexSwitchCheckDefault">{{ __('global.inactive') }}</label>
+                                                <input class="form-check-input mx-2" type="checkbox" role="switch" id="flexSwitchCheckDefault" wire:model.live="filters.active">
+                                                <label class="form-check-label" for="flexSwitchCheckDefault">{{ __('global.active') }}</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

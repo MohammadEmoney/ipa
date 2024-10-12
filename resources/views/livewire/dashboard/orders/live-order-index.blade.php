@@ -97,7 +97,7 @@
                             <th scope="col">#</th>
                             <th scope="col">{{ __('global.tracking_code') }}</th>
                             <th scope="col">{{ __('global.order_amount') }} ({{ __('global.toman') }})</th>
-                            <th scope="col">{{ __('global.payable_amount') }} ({{ __('global.toman') }})</th>
+                            {{-- <th scope="col">{{ __('global.payable_amount') }} ({{ __('global.toman') }})</th> --}}
                             <th scope="col">{{ __('global.status') }}</th>
                             <th scope="col">{{ __('global.register_date') }}</th>
                             {{-- <th scope="col">عملیات</th> --}}
@@ -110,8 +110,8 @@
                                 <th scope="row">{{  ($orders->currentpage()-1) * $orders->perpage() + $key + 1 }}</th>
                                 <td wire:click="show({{ $order->id }})" class="cursor-pointer text-nowrap">{{ $order->track_number ?: "_" }}</td>
                                 <td>{{ number_format($order->order_amount) }}</td>
-                                <td>{{ number_format($order->payable_amount) }}</td>
-                                <td class="text-nowrap">{{ __('admin/enums/EnumOrderStatus.' . $order->status) }}</td>
+                                {{-- <td>{{ number_format($order->payable_amount) }}</td> --}}
+                                <td class="text-nowrap">{{ __('admin/enums/EnumOrderStatus.' . $order->status) }} <i class="ti {{ $order->status === 'completed' ? "ti-checkbox text-success" : "ti-x text-danger" }}"></i></td>
                                 <td class="text-nowrap">{{ \Morilog\Jalali\Jalalian::fromDateTime($order->register_date)->format('Y-m-d') }}</td>
                                 {{-- <td class="text-nowrap">
                                     <i class="cursor-pointer ti ti-trash text-danger ms-2" data-bs-toggle="tooltip" data-bs-placement="top" onclick="Custom.deleteItemList({{$order->id}})" title="حذف"></i>

@@ -6,6 +6,7 @@ use App\Enums\EnumOrderStatus;
 use App\Enums\EnumPaymentMethods;
 use App\Mail\VerificationEmail;
 use App\Models\User;
+use App\Notifications\VerificationNotification;
 use App\Repositories\SettingsRepository;
 use App\Traits\AlertLiveComponent;
 use App\Traits\MediaTrait;
@@ -35,6 +36,7 @@ class LiveLogin extends Component
     public $step = 'info';
     public $national_code;
     public $user;
+    public $phone;
     public $email;
     public $password;
     public $otp_code;
@@ -51,6 +53,8 @@ class LiveLogin extends Component
                 return redirect()->to(route('admin.dashboard'));
             return redirect()->to(route('home'));
         }
+        $setting = app(SettingsRepository::class)->getByKey('payment_via');
+        $this->data['payment_method'] = $setting[0] ?? "";
         $this->title = __('global.login');
         $this->payableAmount = $this->orderAmount = $settings['membership_fee'] ?? 0;
     }
@@ -135,12 +139,13 @@ class LiveLogin extends Component
             $user->otp_code = rand(1111, 9999);
             $user->save();
 
+            $user->notify(new VerificationNotification);
             // $response = $this->sendVerificationCode($user->phone, $user->first_name, $user->otp_code);
             // Log::info(json_encode([$response]));
 
-            Mail::to($user->email)->send(new VerificationEmail($user->otp_code));
+            // Mail::to($user->email)->send(new VerificationEmail($user->otp_code));
 
-            $this->alert(__('messages.sent_code'))->success();
+            $this->alert(__('messages.login_send_code'))->success();
         } catch (\Exception $e) {
             Log::info(json_encode([$e->getMessage()]));
             $this->alert(__('messages.sent_code_problem'))->error();
@@ -158,9 +163,17 @@ class LiveLogin extends Component
         ]);
 
         if ($this->user->otp_code == $this->otp_code) {
-            $this->user->update(['otp_code' => null, 'email_verified_at' => now()]);
-            $this->step = 'upload';
-            $this->alert(__('messages.email_confirmed'))->success();
+            $this->user->update(['otp_code' => null]);
+            
+            // $this->step = 'upload';
+            if(!$this->user->is_active){
+                $this->alert(__('messages.phone_confirmed'))->success();
+                $this->setStep('payment');
+            }else{
+                auth()->loginUsingId($this->user->id);
+                return redirect()->intended('/fa/dashboard');
+            }
+            
         }else{
             $this->alert(__('messages.incorrect_code'))->error();
         }
@@ -213,27 +226,37 @@ class LiveLogin extends Component
     public function login()
     {
         $this->validate([
-            'email' => ['required', 'email' , 'exists:users,email'],
-            'password' => 'required'
+            // 'email' => ['required', 'email' , 'exists:users,email'],
+            // 'password' => 'required',
+            'phone' => 'required|regex:/^09[0-9]{9}$/'
         ],[
             // 'exists: :national_code '
         ],[
+            'phone' => __('global.phone_number'),
             'email' => __('global.email'),
             'password' => __('global.password'),
         ]);
- 
-        if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
-            $user = $this->user = Auth::user();
-            if(!$user->email_verified_at)
-                $this->sendCode($user);
-            elseif(!$user->getFirstMediaUrl('nationalCard') && !$user->getFirstMediaUrl('license'))
-                $this->setStep('upload');
-            elseif(!$user->is_active)
-                $this->setStep('payment');
-            else
-                return redirect()->intended('/fa/dashboard');
+
+        $this->user = $user = User::wherePhone($this->phone)->first();
+
+        if($user){
+            $this->sendCode($user);
         }else{
-            $this->alert(__('messages.login_failed'))->error();
+            $this->alert(__('messages.phone_not_found'))->error();
         }
+ 
+        // if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
+        //     $user = $this->user = Auth::user();
+        //     if(!$user->email_verified_at)
+        //         $this->sendCode($user);
+        //     elseif(!$user->getFirstMediaUrl('nationalCard') && !$user->getFirstMediaUrl('license'))
+        //         $this->setStep('upload');
+        //     elseif(!$user->is_active)
+        //         $this->setStep('payment');
+        //     else
+        //         return redirect()->intended('/fa/dashboard');
+        // }else{
+        //     $this->alert(__('messages.login_failed'))->error();
+        // }
     }
 }

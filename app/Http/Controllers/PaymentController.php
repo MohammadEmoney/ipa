@@ -129,15 +129,18 @@ class PaymentController extends Controller
             }else{
                 Log::info(json_encode(['failed' => 'payment request was NOK' , 'paymentDetails' => $paymentDetails]));
                 $payment->update(['status' => EnumPaymentStatus::FAILED]);
+                Auth::logout();
                 return view('front.payments.failed', compact('order'))->with('error' , 'پرداخت موفقیت آمیز نبود.');
             }
         } catch (Exception $exception) {
             Log::info(json_encode(['failed' => $exception->getMessage()]));
             $payment->update(['status' => EnumPaymentStatus::FAILED]);
+            Auth::logout();
             return view('front.payments.failed', compact('order'))->with('error' , $exception->getMessage());
         } catch (InvalidPaymentException $exception) {
             Log::info(json_encode(['invalid_payment_failed' => $exception->getMessage()]));
             $payment->update(['status' => EnumPaymentStatus::FAILED]);
+            Auth::logout();
             return view('front.payments.failed', compact('order'))->with('error' , $exception->getMessage());
         }
     }

@@ -80,7 +80,7 @@
                             <th scope="col">{{ __('global.user_name') }}</th>
                             <th scope="col">{{ __('global.payment_method') }}</th>
                             <th scope="col">{{ __('global.order_amount') }} ({{ __('global.toman') }})</th>
-                            <th scope="col">{{ __('global.payable_amount') }} ({{ __('global.toman') }})</th>
+                            {{-- <th scope="col">{{ __('global.payable_amount') }} ({{ __('global.toman') }})</th> --}}
                             <th scope="col">{{ __('global.order_status') }}</th>
                             <th scope="col">{{ __('global.date_registerd') }}</th>
                             <th scope="col">{{ __('global.actions') }}</th>
@@ -94,7 +94,7 @@
                                 <td wire:click="editUser({{ $order->user?->id }})" class="cursor-pointer text-nowrap">{{ $order->user?->full_name }}</td>
                                 <td class="text-nowrap">{{ $order->payment_method ? __('admin/enums/EnumPaymentMethods.' . $order->payment_method) : "-" }}</td>
                                 <td>{{ number_format($order->order_amount) }}</td>
-                                <td>{{ number_format($order->payable_amount) }}</td>
+                                {{-- <td>{{ number_format($order->payable_amount) }}</td> --}}
                                 <td class="text-nowrap">{{ __('admin/enums/EnumOrderStatus.' . $order->status) }} <i class="ti {{ $order->status === 'completed' ? "ti-checkbox text-success" : "ti-x text-danger" }}"></i></td>
                                 <td class="text-nowrap">{{ \Morilog\Jalali\Jalalian::fromDateTime($order->register_date)->format('Y-m-d') }}</td>
                                 <td class="text-nowrap">

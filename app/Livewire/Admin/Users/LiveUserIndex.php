@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Users;
 
 use App\Enums\EnumUserSituation;
 use App\Enums\EnumUserType;
+use App\Filters\FilterManager;
 use App\Models\User;
 use App\Traits\AlertLiveComponent;
 use App\Traits\FilterTrait;
@@ -13,7 +14,7 @@ use Spatie\Permission\Models\Permission;
 
 class LiveUserIndex extends Component
 {
-    use AlertLiveComponent, WithPagination, FilterTrait;
+    use AlertLiveComponent, WithPagination; //, FilterTrait;
 
     protected $listeners = [ 'destroy'];
 
@@ -22,6 +23,15 @@ class LiveUserIndex extends Component
     public $sortDirection = 'DESC';
     public $search;
     public $title;
+
+    public $filters = [
+        'name' => null,
+        'phone' => null,
+        'email' => null,
+        'situation' => null,
+        'airline' => null,
+        'active' => null,
+    ];
 
     public function mount()
     {
@@ -75,6 +85,16 @@ class LiveUserIndex extends Component
         }
     }
 
+    public function resetFilter()
+    {
+        $this->filters = [];
+    }
+
+    public function updatedFilters()
+    {
+        $this->resetPage();
+    }
+
     public function updatedSearch()
     {
         $this->resetPage();
@@ -82,7 +102,8 @@ class LiveUserIndex extends Component
 
     public function render()
     {
-        $users = User::query()->with(['userInfo']);
+        $users = (new FilterManager(new User))->apply($this->filters);
+        // $users = User::query()->with(['userInfo']);
         $search = trim($this->search);
         if($search && mb_strlen($search) > 2){
             $users = $users->where(function($query) use ($search){
@@ -97,9 +118,9 @@ class LiveUserIndex extends Component
                     });
             });
         }
-        if($situation = data_get($this->filters, 'situation')){
-            $users = $users->whereRelation('userInfo', 'situation', $situation);
-        }
+        // if($situation = data_get($this->filters, 'situation')){
+        //     $users = $users->whereRelation('userInfo', 'situation', $situation);
+        // }
         $users = $users->orderBy($this->sort, $this->sortDirection)->paginate($this->paginate);
         $situations = EnumUserSituation::getTranslatedAll();
         return view('livewire.admin.users.live-user-index', compact('users', 'situations'))->extends('layouts.admin-panel')->section('content');

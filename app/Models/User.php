@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Filters\Filterable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -14,7 +16,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements HasMedia, MustVerifyEmail
+class User extends Authenticatable implements HasMedia, MustVerifyEmail, Filterable
 {
     use HasFactory, Notifiable, HasRoles, SoftDeletes, InteractsWithMedia;
 
@@ -117,5 +119,41 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     public function scopeActive($query)
     {
         $query->where('is_active', 1);
+    }
+
+    public function filter(array $filters)
+    {
+        $query = $this->newQuery()->with(['userInfo']);
+
+        if (!empty($filters['name'])) {
+            $name = $filters['name'];
+            $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%$name%"]);;
+        }
+
+        if (!empty($filters['phone'])) {
+            $query->where('phone', "LIKE", "%{$filters['phone']}%");
+        }
+
+        if (!empty($filters['email'])) {
+            $query->where('email', "LIKE", "%{$filters['email']}%");
+        }
+        // dd(isset($filters['active'])  && $filters['active'] !== null);
+        if (isset($filters['active'])  && $filters['active'] !== null) {
+            $query->where('is_active',  "{$filters['active']}");
+        }
+
+        if (!empty($filters['situation'])) {
+            $query->whereHas('userInfo',function (Builder $q) use($filters){
+                $q->where('situation',  "{$filters['situation']}");
+            });
+        }
+
+        if (!empty($filters['airline'])) {
+            $query->whereHas('userInfo',function (Builder $q) use($filters){
+                $q->where('airline_id',  "{$filters['airline']}");
+            });
+        }
+
+        return $query;
     }
 }

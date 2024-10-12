@@ -64,7 +64,8 @@ class LiveDeletedUsers extends Component
                     $user->clearMediaCollection('bankReceipt');
                     $user->userInfo()?->delete();
                     $user->transactions()?->delete();
-                    $user->orders()?->clearMediaCollection('bankReceipt');
+                    foreach($user->orders as $order)
+                        $order?->clearMediaCollection('bankReceipt');
                     $user->orders()?->delete();
                     $user->syncRoles([]);
                     $user->forceDelete();

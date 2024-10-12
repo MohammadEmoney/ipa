@@ -2,17 +2,17 @@
                         
 <form wire:submit.prevent="login">
     <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">{{ __('global.username') }}</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" wire:model="email"
-            aria-describedby="emailHelp">
-        <div>@error('email') {{ $message }} @enderror</div>
+        <label for="exampleInputPhone" class="form-label">{{ __('global.phone_number') }}</label>
+        <input type="text" class="form-control" id="exampleInputPhone" wire:model="phone"
+            placeholder="{{ __('messages.phone_placeholder') }}" aria-describedby="phoneHelp">
+        <div>@error('phone') {{ $message }} @enderror</div>
     </div>
-    <div class="mb-4 position-relative">
+    {{-- <div class="mb-4 position-relative">
         <label for="exampleInputPassword1" class="form-label">{{ __('global.password') }}</label>
         <input type="password" class="form-control" id="exampleInputPassword1" wire:model="password">
         <i class="fa fa-eye password-icon"></i>
         <div>@error('password') {{ $message }} @enderror</div>
-    </div>
+    </div> --}}
     <div class="d-flex align-items-center justify-content-between mb-4">
         <div class="form-check">
             <input class="form-check-input primary" type="checkbox" value="1"

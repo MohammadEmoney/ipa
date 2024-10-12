@@ -9,7 +9,9 @@ use App\Enums\EnumOrderStatus;
 use App\Enums\EnumPaymentMethods;
 use App\Enums\EnumUserSituation;
 use App\Mail\VerificationEmail;
+use App\Models\Airline;
 use App\Models\Course;
+use App\Models\OtpCode;
 use App\Models\User;
 use App\Repositories\SettingsRepository;
 use App\Rules\JDate;
@@ -45,6 +47,7 @@ class LiveRegister extends Component
     public $user;
     public $currentTab = 'student';
     public $step;
+    public $otpCode;
     public $otp_code;
     public $title;
     public $orderAmount;
@@ -61,6 +64,8 @@ class LiveRegister extends Component
                 return redirect()->to(route('admin.dashboard'));
             return redirect()->to(route('home'));
         }
+        $setting = app(SettingsRepository::class)->getByKey('payment_via');
+        $this->data['payment_method'] = $setting[0] ?? "";
         $this->step = 'info';
         // $this->step = 'payment';
         // $this->user = User::find(14);
@@ -76,7 +81,8 @@ class LiveRegister extends Component
     public function render()
     {
         $situations = EnumUserSituation::getTranslatedAll();
-        return view('livewire.auth.live-register', compact('situations'))->extends('layouts.front')->section('content');
+        $airlines = Airline::active()->get();
+        return view('livewire.auth.live-register', compact('situations', 'airlines'))->extends('layouts.front')->section('content');
     }
 
     public function validations()
@@ -85,11 +91,11 @@ class LiveRegister extends Component
             'data.first_name' => 'required|string|uni_regex:^[\x{0621}-\x{0628}\x{062A}-\x{063A}\x{0641}-\x{0642}\x{0644}-\x{0648}\x{064E}-\x{0651}\x{0655}\x{067E}\x{0686}\x{0698}\x{06A9}\x{06AF}\x{06BE}\x{06CC} ]+$|max:255',
             'data.last_name' => 'required|string|uni_regex:^[\x{0621}-\x{0628}\x{062A}-\x{063A}\x{0641}-\x{0642}\x{0644}-\x{0648}\x{064E}-\x{0651}\x{0655}\x{067E}\x{0686}\x{0698}\x{06A9}\x{06AF}\x{06BE}\x{06CC} ]+$|max:255',
             'data.phone' => 'required|regex:/^09[0-9]{9}$/|unique:users,phone',
-            'data.email' => 'required|email|unique:users,email',
-            'data.password' => ['required', Password::min(8)->mixedCase()->numbers()->symbols(), 'confirmed'],
-            'data.situation' => 'required|in:' . EnumUserSituation::asStringValues(),
-            'data.university' => 'required_if:situation,' . EnumUserSituation::STUDENT,
-            'data.company_name' => 'required_if:situation,' . EnumUserSituation::EMPLOYED,
+            // 'data.email' => 'required|email|unique:users,email',
+            // 'data.password' => ['required', Password::min(8)->mixedCase()->numbers()->symbols(), 'confirmed'],
+            // 'data.situation' => 'required|in:' . EnumUserSituation::asStringValues(),
+            // 'data.university' => 'required_if:situation,' . EnumUserSituation::STUDENT,
+            // 'data.airline_id' => ['required_if:situation,' . EnumUserSituation::EMPLOYED, 'exists:airlines,id'],
         ], [
             'data.first_name.uni_regex' => 'لطفا از حروف فارسی برای نام خود استفاده نمایید.',
             'data.last_name.uni_regex' => 'لطفا از حروف فارسی برای نام خانوادگی خود استفاده نمایید.',
@@ -101,7 +107,7 @@ class LiveRegister extends Component
             'data.password' => __('global.password'),
             'data.situation' => __('global.job_status'),
             'data.university' => __('global.university_name'),
-            'data.company_name' => __('global.company_name'),
+            'data.airline_id' => __('global.company_name'),
         ]);
     }
 
@@ -130,23 +136,26 @@ class LiveRegister extends Component
         $this->user = $user = User::create([
             'first_name' => $this->data['first_name'] ?? null,
             'last_name' => $this->data['last_name'] ?? null,
-            'email' => $this->data['email'] ?? null,
             'phone' => $this->data['phone'] ?? null,
-            'password' => Hash::make($this->data['password']),
+            // 'email' => $this->data['email'] ?? null,
+            // 'password' => Hash::make($this->data['password']),
         ]);
+
+        // $airline = Airline::find($this->data['airline_id'] ?? null);
 
         $user->userInfo()->create([
             'phone_1' => $this->data['phone'] ?? null,
-            'situation' => $this->data['situation'] ?? null,
-            'university' => $this->data['university'] ?? null,
-            'company_name' => $this->data['company_name'] ?? null,
+            // 'situation' => $this->data['situation'] ?? null,
+            // 'university' => $this->data['university'] ?? null,
+            // 'company_name' => $airline->title ?? null,
+            // 'airline_id' => $airline->id ?? null,
         ]);
 
         $user->assignRole('user');
+        DB::commit();
         $this->sendCode($user);
         // auth()->loginUsingId($user->id);
         // $this->alert(__('messages.register_completed'))->success();
-        DB::commit();
     }
 
     public function sendCode(User $user)
@@ -155,15 +164,16 @@ class LiveRegister extends Component
         try {
             $this->step = 'confirm';
             $this->dispatch('autoFocus');
-            $user->otp_code = rand(1111, 9999);
+            $code = $user->otp_code = rand(1111, 9999);
+            $this->otpCode = OtpCode::create(['code' => $code, 'expire_time' => Carbon::now()->addMinutes(3)]);
             $user->save();
 
-            // $response = $this->sendVerificationCode($user->phone, $user->first_name, $user->otp_code);
+            $response = $this->sendVerificationCode($user->phone, $user->first_name, $user->otp_code);
             // Log::info(json_encode([$response]));
 
-            Mail::to($user->email)->send(new VerificationEmail($user->otp_code));
+            // Mail::to($user->email)->send(new VerificationEmail($user->otp_code));
 
-            $this->alert(__('messages.sent_code'))->success();
+            $this->alert(__('messages.sent_code_to_phone'))->success();
         } catch (\Exception $e) {
             Log::info(json_encode([$e->getMessage()]));
             $this->alert(__('messages.sent_code_problem'))->error();
@@ -180,10 +190,11 @@ class LiveRegister extends Component
             'otp_code' => __('global.otp_code')
         ]);
 
-        if ($this->user->otp_code == $this->otp_code) {
-            $this->user->update(['otp_code' => null, 'email_verified_at' => now()]);
-            $this->step = 'upload';
-            $this->alert(__('messages.email_confirmed'))->success();
+        if ($this->otpCode?->code == $this->otp_code) {
+            $this->otpCode?->delete();
+            $this->user->update(['otp_code' => null, 'phone_verified_at' => now()]);
+            $this->step = 'payment';
+            $this->alert(__('messages.phone_confirmed'))->success();
         }else{
             $this->alert(__('messages.incorrect_code'))->error();
         }
@@ -208,6 +219,7 @@ class LiveRegister extends Component
     public function pay()
     {
         try {
+            
             $setting = new SettingsRepository();
             if($this->data['payment_method'] ?? null){
                 if($this->data['payment_method'] === 'credit_card'){

@@ -9,6 +9,7 @@ use App\Enums\EnumMilitaryStatus;
 use App\Enums\EnumUserRoles;
 use App\Enums\EnumUserSituation;
 use App\Enums\EnumUserType;
+use App\Models\Airline;
 use App\Models\Course;
 use App\Models\User;
 use App\Rules\JDate;
@@ -163,7 +164,8 @@ class LiveUserCreate extends Component
     {
         $roles = Role::get();
         $permissions = Permission::get();
+        $airlines = Airline::active()->get();
         $situations = EnumUserSituation::getTranslatedAll();
-        return view('livewire.admin.users.live-user-create', compact('roles', 'permissions', 'situations'))->extends('layouts.admin-panel')->section('content');
+        return view('livewire.admin.users.live-user-create', compact('roles', 'permissions', 'situations', 'airlines'))->extends('layouts.admin-panel')->section('content');
     }
 }

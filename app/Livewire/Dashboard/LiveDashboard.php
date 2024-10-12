@@ -26,6 +26,8 @@ class LiveDashboard extends Component
     public function mount()
     {
         $user = $this->user = Auth::user();
+        $setting = app(SettingsRepository::class)->getByKey('payment_via');
+        $this->data['payment_method'] = $setting[0] ?? "";
         if(!$user->hasPermissionTo('active_user'))
             $this->alert(__('messages.not_active_error_message'))->error();
     }

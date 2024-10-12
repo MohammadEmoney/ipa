@@ -36,7 +36,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-md-12">
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">{{ __('global.email') }} *</label>
@@ -99,15 +99,18 @@
         @elseif (isset($data['situation']) && $data['situation'] === "employed")
             <div class="col-md-12">
                 <div class="mb-3">
-                    <label for="company" class="form-label">{{ __('global.company_name') }}
-                        *</label>
-                    <input type="text" class="@error('data.company_name') invalid-input @enderror form-control" wire:model="data.company_name"
-                        id="company" aria-describedby="textHelp" placeholder="{{ __('global.company_name') }}">
-                    <div class="text-danger">@error('data.company_name') {{ $message }} @enderror</div>
+                    <label for="company" class="form-label">{{ __('global.company_name') }} *</label>
+                    <select  id="" class="@error('data.airline_id') invalid-input @enderror form-control" wire:model.live="data.situation">
+                        <option value="">{{ __('global.select_item') }}</option>
+                        @foreach ($airlines as $value )
+                            <option value="{{ $value->id }}">{{ $value->title }} ( {{ $value->title_en }} )</option>
+                        @endforeach
+                    </select>
+                    <div class="text-danger">@error('data.airline_id') {{ $message }} @enderror</div>
                 </div>
             </div>
         @endif
-    </div>
+    </div> --}}
     <div class="row">
         <div class="col-md-12">
             <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" >

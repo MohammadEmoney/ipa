@@ -24,6 +24,7 @@ class UserInfo extends Model
         'phone_2',
         'job_title',
         'situation',
+        'airline_id',
         'university',
         'company_name',
         'company_phone',
@@ -40,5 +41,15 @@ class UserInfo extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the airline that owns the UserInfo
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function airline(): BelongsTo
+    {
+        return $this->belongsTo(Airline::class);
     }
 }

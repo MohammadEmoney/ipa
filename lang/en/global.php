@@ -228,5 +228,6 @@ return [
     'languages' => 'Languages',
     'telegram_id' => 'Telegram ID',
     'support' => 'Support',
+    'airlines' => 'Airlines',
     '' => '',
 ];

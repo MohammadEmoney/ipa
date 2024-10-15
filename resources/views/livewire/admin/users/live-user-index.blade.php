@@ -64,6 +64,47 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="register_start"
+                                                class="form-label">{{ __('global.start_date') }}
+                                                </label>
+                                            <input type="text"
+                                                class="form-control"
+                                                wire:model.live="filters.register_start"
+                                                id="register_start"
+                                                autocomplete="new-password"
+                                                aria-describedby="textHelp"
+                                                data-date="{{ $filters['register_start'] ?? "" }}" value="{{ $data['register_start'] ?? "" }}">
+                                            <div>
+                                                @error('filters.register_start')
+                                                    {{ $message }}
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label for="register_end"
+                                                class="form-label">{{ __('global.end_date') }}
+                                                </label>
+                                            <input type="text"
+                                                class="form-control"
+                                                wire:model.live="filters.register_end"
+                                                id="register_end"
+                                                autocomplete="new-password"
+                                                aria-describedby="textHelp"
+                                                data-date="{{ $filters['register_end'] ?? "" }}" value="{{ $filters['register_end'] ?? "" }}">
+                                            <div>
+                                                @error('filters.register_end')
+                                                    {{ $message }}
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -103,7 +144,7 @@
                                     </div>
                                 </td>
                                 <td class="text-nowrap">{{ $user->getRoleNames()?->first() ? \App\Enums\EnumUserRoles::trans($user->getRoleNames()?->first()) : "-" }}</td>
-                                <td class="text-nowrap">{{ \Morilog\Jalali\Jalalian::fromDateTime($user->userInfo?->register_date)->format('Y-m-d') }}</td>
+                                <td class="text-nowrap">{{ \Morilog\Jalali\Jalalian::fromDateTime($user->created_at)->format('Y-m-d H:i') }}</td>
                                 <td>
                                     <div class="d-flex">
                                         <i class="cursor-pointer ti ti-trash text-danger ms-2" data-bs-toggle="tooltip" data-bs-placement="top" onclick="Custom.deleteItemList({{$user->id}})" title="{{ __('global.delete') }}"></i>
@@ -120,3 +161,27 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+    <script>
+
+        $(`#register_start`).pDatepicker({
+            format: 'YYYY-MM-DD',
+            autoClose: true,
+            onSelect: function(unix) {
+                var propertyName = $(this).data('property');
+                console.log(propertyName);
+                @this.set(`filters.register_start`, new persianDate(unix).format('YYYY-MM-DD'), true);
+            }
+        });
+        $(`#register_end`).pDatepicker({
+            format: 'YYYY-MM-DD',
+            autoClose: true,
+            onSelect: function(unix) {
+                var propertyName = $(this).data('property');
+                console.log(propertyName);
+                @this.set(`filters.register_end`, new persianDate(unix).format('YYYY-MM-DD'), true);
+            }
+        });
+    </script>
+@endpush

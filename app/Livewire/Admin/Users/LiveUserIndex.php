@@ -31,6 +31,8 @@ class LiveUserIndex extends Component
         'situation' => null,
         'airline' => null,
         'active' => null,
+        'register_start' => null,
+        'registerS VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVEW3e_end' => null,
     ];
 
     public function mount()

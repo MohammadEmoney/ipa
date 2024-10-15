@@ -30,7 +30,7 @@ class SmsService
                 "parameters" => [
                     [
                         'name' => 'username',
-                        'value' => $name,
+                        'value' => "$name",
                     ],
                     [
                         'name' => 'verification-code',

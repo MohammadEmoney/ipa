@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Filters\Filterable;
+use App\Traits\DateTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,7 +19,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements HasMedia, MustVerifyEmail, Filterable
 {
-    use HasFactory, Notifiable, HasRoles, SoftDeletes, InteractsWithMedia;
+    use HasFactory, Notifiable, HasRoles, SoftDeletes, InteractsWithMedia, DateTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -146,6 +147,16 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail, Filtera
             $query->whereHas('userInfo',function (Builder $q) use($filters){
                 $q->where('situation',  "{$filters['situation']}");
             });
+        }
+
+        if(!empty($filters['register_start'])){
+            $startDate = $this->convertToGeorgianDate($filters['register_start']);
+            $query->whereDate('created_at', ">=", $startDate);
+        }
+
+        if(!empty($filters['register_end'])){
+            $endDate = $this->convertToGeorgianDate($filters['register_end']);
+            $query->whereDate('created_at', "<=", $endDate);
         }
 
         if (!empty($filters['airline'])) {

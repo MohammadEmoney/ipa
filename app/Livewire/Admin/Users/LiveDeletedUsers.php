@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Users;
 use App\Models\User;
 use App\Traits\AlertLiveComponent;
 use Exception;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -58,6 +59,8 @@ class LiveDeletedUsers extends Component
 
             if ($user) {
                 try {
+                    DB::beginTransaction();
+                    DB::statement('SET FOREIGN_KEY_CHECKS=0');
                     $user->clearMediaCollection('avatar');
                     $user->clearMediaCollection('nationalCard');
                     $user->clearMediaCollection('license');
@@ -69,6 +72,8 @@ class LiveDeletedUsers extends Component
                     $user->orders()?->delete();
                     $user->syncRoles([]);
                     $user->forceDelete();
+                    DB::statement('SET FOREIGN_KEY_CHECKS=1');
+                    DB::commit();
                     $this->alert(__('messages.user_deleted'))->success();
                     return redirect()->to(route('admin.users.trash'));
                 } catch (Exception $e) {

@@ -99,6 +99,7 @@ class LiveRegister extends Component
         ], [
             'data.first_name.uni_regex' => 'لطفا از حروف فارسی برای نام خود استفاده نمایید.',
             'data.last_name.uni_regex' => 'لطفا از حروف فارسی برای نام خانوادگی خود استفاده نمایید.',
+            'data.phone.unique' => 'شماره همراه قبلا ثبت شده است. در صورتی که قبلا با این شماره ثبت نام انجام داده اید از طریق صفحه ورود اقدام به ورود نمایید.',
         ], [
             'data.first_name' => __('global.first_name'),
             'data.last_name' => __('global.last_name'),

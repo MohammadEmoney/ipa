@@ -31,6 +31,11 @@ Route::group(['prefix' => '{locale?}'], function () {
             Route::get('orders/create', \App\Livewire\Admin\Orders\LiveOrderCreate::class)->name('orders.create')->middleware('can:order_create');
             Route::get('orders/{order}', \App\Livewire\Admin\Orders\LiveOrderShow::class)->name('orders.show')->middleware('can:order_show');
             Route::get('orders/{order}/edit', \App\Livewire\Admin\Orders\LiveOrderEdit::class)->name('orders.edit')->middleware('can:order_edit');
+        // Orders
+            Route::get('notifications', \App\Livewire\Admin\Orders\LiveOrderIndex::class)->name('notifications.index')->middleware('can:notification_index');
+            Route::get('notifications/create', \App\Livewire\Admin\Orders\LiveOrderCreate::class)->name('notifications.create')->middleware('can:notification_create');
+            Route::get('notifications/{notification}', \App\Livewire\Admin\Orders\LiveOrderShow::class)->name('notifications.show')->middleware('can:notification_show');
+            // Route::get('orders/{order}/edit', \App\Livewire\Admin\Orders\LiveOrderEdit::class)->name('orders.edit')->middleware('can:order_edit');
         // Pages
             Route::get('pages', \App\Livewire\Admin\Pages\LivePageIndex::class)->name('pages.index')->middleware('can:page_index');
             Route::get('pages/create', \App\Livewire\Admin\Pages\LivePageCreate::class)->name('pages.create')->middleware('can:page_create');

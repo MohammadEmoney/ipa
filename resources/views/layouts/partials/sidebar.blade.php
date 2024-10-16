@@ -163,6 +163,16 @@
                         </a>
                     </li>
                 @endcan
+                @can('airline_index')
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('admin.airlines.index') }}" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-plane-tilt"></i>
+                            </span>
+                            <span class="hide-menu">{{ __('global.airlines') }}</span>
+                        </a>
+                    </li>
+                @endcan
                 {{-- @can('layout_index')
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="{{ route('admin.layouts.index') }}" aria-expanded="false">

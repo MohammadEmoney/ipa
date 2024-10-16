@@ -80,9 +80,13 @@
                             <div class="mb-3">
                                 <label for="company" class="form-label">{{ __('global.company_name') }}
                                     *</label>
-                                <input type="text" class="form-control" wire:model="data.company_name"
-                                    id="company" aria-describedby="textHelp" placeholder="{{ __('global.company_name') }}">
-                                <div>@error('data.company_name') {{ $message }} @enderror</div>
+                                    <select  id="" class="@error('data.airline_id') invalid-input @enderror form-control" wire:model.live="data.airline_id">
+                                        <option value="">{{ __('global.select_item') }}</option>
+                                        @foreach ($airlines as $airline )
+                                            <option value="{{ $airline->id }}">{{ $airline->title }} ( {{ $airline->title_en }} )</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="text-danger">@error('data.airline_id') {{ $message }} @enderror</div>
                             </div>
                         </div>
                     @endif

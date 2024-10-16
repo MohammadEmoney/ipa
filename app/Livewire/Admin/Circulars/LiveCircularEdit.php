@@ -91,7 +91,7 @@ class LiveCircularEdit extends Component
 
             $this->createImage($this->circular, 'attachment');
             $this->createImage($this->circular);
-            $this->alert(__('messages.circular_created_successfully'))->success();
+            $this->alert(__('messages.circular_updated_successfully'))->success();
             return redirect()->to(route('admin.circulars.index'));
         } catch (Exception $e) {
             $this->alert($e->getMessage())->error();

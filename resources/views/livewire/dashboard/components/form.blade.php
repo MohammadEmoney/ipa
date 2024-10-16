@@ -100,7 +100,7 @@
             <div class="col-md-12">
                 <div class="mb-3">
                     <label for="company" class="form-label">{{ __('global.company_name') }} *</label>
-                    <select  id="" class="@error('data.airline_id') invalid-input @enderror form-control" wire:model.live="data.situation">
+                    <select  id="" class="@error('data.airline_id') invalid-input @enderror form-control" wire:model.live="data.airline_id">
                         <option value="">{{ __('global.select_item') }}</option>
                         @foreach ($airlines as $value )
                             <option value="{{ $value->id }}">{{ $value->title }} ( {{ $value->title_en }} )</option>

@@ -6,6 +6,7 @@ use App\Enums\EnumEducationTypes;
 use App\Enums\EnumInitialLevels;
 use App\Enums\EnumMilitaryStatus;
 use App\Enums\EnumUserSituation;
+use App\Models\Airline;
 use App\Traits\StaffTrait;
 use App\Traits\StudentTrait;
 use App\Models\Course;
@@ -17,6 +18,7 @@ use App\Traits\AlertLiveComponent;
 use App\Traits\DateTrait;
 use App\Traits\JobsTrait;
 use App\Traits\MediaTrait;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -62,33 +64,37 @@ class LiveProfileEdit extends Component
         $this->data['education'] = $user->userInfo?->education;
         $this->data['university'] = $user->userInfo?->university;
         $this->data['company_name'] = $user->userInfo?->company_name;
+        $this->data['airline_id'] = $this->user->userInfo?->airline_id;
 
         $this->data['avatar'] = $this->user->getFirstMedia('avatar');
         $this->data['nationalCard'] = $this->user->getFirstMedia('nationalCard');
         $this->data['license'] = $this->user->getFirstMedia('license');
-
         $this->title = __('global.edit_profile');
     }
 
     public function validations()
     {
         $this->validate([
-            'data.first_name' => 'required|string|max:255',
-            'data.last_name' => 'required|string|max:255',
+            'data.first_name' => 'required|string|uni_regex:^[\x{0621}-\x{0628}\x{062A}-\x{063A}\x{0641}-\x{0642}\x{0644}-\x{0648}\x{064E}-\x{0651}\x{0655}\x{067E}\x{0686}\x{0698}\x{06A9}\x{06AF}\x{06BE}\x{06CC} ]+$|max:255',
+            'data.last_name' => 'required|string|uni_regex:^[\x{0621}-\x{0628}\x{062A}-\x{063A}\x{0641}-\x{0642}\x{0644}-\x{0648}\x{064E}-\x{0651}\x{0655}\x{067E}\x{0686}\x{0698}\x{06A9}\x{06AF}\x{06BE}\x{06CC} ]+$|max:255',
             // 'data.landline_phone' => 'nullable|regex:/^0[0-9]{10}$/',
             'data.phone' => 'required|regex:/^09[0-9]{9}$/|unique:users,phone,' . $this->user->id,
             // 'data.phone_2' => 'required|regex:/^09[0-9]{9}$/',
             'data.address' => 'nullable|string|max:2550',
             // 'data.job' => 'nullable|string|max:255',
             // 'data.education' => 'nullable|string|max:255',
-            'data.email' => 'required|email|max:255|unique:users,email,' . $this->user->id,
+            'data.email' => 'nullable|email|max:255|unique:users,email,' . $this->user->id,
             'data.password' => 'nullable|confirmed|min:8|max:255',
             // 'data.gender' => 'required|in:male,female|max:255',
             // 'data.avatar' => 'nullable|image|max:2048',
             'data.situation' => 'required|in:' . EnumUserSituation::asStringValues(),
             'data.university' => 'required_if:situation,' . EnumUserSituation::STUDENT,
-            'data.company_name' => 'required_if:situation,' . EnumUserSituation::EMPLOYED,
-        ],[],
+            'data.airline_id' => ['required_if:situation,' . EnumUserSituation::EMPLOYED, 'exists:airlines,id'],
+        ],[
+            'data.first_name.uni_regex' => 'لطفا از حروف فارسی برای نام خود استفاده نمایید.',
+            'data.last_name.uni_regex' => 'لطفا از حروف فارسی برای نام خانوادگی خود استفاده نمایید.',
+            'data.phone.unique' => 'شماره همراه قبلا ثبت شده است. در صورتی که قبلا با این شماره ثبت نام انجام داده اید از طریق صفحه ورود اقدام به ورود نمایید.',
+        ],
         [
             'data.father_name' => 'نام پدر',
             'data.birth_date' => 'تاریخ تولد',
@@ -108,6 +114,7 @@ class LiveProfileEdit extends Component
             'data.situation' => __('global.job_status'),
             'data.university' => __('global.university_name'),
             'data.company_name' => __('global.company_name'),
+            'data.airline_id' => __('global.company_name'),
         ]);
     }
 
@@ -115,6 +122,7 @@ class LiveProfileEdit extends Component
     {
         try {
             $this->validations();
+            DB::beginTransaction();
             $user = $this->user;
             $user->update([
                 'first_name' => $this->data['first_name'] ?? null,
@@ -122,6 +130,8 @@ class LiveProfileEdit extends Component
                 'email' => $this->data['email'] ?? null,
                 'phone' => $this->data['phone'] ?? null,
             ]);
+
+            $airline = Airline::find($this->data['airline_id'] ?? null);
 
             $user->userInfo()->update([
                 'national_code' => $this->data['national_code'] ?? null,
@@ -131,17 +141,19 @@ class LiveProfileEdit extends Component
                 'phone_2' => $this->data['phone_2'] ?? null,
                 'address' => $this->data['address'] ?? null,
                 'job_title' => $this->data['job_title'] ?? null,
-                'company_name' => $this->data['company_name'] ?? null,
+                'company_name' => $airline->title ?? null,
                 'company_phone' => $this->data['company_phone'] ?? null,
                 'company_address' => $this->data['company_address'] ?? null,
                 'education' => $this->data['education'] ?? null,
                 'situation' => $this->data['situation'] ?? null,
                 'university' => $this->data['university'] ?? null,
+                'airline_id' => $airline->id ?? null
             ]);
 
             $this->createImage($user, 'avatar');
             $this->createImage($user, 'nationalCard');
             $this->createImage($user, 'license');
+            DB::commit();
             $this->alert(__('messages.profile_updated_successfully'))->success();
         } catch (\Exception $e) {
             $this->alert($e->getMessage())->error();
@@ -157,6 +169,7 @@ class LiveProfileEdit extends Component
     {
         $educations = EnumEducationTypes::getTranslatedAll();
         $situations = EnumUserSituation::getTranslatedAll();
-        return view('livewire.dashboard.profiles.live-profile-edit', compact('situations', 'educations'))->extends('layouts.panel')->section('content');
+        $airlines = Airline::active()->get();
+        return view('livewire.dashboard.profiles.live-profile-edit', compact('situations', 'educations', 'airlines'))->extends('layouts.panel')->section('content');
     }
 }

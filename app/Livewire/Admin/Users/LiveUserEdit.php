@@ -78,12 +78,12 @@ class LiveUserEdit extends Component
         $this->data['job_title'] = $this->user->userInfo?->job_title;
         $this->data['education'] = $this->user->userInfo?->education;
         $this->data['email'] = $this->user->email;
-        $this->data['compnay_name'] = $this->user->userInfo?->compnay_name;
+        $this->data['company_name'] = $this->user->userInfo?->company_name;
         $this->data['compnay_address'] = $this->user->userInfo?->compnay_address;
         $this->data['compnay_phone'] = $this->user->userInfo?->compnay_phone;
         $this->data['situation'] = $this->user->userInfo?->situation;
         $this->data['university'] = $this->user->userInfo?->university;
-        $this->data['company_name'] = $this->user->userInfo?->company_name;
+        $this->data['airline_id'] = $this->user->userInfo?->airline_id;
 
         $this->data['avatar'] = $this->user->getFirstMedia('avatar');
         $this->data['nationalCard'] = $this->user->getFirstMedia('nationalCard');
@@ -117,7 +117,8 @@ class LiveUserEdit extends Component
             'data.role' =>  'required|exists:roles,name',
             'data.situation' => 'required|in:' . EnumUserSituation::asStringValues(),
             'data.university' => 'required_if:situation,' . EnumUserSituation::STUDENT,
-            'data.company_name' => 'required_if:situation,' . EnumUserSituation::EMPLOYED,
+            // 'data.company_name' => 'required_if:situation,' . EnumUserSituation::EMPLOYED,
+            'data.airline_id' => ['required_if:situation,' . EnumUserSituation::EMPLOYED, 'exists:airlines,id'],
         ],[],
         [
             'data.father_name' => 'نام پدر',
@@ -138,6 +139,7 @@ class LiveUserEdit extends Component
             'data.situation' => __('global.job_status'),
             'data.university' => __('global.university_name'),
             'data.company_name' => __('global.company_name'),
+            'data.airline_id' => __('global.company_name'),
         ]);
     }
 
@@ -158,6 +160,7 @@ class LiveUserEdit extends Component
             if(isset($this->data['password']))
                 $user->update(['password' => Hash::make($this->data['password'])]);
 
+            $airline = Airline::find($this->data['airline_id'] ?? null);
             $user->userInfo()->update([
                 'national_code' => $this->data['national_code'] ?? null,
                 'birth_date' => isset($this->data['birth_date']) ? $this->convertToGeorgianDate($this->data['birth_date']) : null,
@@ -166,12 +169,13 @@ class LiveUserEdit extends Component
                 'phone_2' => $this->data['phone_2'] ?? null,
                 'address' => $this->data['address'] ?? null,
                 'job_title' => $this->data['job_title'] ?? null,
-                'company_name' => $this->data['company_name'] ?? null,
+                'company_name' => $airline->title ?? null,
                 'company_phone' => $this->data['company_phone'] ?? null,
                 'company_address' => $this->data['company_address'] ?? null,
                 'education' => $this->data['education'] ?? null,
                 'situation' => $this->data['situation'] ?? null,
                 'university' => $this->data['university'] ?? null,
+                'airline_id' => $this->data['airline_id'] ?? null
             ]);
 
             $this->createImage($user, 'avatar');

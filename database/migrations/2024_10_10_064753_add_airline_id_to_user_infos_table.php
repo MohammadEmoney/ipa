@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Schema::table('user_infos', function (Blueprint $table) {
             $table->unsignedBigInteger('airline_id')->nullable()->after('situation');
             $table->foreign('airline_id')->references('id')->on('airlines')->nullOnDelete();
         });
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 
     /**

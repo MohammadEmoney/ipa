@@ -229,5 +229,10 @@ return [
     'telegram_id' => 'Telegram ID',
     'support' => 'Support',
     'airlines' => 'Airlines',
+    'airline' => 'Airline',
+    'create_airline' => 'Create Airline',
+    'edit_airline' => 'Edit Airline',    
+    'delete_airline' => 'Delete Airline',
+    'title_en' => 'English Title',
     '' => '',
 ];

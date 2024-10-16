@@ -31,7 +31,12 @@ Route::group(['prefix' => '{locale?}'], function () {
             Route::get('orders/create', \App\Livewire\Admin\Orders\LiveOrderCreate::class)->name('orders.create')->middleware('can:order_create');
             Route::get('orders/{order}', \App\Livewire\Admin\Orders\LiveOrderShow::class)->name('orders.show')->middleware('can:order_show');
             Route::get('orders/{order}/edit', \App\Livewire\Admin\Orders\LiveOrderEdit::class)->name('orders.edit')->middleware('can:order_edit');
-        // Orders
+        // Airlines
+            Route::get('airlines', \App\Livewire\Admin\Airlines\LiveAirlineIndex::class)->name('airlines.index')->middleware('can:airline_index');
+            Route::get('airlines/create', \App\Livewire\Admin\Airlines\LiveAirlineCreate::class)->name('airlines.create')->middleware('can:airline_create');
+            // Route::get('airlines/{airline}', \App\Livewire\Admin\Airlines\LiveAirlineShow::class)->name('airlines.show')->middleware('can:airline_show');
+            Route::get('airlines/{airline}/edit', \App\Livewire\Admin\Airlines\LiveAirlineEdit::class)->name('airlines.edit')->middleware('can:airline_edit');
+        // Notifications
             Route::get('notifications', \App\Livewire\Admin\Orders\LiveOrderIndex::class)->name('notifications.index')->middleware('can:notification_index');
             Route::get('notifications/create', \App\Livewire\Admin\Orders\LiveOrderCreate::class)->name('notifications.create')->middleware('can:notification_create');
             Route::get('notifications/{notification}', \App\Livewire\Admin\Orders\LiveOrderShow::class)->name('notifications.show')->middleware('can:notification_show');

@@ -42,7 +42,7 @@ class VerificationNotification extends Notification
         $params = [
             [
                 'name' => 'username',
-                'value' => $username,
+                'value' => "$username",
             ],
             [
                 'name' => 'verification-code',
@@ -52,7 +52,7 @@ class VerificationNotification extends Notification
 
         return (new SmsMessage)
                     ->to($notifiable->phone)
-                    ->templateId('570091')
+                    ->templateId('198103')
                     ->parameters($params)
                     ->line("These aren't the droids you are looking for.");
     }

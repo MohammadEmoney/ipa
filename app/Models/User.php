@@ -36,6 +36,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail, Filtera
         'phone_verified_at',
         'password',
         'otp_code',
+        'code',
         'lang',
         'is_active'
     ];
@@ -120,6 +121,14 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail, Filtera
     public function scopeActive($query)
     {
         $query->where('is_active', 1);
+    }
+
+    /**
+     * Active Scope
+     */
+    public function scopeNotActive($query)
+    {
+        $query->where('is_active', 0);
     }
 
     public function filter(array $filters)

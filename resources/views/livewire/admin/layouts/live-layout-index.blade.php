@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <livewire:admin.components.live-breadcrumb :items="[['title' => $title]]" />
+    <livewire:admin.components.live-breadcrumb :items="[['title' => __('global.group_layouts'), 'route' => route('admin.group-layouts.index')], ['title' => $title]]" />
     <div class="card">
         <div class="card-body">
             <div class="d-flex justify-content-between mb-2">
@@ -113,6 +113,7 @@
                                 <td class="text-nowrap">
                                     <i class="cursor-pointer ti ti-trash text-danger ms-2" data-bs-toggle="tooltip" data-bs-placement="top" onclick="Custom.deleteItemList({{$layout->id}})" title="{{ __('global.delete') }}"></i>
                                     <i class="cursor-pointer ti ti-pencil text-warning ms-2" data-bs-toggle="tooltip" data-bs-placement="top" wire:click="edit({{ $layout->id }})" title="{{ __('global.edit') }}"></i>
+                                    <i class="cursor-pointer ti ti-list-details" data-bs-toggle="tooltip" data-bs-placement="top" wire:click="show({{ $layout->id }})" title="{{ __('global.layouts') }}"></i>
                                 </td>
                             </tr>
                         @endforeach

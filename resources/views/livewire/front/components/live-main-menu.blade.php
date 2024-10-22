@@ -11,11 +11,14 @@
         <div class="navbar-nav ms-auto me-5">
             @foreach ($menu as $item)
                 @if($item->children()->count())
+                    @php
+                        $children = $item->prepareLayouts($item->children);
+                    @endphp
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">{{ $item->title }}</a>
                         <div class="dropdown-menu m-0 bg-secondary rounded-0">
-                            @foreach ($item->children as $child)
-                                <a href="{{ $item->link }}" class="dropdown-item">{{ $child->title }}</a>
+                            @foreach ($children as $child)
+                                <a href="{{ $child->link }}" class="dropdown-item">{{ $child->title }}</a>
                             @endforeach
                         </div>
                     </div>

@@ -37,6 +37,7 @@ class LiveUserCreate extends Component
     public $data = [];
     public $firstname;
     public $user;
+    public $highestCode;
     public $currentTab = 'student';
     public $disabledCreate = true;
     public $disabledEdit = true;
@@ -58,6 +59,9 @@ class LiveUserCreate extends Component
         $this->data['direct_permissions'] = $this->allFalsePermissions;
 
         $this->data['gender'] = \App\Enums\EnumUserGender::MALE;
+
+        $highestCode = User::max('code');
+        $this->highestCode = $highestCode ? $highestCode + 1 : 1101;
     }
 
     public function selectAll()
@@ -80,7 +84,8 @@ class LiveUserCreate extends Component
             'data.address' => 'nullable|string|max:2550',
             // 'data.job' => 'nullable|string|max:255',
             // 'data.education' => 'nullable|string|max:255',
-            'data.email' => 'required|email|max:255|unique:users,email',
+            'data.email' => 'nullable|email|max:255|unique:users,email',
+            'data.code' => 'nullable|integer|max:999999|unique:users,code',
             'data.password' => 'required|confirmed|min:8|max:255',
             // 'data.gender' => 'required|in:male,female|max:255',
             'data.avatar' => 'nullable|image|max:2048',
@@ -93,6 +98,7 @@ class LiveUserCreate extends Component
             'data.father_name' => 'نام پدر',
             'data.birth_date' => 'تاریخ تولد',
             'data.national_code' => 'کد ملی',
+            'data.code' => 'کد',
             'data.landline_phone' => 'شماره تلفن',
             'data.phone_1' => 'شماره موبایل 1',
             'data.phone_2' => 'شماره موبایل 2',
@@ -125,6 +131,7 @@ class LiveUserCreate extends Component
                 'last_name' => $this->data['last_name'] ?? null,
                 'email' => $this->data['email'] ?? null,
                 'phone' => $this->data['phone'] ?? null,
+                'code' => $this->data['code'] ?? null,
                 'password' => isset($this->data['password']) ? Hash::make($this->data['password']) : null,
             ]);
 
@@ -148,6 +155,8 @@ class LiveUserCreate extends Component
             ]);
 
             $this->createImage($user, 'avatar');
+            $this->createImage($user, 'license');
+            $this->createImage($user, 'nationalCode');
 
             $user->assignRole($this->data['role'] ?? EnumUserRoles::USER);
             $selectedPermissions = collect($this->data['direct_permissions'])->map(function($value, $key){

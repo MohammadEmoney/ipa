@@ -31,6 +31,7 @@ class LiveUserEdit extends Component
     public $firstname;
     public $user;
     public $title;
+    public $highestCode;
     public $currentTab = 'student';
     public $disabledCreate = true;
     public $disabledEdit = true;
@@ -43,6 +44,8 @@ class LiveUserEdit extends Component
     {
         $this->user = $user;
         $this->title = __('global.edit_user');
+        $highestCode = User::max('code');
+        $this->highestCode = $highestCode ? $highestCode + 1 : 1101;
         $permissions = Permission::all();
         $this->allFalsePermissions = $permissions->pluck('id', 'id')->map(function ($item) {
             return false;
@@ -69,6 +72,9 @@ class LiveUserEdit extends Component
         $this->data['first_name'] = $this->user->first_name;
         $this->data['last_name'] = $this->user->last_name;
         $this->data['phone'] = $this->user->phone;
+        $this->data['phone_verified_at'] = $this->user->phone_verified_at;
+        $this->data['email_verified_at'] = $this->user->email_verified_at;
+        $this->data['code'] = $this->user->code;
         $this->data['national_code'] = $this->user->userInfo?->national_code;
         // $this->data['birth_date'] = Jalalian::fromDateTime($this->user->userInfo?->birth_date)->format('Y-m-d');
         $this->data['landline_phone'] = $this->user->userInfo?->landline_phone;
@@ -110,7 +116,8 @@ class LiveUserEdit extends Component
             'data.address' => 'nullable|string|max:2550',
             // 'data.job' => 'nullable|string|max:255',
             // 'data.education' => 'nullable|string|max:255',
-            'data.email' => 'required|email|max:255|unique:users,email,' . $this->user->id,
+            'data.email' => 'nullable|email|max:255|unique:users,email,' . $this->user->id,
+            'data.code' => 'nullable|integer|max:999999|unique:users,code,' . $this->user->id,
             'data.password' => 'nullable|confirmed|min:8|max:255',
             // 'data.gender' => 'required|in:male,female|max:255',
             // 'data.avatar' => 'nullable|image|max:2048',
@@ -124,6 +131,7 @@ class LiveUserEdit extends Component
             'data.father_name' => 'نام پدر',
             'data.birth_date' => 'تاریخ تولد',
             'data.national_code' => 'کد ملی',
+            'data.code' => 'کد',
             'data.landline_phone' => 'شماره تلفن',
             'data.phone_1' => 'شماره موبایل 1',
             'data.phone_2' => 'شماره موبایل 2',
@@ -155,6 +163,7 @@ class LiveUserEdit extends Component
                 'last_name' => $this->data['last_name'] ?? null,
                 'email' => $this->data['email'] ?? null,
                 'phone' => $this->data['phone'] ?? null,
+                'code' => $this->data['code'] ?? null,
             ]);
 
             if(isset($this->data['password']))
@@ -180,7 +189,7 @@ class LiveUserEdit extends Component
 
             $this->createImage($user, 'avatar');
             $this->createImage($user, 'nationalCode');
-            $this->createImage($user, 'lisence');
+            $this->createImage($user, 'license');
 
             $user->syncRoles($this->data['role'] ?? EnumUserRoles::USER);
             $selectedPermissions = collect($this->data['direct_permissions'])->map(function($value, $key){

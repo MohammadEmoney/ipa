@@ -1,5 +1,9 @@
 <div class="container-fluid">
-    <livewire:admin.components.live-breadcrumb :items="[['title' => __('global.layouts'), 'route' => route('admin.layouts.index', ['layoutGroup' => $layoutGroup->id])], ['title' => $title]]" />
+    <livewire:admin.components.live-breadcrumb :items="[
+        ['title' => __('global.group_layouts'), 'route' => route('admin.group-layouts.index')], 
+        ['title' => __('global.layouts'), 'route' => route('admin.layouts.index', ['layoutGroup' => $layoutGroup->id])], 
+        ['title' => $title]
+    ]" />
     <div class="card">
         <div class="card-body">
             <h3 class="">{{ $title }}</h3>
@@ -390,6 +394,8 @@
         function livewireSelect2(component, event) {
             @this.set(component, $(event).val())
         }
+
+        $('#parent_id').val("{{ $data['parent_id'] }}").trigger('change');
     </script>
 @endpush
 @script
@@ -400,6 +406,8 @@
             console.log(data);
             $wire.set('data.parent_id', data);
         });
+
+        $('#parent_layout').val("{{ $data['parent_id'] }}").trigger('change');
     });
 </script>
 @endscript

@@ -7,6 +7,7 @@ use App\Traits\AlertLiveComponent;
 use Livewire\Component;
 use App\Enums\EnumLanguages;
 use App\Traits\MediaTrait;
+use App\Traits\NotificationTrait;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +19,7 @@ class LiveDocumentCreate extends Component
     use AlertLiveComponent;
     use MediaTrait;
     use WithFileUploads;
+    use NotificationTrait;
 
     public $title;
     public $document;
@@ -74,6 +76,7 @@ class LiveDocumentCreate extends Component
             $this->createImage($document, 'attachment');
             DB::commit();
             $this->alert(__('messages.document_created_successfully'))->success();
+            $this->sendNewDocNotification($document);
             return redirect()->to(route('admin.documents.index'));
         } catch (Exception $e) {
             $this->alert($e->getMessage())->error();

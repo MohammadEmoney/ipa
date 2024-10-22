@@ -49,6 +49,16 @@
                         </a>
                     </li>
                 @endcan
+                @can('member_index')
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('admin.members.index') }}" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-user-circle"></i>
+                            </span>
+                            <span class="hide-menu">{{ __('global.member_list') }}</span>
+                        </a>
+                    </li>
+                @endcan
                 @can('post_index')
                     <li class="nav-small-cap">
                         <i class="ti ti-dots nav-small-cap-icon fs-4"></i>

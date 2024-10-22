@@ -9,6 +9,6 @@ class EnumUserRoles extends BaseEnum
     const ADMIN = 'admin';
     const SUPERVISOR = 'supervisor';
     const MANAGEMENT = 'management';
-    const CONTENT_MANAGER = 'content-managemer';
+    const CONTENT_MANAGER = 'content-manager';
     const USER = 'user';
 }

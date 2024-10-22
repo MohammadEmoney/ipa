@@ -35,8 +35,11 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label for="phoneInputtext1" class="form-label">{{ __('global.phone_number') }}
-                                *</label>
+                            <label for="phoneInputtext1" class="form-label">{{ __('global.phone_number') }} *
+                                @if($edit)
+                                    <i class="ti {{ $data['phone_verified_at'] ? "ti-check text-success" : "ti-x text-danger" }}"></i>
+                                @endif
+                            </label>
                             <input type="text" class="form-control" wire:model="data.phone"
                                 id="phoneInputtext1" aria-describedby="textHelp" placeholder="09123456789">
                             <div>@error('data.phone') {{ $message }} @enderror</div>
@@ -44,10 +47,24 @@
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">{{ __('global.email') }} *</label>
+                            <label for="exampleInputEmail1" class="form-label">{{ __('global.email') }} *
+                                @if($edit)
+                                    <i class="ti {{ $data['email_verified_at'] ? "ti-check text-success" : "ti-x text-danger" }}"></i>
+                                @endif
+                            </label>
                             <input type="email" autocomplete="username" class="form-control" wire:model="data.email"
                                 id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="example@email.com">
                             <div>@error('data.email') {{ $message }} @enderror</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label for="exampleInputCode" class="form-label">{{ __('global.code') }} *</label>
+                            <input type="number" autocomplete="code" class="form-control" wire:model="data.code"
+                                id="exampleInputCode" aria-describedby="codeHelp" placeholder="{{ $highestCode }}">
+                            <div>@error('data.code') {{ $message }} @enderror</div>
                         </div>
                     </div>
                 </div>

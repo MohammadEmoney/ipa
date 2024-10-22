@@ -7,8 +7,10 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Traits\AlertLiveComponent;
 use App\Traits\MediaTrait;
+use App\Traits\NotificationTrait;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -19,6 +21,7 @@ class LivePostCreate extends Component
     use AlertLiveComponent;
     use MediaTrait;
     use WithFileUploads;
+    use NotificationTrait;
 
     public $title;
     public $post;
@@ -75,6 +78,7 @@ class LivePostCreate extends Component
             return $this->addError('data.mainImage', __('messages.post_main_image_required'));
         }
         try {
+            DB::beginTransaction();
             $post =  Post::create([
                 'lang' => $this->data['lang'],
                 'title' => $this->data['title'],
@@ -88,9 +92,11 @@ class LivePostCreate extends Component
 
             $post->mainCategory()->attach($this->data['category_id'], ['is_main' => true]);
             $post->categories()->attach($this->data['categories'] ?? []);
-    
+
             $this->createPostImage($post);
+            DB::commit();
             $this->alert(__('messages.post_created_successfully'))->success();
+            $this->sendNewDocNotification($post);
             return redirect()->to(route('admin.posts.index'));
         } catch (Exception $e) {
             $this->alert($e->getMessage())->error();

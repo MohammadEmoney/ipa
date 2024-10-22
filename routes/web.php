@@ -22,6 +22,10 @@ Route::group(['prefix' => '{locale?}'], function () {
             Route::get('users/create', \App\Livewire\Admin\Users\LiveUserCreate::class)->name('users.create')->middleware('can:user_create');
             Route::get('users/{user}', \App\Livewire\Admin\Users\LiveUserShow::class)->name('users.show')->middleware('can:user_show');
             Route::get('users/{user}/edit', \App\Livewire\Admin\Users\LiveUserEdit::class)->name('users.edit')->middleware('can:user_edit');
+        //  Members
+            Route::get('members', \App\Livewire\Admin\Members\LiveMemberIndex::class)->name('members.index')->middleware('can:member_index');
+            Route::get('members/create', \App\Livewire\Admin\Members\LiveMemberCreate::class)->name('members.create')->middleware('can:member_create');
+            Route::get('members/{member}/edit', \App\Livewire\Admin\Members\LiveMemberEdit::class)->name('members.edit')->middleware('can:member_edit');
         // Posts
             Route::get('posts', \App\Livewire\Admin\Posts\LivePostIndex::class)->name('posts.index')->middleware('can:post_index');
             Route::get('posts/create', \App\Livewire\Admin\Posts\LivePostCreate::class)->name('posts.create')->middleware('can:post_create');
@@ -37,9 +41,9 @@ Route::group(['prefix' => '{locale?}'], function () {
             // Route::get('airlines/{airline}', \App\Livewire\Admin\Airlines\LiveAirlineShow::class)->name('airlines.show')->middleware('can:airline_show');
             Route::get('airlines/{airline}/edit', \App\Livewire\Admin\Airlines\LiveAirlineEdit::class)->name('airlines.edit')->middleware('can:airline_edit');
         // Notifications
-            Route::get('notifications', \App\Livewire\Admin\Orders\LiveOrderIndex::class)->name('notifications.index')->middleware('can:notification_index');
-            Route::get('notifications/create', \App\Livewire\Admin\Orders\LiveOrderCreate::class)->name('notifications.create')->middleware('can:notification_create');
-            Route::get('notifications/{notification}', \App\Livewire\Admin\Orders\LiveOrderShow::class)->name('notifications.show')->middleware('can:notification_show');
+            Route::get('notifications', \App\Livewire\Admin\Notifications\LiveNotificationIndex::class)->name('notifications.index')->middleware('can:notification_index');
+            Route::get('notifications/create', \App\Livewire\Admin\Notifications\LiveNotificationCreate::class)->name('notifications.create')->middleware('can:notification_create');
+            Route::get('notifications/{notification}', \App\Livewire\Admin\Notifications\LiveNotificationShow::class)->name('notifications.show')->middleware('can:notification_show');
             // Route::get('orders/{order}/edit', \App\Livewire\Admin\Orders\LiveOrderEdit::class)->name('orders.edit')->middleware('can:order_edit');
         // Pages
             Route::get('pages', \App\Livewire\Admin\Pages\LivePageIndex::class)->name('pages.index')->middleware('can:page_index');
@@ -69,6 +73,7 @@ Route::group(['prefix' => '{locale?}'], function () {
                 Route::get('/{layoutGroup}', \App\Livewire\Admin\Layouts\LiveLayoutIndex::class)->name('index')->middleware('can:layout_index');
                 Route::get('/{layoutGroup}/create', \App\Livewire\Admin\Layouts\LiveLayoutCreate::class)->name('create')->middleware('can:layout_create');
                 Route::get('/{layoutGroup}/{layout}/edit', \App\Livewire\Admin\Layouts\LiveLayoutEdit::class)->name('edit')->middleware('can:layout_edit');
+                Route::get('/{layoutGroup}/{layout}/show', \App\Livewire\Admin\Layouts\LiveLayoutIndex::class)->name('show')->middleware('can:layout_show');
             });
     
             Route::get('settings', \App\Livewire\Admin\Settings\LiveSettings::class)->name('settings.general')->middleware('can:general_settings');
@@ -117,6 +122,7 @@ Route::group(['prefix' => '{locale?}'], function () {
         Route::get('/categories/{category:slug}', \App\Livewire\Front\Categories\LiveCategoryShow::class)->name('categories.show');
         Route::get('/pages/{page:slug}', \App\Livewire\Front\Pages\LivePageShow::class)->name('pages.show');
         Route::get('/search', \App\Livewire\Front\Blog\LiveBlogIndex::class)->name('search');
+        Route::get('/members', \App\Livewire\Front\Members\LiveMemberIndex::class)->name('members.index');
     });
     Route::get('login', App\Livewire\Auth\LiveLogin::class)->name('login');
     Route::get('register', App\Livewire\Auth\LiveRegister::class)->name('register');

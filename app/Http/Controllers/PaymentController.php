@@ -11,6 +11,7 @@ use App\Enums\EnumPaymentStatus;
 use App\Enums\EnumPaymentTypes;
 use App\Models\Order;
 use App\Models\Setting;
+use App\Models\User;
 use App\Repositories\SettingsRepository;
 use App\Traits\NotificationTrait;
 use App\Traits\PaymentTrait;
@@ -118,10 +119,12 @@ class PaymentController extends Controller
                 $order = $payment->order;
 
                 if($order){
+                    $highestCode = User::max('code');
+                    $code = $highestCode ? $highestCode + 1 : 1101;
                     $order->update(['status' => EnumOrderStatus::COMPLETED]);
                     $user = $order->user;
                     $user?->givePermissionTo(['active_user']);
-                    $user?->update(['is_active' => true]);
+                    $user?->update(['is_active' => true, 'code' => $code]);
                 }
                 DB::commit();
                 Log::info(json_encode(['success' => 'payment was success.', 'order_id' => $order->id]));

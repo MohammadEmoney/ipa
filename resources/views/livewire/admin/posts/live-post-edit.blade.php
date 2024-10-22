@@ -238,3 +238,28 @@
     
 </script>
 @endscript
+
+@script
+<script>
+
+    $wire.on('loadJs', () => {
+        $(document).ready(function () {
+            $('.select2').select2({
+                placeholder: 'انتخاب کنید',
+                dir: 'rtl',
+                containerCssClass: 'select-sm',
+                allowClear: !0
+            });
+
+        });
+        
+        function livewireSelect2Multi(component, event) {
+            var selectedValues = [];
+            $(event).find('option:selected').each(function () {
+                selectedValues.push($(this).val());
+            });
+            @this.set(component, selectedValues)
+        }
+    })
+</script>
+@endscript

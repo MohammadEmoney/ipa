@@ -9,6 +9,7 @@ use App\Enums\EnumLanguages;
 use App\Models\User;
 use App\Notifications\CircularNotification;
 use App\Traits\MediaTrait;
+use App\Traits\NotificationTrait;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
@@ -20,6 +21,7 @@ class LiveCircularCreate extends Component
     use AlertLiveComponent;
     use MediaTrait;
     use WithFileUploads;
+    use NotificationTrait;
 
     public $title;
     public $circular;
@@ -74,9 +76,10 @@ class LiveCircularCreate extends Component
             ]);
             $this->createImage($circular, 'attachment');
             $this->createImage($circular);
+            $this->alert(__('messages.circular_created_successfully'))->success();
+            $this->sendNewDocNotification($circular);
             $users = User::role('user')->permission('active_user')->get();
             Notification::send($users, new CircularNotification($circular));
-            $this->alert(__('messages.circular_created_successfully'))->success();
             return redirect()->to(route('admin.circulars.index'));
         } catch (Exception $e) {
             $this->alert($e->getMessage())->error();

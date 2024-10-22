@@ -3,11 +3,9 @@
 namespace App\Livewire\Admin\Users;
 
 use App\Enums\EnumUserSituation;
-use App\Enums\EnumUserType;
 use App\Filters\FilterManager;
 use App\Models\User;
 use App\Traits\AlertLiveComponent;
-use App\Traits\FilterTrait;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Permission;
@@ -32,7 +30,7 @@ class LiveUserIndex extends Component
         'airline' => null,
         'active' => null,
         'register_start' => null,
-        'registerS VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVEW3e_end' => null,
+        'register_end' => null,
     ];
 
     public function mount()

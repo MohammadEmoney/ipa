@@ -21,9 +21,11 @@ class LiveLayoutIndex extends Component
     public $title;
     public $filter = [];
     public $layoutGroup;
+    public $layout;
 
-    public function mount(LayoutGroup $layoutGroup)
+    public function mount(LayoutGroup $layoutGroup, $layout = null)
     {
+        $this->layout = $layout;
         $this->title = __('global.layouts');
         $this->layoutGroup = $layoutGroup;
     }
@@ -35,7 +37,7 @@ class LiveLayoutIndex extends Component
 
     public function show($id)
     {
-        return redirect()->to(route('admin.layouts.edit', ['layoutGroup' => $this->layoutGroup->id, 'layout' => $id]));
+        return redirect()->to(route('admin.layouts.show', ['layoutGroup' => $this->layoutGroup->id, 'layout' => $id]));
     }
 
     public function create()
@@ -91,6 +93,8 @@ class LiveLayoutIndex extends Component
                     // ->orWhere('summary', "like", "%$search%");
             });
         }
+        if($this->layout)
+            $layouts = $layouts->where('parent_id', $this->layout);
         $layouts = $layouts->orderBy($this->sort, $this->sortDirection)->paginate($this->paginate);
         return view('livewire.admin.layouts.live-layout-index', compact('layouts'))
             ->extends('layouts.admin-panel')

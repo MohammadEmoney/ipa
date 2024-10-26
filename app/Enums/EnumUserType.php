@@ -5,6 +5,6 @@ namespace App\Enums;
 
 class EnumUserType extends BaseEnum
 {
-    const STAFF = 'staff';
-    const STUDENT = 'student';
+    const PILOT = 'pilot';
+    const DISPATCHER = 'dispatcher';
 }

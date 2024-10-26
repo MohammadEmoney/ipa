@@ -141,6 +141,28 @@
                 @endcan
                 <li class="nav-small-cap">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">{{ __('global.notifications') }}</span>
+                </li>
+                @can('order_index')
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('admin.notifications.create') }}" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-bell-ringing-2"></i>
+                            </span>
+                            <span class="hide-menu">{{ __('global.send_notification') }}</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ route('admin.notifications.premade') }}" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-bell-plus"></i>
+                            </span>
+                            <span class="hide-menu">{{ __('global.premade_notifications') }}</span>
+                        </a>
+                    </li>
+                @endcan
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">{{ __('global.settings') }}</span>
                 </li>
                 @can('general_settings')

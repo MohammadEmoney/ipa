@@ -8,6 +8,7 @@ use App\Enums\EnumMilitaryStatus;
 use App\Enums\EnumOrderStatus;
 use App\Enums\EnumPaymentMethods;
 use App\Enums\EnumUserSituation;
+use App\Enums\EnumUserType;
 use App\Mail\VerificationEmail;
 use App\Models\Airline;
 use App\Models\Course;
@@ -65,11 +66,12 @@ class LiveRegister extends Component
             return redirect()->to(route('home'));
         }
         $setting = app(SettingsRepository::class)->getByKey('payment_via');
+        
         $this->data['payment_method'] = $setting[0] ?? "";
         $this->step = 'info';
         // $this->step = 'payment';
         // $this->user = User::find(14);
-        $this->payableAmount = $this->orderAmount = $settings['membership_fee'] ?? 0;
+       
         $this->title = __('global.register');
     }
 
@@ -82,7 +84,11 @@ class LiveRegister extends Component
     {
         $situations = EnumUserSituation::getTranslatedAll();
         $airlines = Airline::active()->get();
-        return view('livewire.auth.live-register', compact('situations', 'airlines'))->extends('layouts.front')->section('content');
+        $types = EnumUserType::getTranslatedAll();
+        $userType = $this->user?->type ?: 'pilot';
+        $membershipFee = app(SettingsRepository::class)->getByKey('membership_fee_' . $userType);
+        $this->payableAmount = $this->orderAmount = $membershipFee ?: 0;
+        return view('livewire.auth.live-register', compact('situations', 'airlines', 'types'))->extends('layouts.front')->section('content');
     }
 
     public function validations()
@@ -91,6 +97,7 @@ class LiveRegister extends Component
             'data.first_name' => 'required|string|uni_regex:^[\x{0621}-\x{0628}\x{062A}-\x{063A}\x{0641}-\x{0642}\x{0644}-\x{0648}\x{064E}-\x{0651}\x{0655}\x{067E}\x{0686}\x{0698}\x{06A9}\x{06AF}\x{06BE}\x{06CC} ]+$|max:255',
             'data.last_name' => 'required|string|uni_regex:^[\x{0621}-\x{0628}\x{062A}-\x{063A}\x{0641}-\x{0642}\x{0644}-\x{0648}\x{064E}-\x{0651}\x{0655}\x{067E}\x{0686}\x{0698}\x{06A9}\x{06AF}\x{06BE}\x{06CC} ]+$|max:255',
             'data.phone' => 'required|regex:/^09[0-9]{9}$/|unique:users,phone',
+            'data.type' => 'required|in:' . EnumUserType::asStringValues(),
             // 'data.email' => 'required|email|unique:users,email',
             // 'data.password' => ['required', Password::min(8)->mixedCase()->numbers()->symbols(), 'confirmed'],
             // 'data.situation' => 'required|in:' . EnumUserSituation::asStringValues(),
@@ -109,6 +116,7 @@ class LiveRegister extends Component
             'data.situation' => __('global.job_status'),
             'data.university' => __('global.university_name'),
             'data.airline_id' => __('global.company_name'),
+            'data.type' => __('global.user_type'),
         ]);
     }
 
@@ -138,6 +146,7 @@ class LiveRegister extends Component
             'first_name' => $this->data['first_name'] ?? null,
             'last_name' => $this->data['last_name'] ?? null,
             'phone' => $this->data['phone'] ?? null,
+            'type' => $this->data['type'] ?? null,
             // 'email' => $this->data['email'] ?? null,
             // 'password' => Hash::make($this->data['password']),
         ]);

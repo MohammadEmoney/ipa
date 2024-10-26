@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Users;
 
 use App\Enums\EnumUserRoles;
 use App\Enums\EnumUserSituation;
+use App\Enums\EnumUserType;
 use App\Models\Airline;
 use App\Models\User;
 use App\Traits\AlertLiveComponent;
@@ -75,6 +76,7 @@ class LiveUserEdit extends Component
         $this->data['phone_verified_at'] = $this->user->phone_verified_at;
         $this->data['email_verified_at'] = $this->user->email_verified_at;
         $this->data['code'] = $this->user->code;
+        $this->data['type'] = $this->user->type;
         $this->data['national_code'] = $this->user->userInfo?->national_code;
         // $this->data['birth_date'] = Jalalian::fromDateTime($this->user->userInfo?->birth_date)->format('Y-m-d');
         $this->data['landline_phone'] = $this->user->userInfo?->landline_phone;
@@ -122,6 +124,7 @@ class LiveUserEdit extends Component
             // 'data.gender' => 'required|in:male,female|max:255',
             // 'data.avatar' => 'nullable|image|max:2048',
             'data.role' =>  'required|exists:roles,name',
+            'data.type' => 'required|in:' . EnumUserType::asStringValues(),
             'data.situation' => 'required|in:' . EnumUserSituation::asStringValues(),
             'data.university' => 'required_if:situation,' . EnumUserSituation::STUDENT,
             // 'data.company_name' => 'required_if:situation,' . EnumUserSituation::EMPLOYED,
@@ -148,6 +151,7 @@ class LiveUserEdit extends Component
             'data.university' => __('global.university_name'),
             'data.company_name' => __('global.company_name'),
             'data.airline_id' => __('global.company_name'),
+            'data.type' => __('global.user_type'),
         ]);
     }
 
@@ -164,6 +168,7 @@ class LiveUserEdit extends Component
                 'email' => $this->data['email'] ?? null,
                 'phone' => $this->data['phone'] ?? null,
                 'code' => $this->data['code'] ?? null,
+                'type' => $this->data['type'] ?? null,
             ]);
 
             if(isset($this->data['password']))
@@ -218,6 +223,7 @@ class LiveUserEdit extends Component
         $permissions = Permission::get();
         $airlines = Airline::active()->get();
         $situations = EnumUserSituation::getTranslatedAll();
-        return view('livewire.admin.users.live-user-edit', compact('roles', 'permissions', 'situations', 'airlines'))->extends(('layouts.admin-panel'))->section('content');
+        $types = EnumUserType::getTranslatedAll();
+        return view('livewire.admin.users.live-user-edit', compact('roles', 'permissions', 'situations', 'airlines', 'types'))->extends(('layouts.admin-panel'))->section('content');
     }
 }

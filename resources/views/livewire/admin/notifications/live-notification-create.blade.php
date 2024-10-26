@@ -13,27 +13,41 @@
                                     <div class="card mb-3 mt-3">
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-md-6 mb-3" wire:ignore>
-                                                    <label for="exampleInputtext1" class="form-label">{{ __('global.roles') }}</label>
-                                                    <select id="roles" class="form-control select2"
-                                                        onchange="livewireSelect2Multi('data.roles', this)"
-                                                        wire:model.live="data.roles" multiple>
-                                                        <option value="">{{ __('global.select_item') }}</option>
-                                                        @foreach ($roles as $key => $value)
-                                                            <option value="{{ $key }}">{{ $value }}</option>
-                                                        @endforeach
-                                                    </select>
+                                                <div class="col-md-6 mb-3">
+                                                    <div wire:ignore>
+                                                        <label for="exampleInputtext1" class="form-label">{{ __('global.roles') }}</label>
+                                                        <select id="roles" class="form-control select2"
+                                                            onchange="livewireSelect2Multi('data.roles', this)"
+                                                            wire:model.live="data.roles" multiple>
+                                                            <option value="">{{ __('global.select_item') }}</option>
+                                                            @foreach ($roles as $key => $value)
+                                                                <option value="{{ $key }}">{{ $value }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="text-danger">
+                                                        @error('data.roles')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-6 mb-3" wire:ignore>
-                                                    <label for="exampleInputtext1" class="form-label">{{ __('global.send_via') }}</label>
-                                                    <select id="send_via" class="form-control select2"
-                                                        onchange="livewireSelect2Multi('data.send_via', this)"
-                                                        wire:model.live="data.send_via" multiple>
-                                                        <option value="">{{ __('global.select_item') }}</option>
-                                                        @foreach ($sendMethods as $key => $value)
-                                                            <option value="{{ $key }}">{{ $value }}</option>
-                                                        @endforeach
-                                                    </select>
+                                                <div class="col-md-6 mb-3">
+                                                    <div wire:ignore>
+                                                        <label for="send_via" class="form-label">{{ __('global.send_via') }}</label>
+                                                        <select id="send_via" class="form-control select2"
+                                                            onchange="livewireSelect2Multi('data.send_via', this)"
+                                                            wire:model.live="data.send_via" multiple>
+                                                            <option value="">{{ __('global.select_item') }}</option>
+                                                            @foreach ($sendMethods as $key => $value)
+                                                                <option value="{{ $key }}">{{ $value }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="text-danger">
+                                                        @error('data.send_via')
+                                                            {{ $message }}
+                                                        @enderror
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -50,7 +64,7 @@
                                 <input type="text" class="form-control"
                                     wire:model="data.from" id="exampleInputtext1" disabled
                                     aria-describedby="textHelp" placeholder="{{ __('global.from') }}">
-                                <div>
+                                <div class="text-danger">
                                     @error('data.from')
                                         {{ $message }}
                                     @enderror
@@ -64,7 +78,7 @@
                                 <input type="text" class="form-control"
                                     wire:model="data.emails" id="exampleInputtext1"
                                     aria-describedby="textHelp" placeholder="{{ __('global.emails') }}">
-                                <div>
+                                <div class="text-danger">
                                     @error('data.emails')
                                         {{ $message }}
                                     @enderror
@@ -82,6 +96,24 @@
                                     <option value="{{ $user->id }}">{{ $user->full_name }}</option>
                                 @endforeach
                             </select>
+                            <div class="text-danger">
+                                @error('data.users')
+                                    {{ $message }}
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label for="exampleInputtext1" class="form-label">{{ __('global.subject') }}*</label>
+                                <input type="text" class="form-control"
+                                    wire:model="data.subject" id="exampleInputtext1"
+                                    aria-describedby="textHelp" placeholder="{{ __('global.subject') }}">
+                                <div class="text-danger">
+                                    @error('data.subject')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-12">
                             <div class="card mb-3 mt-3">
@@ -91,7 +123,7 @@
                                             <label for="message" class="form-label">{{ __('global.message') }}</label>
                                             <textarea id="message" class="form-control" cols="30" rows="10" wire:model.live="data.message">{!! $data['message'] ?? "" !!}</textarea>
                                         </div>
-                                        <div>
+                                        <div class="text-danger">
                                             @error('data.message')
                                                 {{ $message }}
                                             @enderror

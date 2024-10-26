@@ -108,8 +108,9 @@ class PaymentController extends Controller
         $payment = $paymentDetails['payment'];
         $order = $payment->order;
         if (!$payment) {
+            $user = Auth::user();
             Log::info(json_encode(['failed' => 'payment not fount', 'paymentDetails' => $paymentDetails]));
-            return view('front.payments.failed', compact('order'))->with('error' , 'اطلاعات کافی برای درگاه پرداخت وجود ندارد. با پشتیبانی تماس بگیرد. تشکر از صبوری شما');
+            return view('front.payments.failed', compact('order', 'user'))->with('error' , 'اطلاعات کافی برای درگاه پرداخت وجود ندارد. با پشتیبانی تماس بگیرد. تشکر از صبوری شما');
         }
         try {
             $receipt = ShetaBitPayment::amount((int)$payment->amount)->transactionId($paymentDetails['transactionId'])->verify();
@@ -132,19 +133,22 @@ class PaymentController extends Controller
             }else{
                 Log::info(json_encode(['failed' => 'payment request was NOK' , 'paymentDetails' => $paymentDetails]));
                 $payment->update(['status' => EnumPaymentStatus::FAILED]);
+                $user = Auth::user();
                 Auth::logout();
-                return view('front.payments.failed', compact('order'))->with('error' , 'پرداخت موفقیت آمیز نبود.');
+                return view('front.payments.failed', compact('order', 'user'))->with('error' , 'پرداخت موفقیت آمیز نبود.');
             }
         } catch (Exception $exception) {
             Log::info(json_encode(['failed' => $exception->getMessage()]));
             $payment->update(['status' => EnumPaymentStatus::FAILED]);
+            $user = Auth::user();
             Auth::logout();
-            return view('front.payments.failed', compact('order'))->with('error' , $exception->getMessage());
+            return view('front.payments.failed', compact('order', 'user'))->with('error' , $exception->getMessage());
         } catch (InvalidPaymentException $exception) {
             Log::info(json_encode(['invalid_payment_failed' => $exception->getMessage()]));
             $payment->update(['status' => EnumPaymentStatus::FAILED]);
+            $user = Auth::user();
             Auth::logout();
-            return view('front.payments.failed', compact('order'))->with('error' , $exception->getMessage());
+            return view('front.payments.failed', compact('order', 'user'))->with('error' , $exception->getMessage());
         }
     }
 

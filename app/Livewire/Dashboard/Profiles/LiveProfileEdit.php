@@ -54,6 +54,8 @@ class LiveProfileEdit extends Component
         $this->data['last_name'] = $user->last_name;
         $this->data['email'] = $user->email;
         $this->data['phone'] = $user->phone;
+        $this->data['code'] = $user->code;
+        $this->data['type'] = $user->type;
         $this->data['national_code'] = $user->userInfo?->national_code;
         $this->data['birth_date'] = Jalalian::fromDateTime($user->userInfo?->birth_date)->format('Y-m-d');
         $this->data['phone_1'] = $user->userInfo?->phone_1;

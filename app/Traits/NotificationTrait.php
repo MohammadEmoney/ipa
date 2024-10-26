@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\User;
 use App\Notifications\Admin\NewOrderNotification;
 use App\Notifications\NewDocNotification;
+use Illuminate\Support\Facades\Artisan;
 
 trait NotificationTrait
 {
@@ -29,5 +30,25 @@ trait NotificationTrait
         $users = $this->getUsers($roles);
         foreach($users as $user)
             $user->notify(new NewDocNotification($document));
+    }
+
+    public function completedProfile()
+    {
+        return Artisan::call('notify:completed-profile');
+    }
+
+    public function notCompletedProfile()
+    {
+        return Artisan::call('notify:not-completed-profile');
+    }
+
+    public function membershipFirstWarning()
+    {
+        return Artisan::call('notify:not-active-first');
+    }
+
+    public function membershipSecondWarning()
+    {
+        return Artisan::call('notify:not-active-second');
     }
 }

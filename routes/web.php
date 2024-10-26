@@ -43,6 +43,7 @@ Route::group(['prefix' => '{locale?}'], function () {
         // Notifications
             Route::get('notifications', \App\Livewire\Admin\Notifications\LiveNotificationIndex::class)->name('notifications.index')->middleware('can:notification_index');
             Route::get('notifications/create', \App\Livewire\Admin\Notifications\LiveNotificationCreate::class)->name('notifications.create')->middleware('can:notification_create');
+            Route::get('notifications/premade', \App\Livewire\Admin\Notifications\LiveSendPremadeMessages::class)->name('notifications.premade')->middleware('can:notification_send');
             Route::get('notifications/{notification}', \App\Livewire\Admin\Notifications\LiveNotificationShow::class)->name('notifications.show')->middleware('can:notification_show');
             // Route::get('orders/{order}/edit', \App\Livewire\Admin\Orders\LiveOrderEdit::class)->name('orders.edit')->middleware('can:order_edit');
         // Pages

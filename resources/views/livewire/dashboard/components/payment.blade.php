@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-md-12 text-center">
             <p>{{ $settings['membership_description'] ?? "" }}</p>
-            <h3><i class="bi bi-cash-stack text-warning"></i> {{ number_format($settings['membership_fee'] ?? 0) }} {{ __('global.toman') }}</h3>
+            <h3><i class="bi bi-cash-stack text-warning"></i> {{ number_format($orderAmount ?? 0) }} {{ __('global.toman') }}</h3>
         </div>
     </div>
     <div class="form-group mb-3">
@@ -16,7 +16,7 @@
     </div>
     @isset($data['payment_method'])
         @if($data['payment_method'] === 'credit_card')
-            <p>{!! __('messages.card_to_card_title', ['price' => number_format($settings['membership_fee'] ?? 0)]) !!}</p>
+            <p>{!! __('messages.card_to_card_title', ['price' => number_format($orderAmount ?? 0)]) !!}</p>
             <p>{{ __('global.card_number') }}: <span class="fw-bold" dir="ltr">{{ $settings['card_number'] ?? "" }}</span></p>
             <p>{{ __('global.card_owner') }}: <span class="fw-bold">{{ $settings['card_owner'] ?? "" }}</span></p>
 

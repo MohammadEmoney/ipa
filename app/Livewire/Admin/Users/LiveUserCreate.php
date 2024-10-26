@@ -90,6 +90,7 @@ class LiveUserCreate extends Component
             // 'data.gender' => 'required|in:male,female|max:255',
             'data.avatar' => 'nullable|image|max:2048',
             'data.role' =>  'required|exists:roles,name',
+            'data.type' => 'required|in:' . EnumUserType::asStringValues(),
             'data.situation' => 'required|in:' . EnumUserSituation::asStringValues(),
             'data.university' => 'required_if:situation,' . EnumUserSituation::STUDENT,
             'data.airline_id' => ['required_if:situation,' . EnumUserSituation::EMPLOYED, 'exists:airlines,id'],
@@ -115,6 +116,7 @@ class LiveUserCreate extends Component
             'data.university' => __('global.university_name'),
             'data.company_name' => __('global.company_name'),
             'data.airline_id' => __('global.company_name'),
+            'data.type' => __('global.user_type'),
         ]);
     }
 
@@ -132,6 +134,7 @@ class LiveUserCreate extends Component
                 'email' => $this->data['email'] ?? null,
                 'phone' => $this->data['phone'] ?? null,
                 'code' => $this->data['code'] ?? null,
+                'type' => $this->data['type'] ?? null,
                 'password' => isset($this->data['password']) ? Hash::make($this->data['password']) : null,
             ]);
 
@@ -178,7 +181,8 @@ class LiveUserCreate extends Component
         $roles = Role::get();
         $permissions = Permission::get();
         $airlines = Airline::active()->get();
+        $types = EnumUserType::getTranslatedAll();
         $situations = EnumUserSituation::getTranslatedAll();
-        return view('livewire.admin.users.live-user-create', compact('roles', 'permissions', 'situations', 'airlines'))->extends('layouts.admin-panel')->section('content');
+        return view('livewire.admin.users.live-user-create', compact('roles', 'permissions', 'situations', 'airlines', 'types'))->extends('layouts.admin-panel')->section('content');
     }
 }

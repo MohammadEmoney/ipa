@@ -43,8 +43,8 @@
                                         <table class="table table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">{{ __('global.user_name') }}: {{ Auth::user()->full_name }}</th>
-                                                    <th scope="col">{{ __('global.phone_number') }} : {{ Auth::user()->phone }}</th>
+                                                    <th scope="col">{{ __('global.user_name') }}: {{ $user?->full_name }}</th>
+                                                    <th scope="col">{{ __('global.phone_number') }} : {{ $user?->phone }}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

@@ -36,6 +36,19 @@
             </div>
         </div>
     </div>
+    <div class="col-md-12">
+        <div class="mb-3">
+            <label for="user_type"
+                class="form-label">{{ __('global.register_as') }} *</label>
+            <select id="user_type" class="@error('data.type') invalid-input @enderror form-control" wire:model.live="data.type">
+                <option value="">{{ __('global.select_item') }}</option>
+                @foreach ($types as $key => $value )
+                    <option value="{{ $key }}">{{ $value }}</option>
+                @endforeach
+            </select>
+            <div class="text-danger">@error('data.type') {{ $message }} @enderror</div>
+        </div>
+    </div>
     {{-- <div class="row">
         <div class="col-md-12">
             <div class="mb-3">

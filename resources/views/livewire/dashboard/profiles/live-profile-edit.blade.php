@@ -59,6 +59,25 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="mb-3">
+                                                                <label for="exampleInputCode" class="form-label">{{ __('global.code') }}</label>
+                                                                <input type="number" autocomplete="code" class="form-control" wire:model="data.code" disabled
+                                                                    id="exampleInputCode" aria-describedby="codeHelp" placeholder="{{ __('global.code') }}">
+                                                                <div>@error('data.code') {{ $message }} @enderror</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="mb-3">
+                                                                <label for="user_type"
+                                                                    class="form-label">{{ __('global.user_type') }}</label>
+                                                                    <input type="text" class="form-control" value="{{ App\Enums\EnumUserType::trans($data['type'] ?? "") }}" disabled
+                                                                    placeholder="{{ __('global.user_type') }}">
+                                                                <div>@error('data.type') {{ $message }} @enderror</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-3">
                                                                 <label for="exampleInputtext1"
                                                                     class="form-label">{{ __('global.job_status') }} *</label>
                                                                 <select  id="" class="form-control" wire:model.live="data.situation">

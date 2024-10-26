@@ -56,11 +56,13 @@ class LiveLogin extends Component
         $setting = app(SettingsRepository::class)->getByKey('payment_via');
         $this->data['payment_method'] = $setting[0] ?? "";
         $this->title = __('global.login');
-        $this->payableAmount = $this->orderAmount = $settings['membership_fee'] ?? 0;
     }
 
     public function render()
     {
+        $userType = $this->user?->type ?: 'pilot';
+        $membershipFee = app(SettingsRepository::class)->getByKey('membership_fee_' . $userType);
+        $this->payableAmount = $this->orderAmount = $membershipFee ?: 0;
         return view('livewire.auth.live-login')->extends('layouts.front')->section('content');
     }
 

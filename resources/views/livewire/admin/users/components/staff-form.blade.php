@@ -59,12 +59,25 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="mb-3">
                             <label for="exampleInputCode" class="form-label">{{ __('global.code') }} *</label>
                             <input type="number" autocomplete="code" class="form-control" wire:model="data.code"
                                 id="exampleInputCode" aria-describedby="codeHelp" placeholder="{{ $highestCode }}">
                             <div>@error('data.code') {{ $message }} @enderror</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="exampleInputtext1"
+                                class="form-label">{{ __('global.user_type') }} *</label>
+                            <select  id="" class="form-control" wire:model.live="data.type">
+                                <option value="">{{ __('global.select_item') }}</option>
+                                @foreach ($types as $key => $value )
+                                    <option value="{{ $key }}">{{ $value }}</option>
+                                @endforeach
+                            </select>
+                            <div>@error('data.type') {{ $message }} @enderror</div>
                         </div>
                     </div>
                 </div>

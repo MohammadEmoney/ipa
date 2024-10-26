@@ -146,6 +146,8 @@ return [
     'general' => 'General',
     'finance' => 'Finance',
     'membership_fee' => 'Membership Fee',
+    'membership_fee_pilot' => 'Pilot Membership Fee',
+    'membership_fee_dispatcher' => 'Dispatcher Membership Fee',
     'toman' => 'Toman',
     'verification' => 'Verification',
     'membership_description' => 'Membership Description',
@@ -256,5 +258,9 @@ return [
     'send_to' => 'Send To',
     'send_via' => 'Send Via',
     'emails' => 'Emails',
+    'user_type' => 'User Type',
+    'register_as' => 'Register As',
+    'subject' => 'Subject',
+    'premade_notifications' => 'Premade Notifications',
     '' => '',
 ];

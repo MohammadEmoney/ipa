@@ -104,6 +104,16 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <select  id="" class="form-control" wire:model.live="filters.situation">
+                                                <option value="">{{ __('global.user_type') }}</option>
+                                                @foreach ($types as $key => $value )
+                                                    <option value="{{ $key }}">{{ $value }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -115,11 +125,12 @@
                             <th scope="col">#</th>
                             <th scope="col">{{ __('global.full_name') }}</th>
                             <th class="text-nowrap" scope="col">{{ __('global.phone_number') }}</th>
-                            <th scope="col">{{ __('global.email') }}</th>
+                            <th scope="col">{{ __('global.user_type') }}</th>
                             <th scope="col">{{ __('global.job_status') }}</th>
                             <th scope="col">{{ __('global.address') }}</th>
                             <th scope="col">{{ __('global.confirm_status') }}</th>
                             <th scope="col">{{ __('global.user_role') }}</th>
+                            <th scope="col">{{ __('global.code') }}</th>
                             <th class="text-nowrap" scope="col">{{ __('global.register_date') }}</th>
                             <th scope="col">{{ __('global.actions') }}</th>
                         </tr>
@@ -128,9 +139,9 @@
                         @foreach ($users as $key => $user)
                             <tr>
                                 <th scope="row">{{  ($users->currentpage()-1) * $users->perpage() + $key + 1 }}</th>
-                                <td class="text-nowrap cursor-pointer" wire:click="edit({{ $user->id }}, {{ $user->type }})">{{ $user->full_name }}</td>
+                                <td class="text-nowrap cursor-pointer" wire:click="edit({{ $user->id }})">{{ $user->full_name }}</td>
                                 <td>{{ $user->phone }}</td>
-                                <td class="text-nowrap">{{ $user->email ?: "-" }}</td>
+                                <td class="text-nowrap">{{ App\Enums\EnumUserType::trans($user->type) ?: "-" }}</td>
                                 <td class="text-nowrap">
                                     {{ App\Enums\EnumUserSituation::trans($user->userInfo?->situation) ?: "-" }} 
                                     @if ($user->userInfo?->situation)
@@ -144,11 +155,12 @@
                                     </div>
                                 </td>
                                 <td class="text-nowrap">{{ $user->getRoleNames()?->first() ? \App\Enums\EnumUserRoles::trans($user->getRoleNames()?->first()) : "-" }}</td>
+                                <td class="text-nowrap">{{ $user->code ?: "-" }}</td>
                                 <td class="text-nowrap">{{ \Morilog\Jalali\Jalalian::fromDateTime($user->created_at)->format('Y-m-d H:i') }}</td>
                                 <td>
                                     <div class="d-flex">
                                         <i class="cursor-pointer ti ti-trash text-danger ms-2" data-bs-toggle="tooltip" data-bs-placement="top" onclick="Custom.deleteItemList({{$user->id}})" title="{{ __('global.delete') }}"></i>
-                                        <i class="cursor-pointer ti ti-pencil text-warning ms-2" data-bs-toggle="tooltip" data-bs-placement="top" wire:click="edit({{ $user->id }}, {{ $user->type }})" title="{{ __('global.edit') }}"></i>
+                                        <i class="cursor-pointer ti ti-pencil text-warning ms-2" data-bs-toggle="tooltip" data-bs-placement="top" wire:click="edit({{ $user->id }})" title="{{ __('global.edit') }}"></i>
                                         {{-- <i class="cursor-pointer ti ti-eye" data-bs-toggle="tooltip" data-bs-placement="top" wire:click="show({{ $user->id }}, {{ $user->type }})" title="{{ __('global.show') }}"></i> --}}
                                     </div>
                                 </td>

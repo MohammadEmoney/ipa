@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Users;
 
 use App\Enums\EnumUserSituation;
+use App\Enums\EnumUserType;
 use App\Filters\FilterManager;
 use App\Models\User;
 use App\Traits\AlertLiveComponent;
@@ -26,6 +27,7 @@ class LiveUserIndex extends Component
         'name' => null,
         'phone' => null,
         'email' => null,
+        'type' => null,
         'situation' => null,
         'airline' => null,
         'active' => null,
@@ -123,6 +125,7 @@ class LiveUserIndex extends Component
         // }
         $users = $users->orderBy($this->sort, $this->sortDirection)->paginate($this->paginate);
         $situations = EnumUserSituation::getTranslatedAll();
-        return view('livewire.admin.users.live-user-index', compact('users', 'situations'))->extends('layouts.admin-panel')->section('content');
+        $types = EnumUserType::getTranslatedAll();
+        return view('livewire.admin.users.live-user-index', compact('users', 'situations', 'types'))->extends('layouts.admin-panel')->section('content');
     }
 }

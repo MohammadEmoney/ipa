@@ -229,14 +229,29 @@
                                                                 <div class="row">
                                                                     <div class="col-md-6">
                                                                         <div class="mb-3">
-                                                                            <label for="membership_fee" class="form-label">{{ __('global.membership_fee') }} ({{ __('global.toman') }})
+                                                                            <label for="membership_fee_pilot" class="form-label">{{ __('global.membership_fee_pilot') }} ({{ __('global.toman') }})
                                                                                 *</label>
                                                                             <input type="number" class="form-control numeric num2persian" step="1000" dir="ltr"
-                                                                                wire:model.live.debounce.800ms="data.membership_fee" id="membership_fee"
-                                                                                aria-describedby="textHelp" placeholder="{{ __('global.membership_fee') }}">
-                                                                            <span class="error" id="lbl-membership_fee" wire:ignore></span>
+                                                                                wire:model.live.debounce.800ms="data.membership_fee_pilot" id="membership_fee_pilot"
+                                                                                aria-describedby="textHelp" placeholder="{{ __('global.membership_fee_pilot') }}">
+                                                                            <span class="error" id="lbl-membership_fee_pilot" wire:ignore></span>
                                                                             <div>
-                                                                                @error('data.membership_fee')
+                                                                                @error('data.membership_fee_pilot')
+                                                                                    {{ $message }}
+                                                                                @enderror
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="mb-3">
+                                                                            <label for="membership_fee_dispatcher" class="form-label">{{ __('global.membership_fee_dispatcher') }} ({{ __('global.toman') }})
+                                                                                *</label>
+                                                                            <input type="number" class="form-control numeric num2persian" step="1000" dir="ltr"
+                                                                                wire:model.live.debounce.800ms="data.membership_fee_dispatcher" id="membership_fee_dispatcher"
+                                                                                aria-describedby="textHelp" placeholder="{{ __('global.membership_fee_dispatcher') }}">
+                                                                            <span class="error" id="lbl-membership_fee_dispatcher" wire:ignore></span>
+                                                                            <div>
+                                                                                @error('data.membership_fee_dispatcher')
                                                                                     {{ $message }}
                                                                                 @enderror
                                                                             </div>

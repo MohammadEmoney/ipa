@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'staff' => 'کادر اداری و آموزش',
-    'student' => 'دانش آموز'
+    'pilot' => 'Pilot',
+    'dispatcher' => 'Dispatcher'
 ];

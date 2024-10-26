@@ -32,6 +32,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail, Filtera
         'username',
         'email',
         'phone',
+        'type',
         'email_verified_at',
         'phone_verified_at',
         'password',
@@ -146,6 +147,9 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail, Filtera
 
         if (!empty($filters['email'])) {
             $query->where('email', "LIKE", "%{$filters['email']}%");
+        }
+        if (!empty($filters['type'])) {
+            $query->where('type', $filters['type']);
         }
         // dd(isset($filters['active'])  && $filters['active'] !== null);
         if (isset($filters['active'])  && $filters['active'] !== null) {

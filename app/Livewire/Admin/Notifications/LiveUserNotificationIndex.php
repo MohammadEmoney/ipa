@@ -2,14 +2,14 @@
 
 namespace App\Livewire\Admin\Notifications;
 
+use App\Models\UserNotification;
 use App\Traits\AlertLiveComponent;
 use App\Traits\FilterTrait;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class LiveNotificationIndex extends Component
+class LiveUserNotificationIndex extends Component
 {
     use AlertLiveComponent, FilterTrait, WithPagination;
 
@@ -71,10 +71,10 @@ class LiveNotificationIndex extends Component
 
     public function render()
     {
-        $notifications = DB::table('notifications');
+        $notifications = UserNotification::query()->with('user');
         if($this->search && mb_strlen($this->search) > 2){
             $notifications = $notifications->where(function($query){
-                $query->where('track_number', "like", "%$this->search%")
+                $query->where('title', "like", "%$this->search%")
                     ->orWhereHas('user',function($query) {
                         $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%$this->search%"]);
                     });
@@ -91,7 +91,7 @@ class LiveNotificationIndex extends Component
             });
         }
         $notifications = $notifications->orderBy($this->sort, $this->sortDirection)->paginate($this->paginate);
-        return view('livewire.admin.notifications.live-notification-index', compact('notifications'))
+        return view('livewire.admin.notifications.live-user-notification-index', compact('notifications'))
             ->extends('layouts.admin-panel')
             ->section('content');
     }

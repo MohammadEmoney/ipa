@@ -10,6 +10,21 @@ use Illuminate\Support\Facades\Artisan;
 
 trait NotificationTrait
 {
+    public function stripTagsPreservingNewlines($text)
+    {
+        // Replace block-level tags with a newline character
+        $text = preg_replace('/<\/?(p|div|h[1-6])\s*.*?>/', ' ', $text);
+        
+        // Now strip all other tags
+        $text = strip_tags($text);
+        
+        // Optionally, trim extra new lines
+        $text = preg_replace('/\n+/', ' ', $text); // Replace multiple newlines with a single newline
+        $text = trim($text); // Trim whitespace from the beginning and end
+
+        return $text;
+    }
+
     public function adminNewOrderNotifications(Order $order)
     {
         $users = User::role(['super-admin', 'admin', 'content-manager'])->get();

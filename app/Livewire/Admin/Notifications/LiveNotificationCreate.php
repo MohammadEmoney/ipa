@@ -4,20 +4,27 @@ namespace App\Livewire\Admin\Notifications;
 
 use App\Enums\EnumNotificationMethods;
 use App\Enums\EnumUserRoles;
+use App\Mail\EmailUserNotification;
 use App\Models\User;
 use App\Models\UserNotification;
 use App\Notifications\UserNotification as Notification;
+use App\Rules\EmailsValidation;
+use App\Services\SmsMessage;
 use App\Traits\AlertLiveComponent;
 use App\Traits\MediaTrait;
+use App\Traits\NotificationTrait;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class LiveNotificationCreate extends Component
 {
-    use AlertLiveComponent, WithFileUploads, MediaTrait;
+    use AlertLiveComponent, WithFileUploads, MediaTrait, NotificationTrait;
 
     public $sendVia = ['email'];
     public $data = [];
@@ -28,7 +35,7 @@ class LiveNotificationCreate extends Component
         $this->title = __('global.create_notification');
         $this->data['roles'] = ['user'];
         $this->data['from'] = 'info@iranianpilotsassociation.ir';
-        $this->alert(__('messages.under_development'))->warning()->redirect('admin.dashboard');
+        // $this->alert(__('messages.under_development'))->warning()->redirect('admin.dashboard');
     }
 
     public function validations()
@@ -136,22 +143,62 @@ class LiveNotificationCreate extends Component
         try {
             DB::beginTransaction();
 
-            new Notification($this->data['send_via']);
-            if(!empty($this->data['users'])){
-                $users = User::whereIn('id', $this->data['users'])->get();
-                foreach($users as $user)
-                    $user->notify(new Notification($this->data['send_via'] ?? []));
-            }else{
-                dd('wait');
+            // new Notification($this->data['send_via']);
+            if(in_array(EnumNotificationMethods::SMS, $this->data['send_via'])){
+                $mobiles = User::whereIn('id', $this->data['users'])->pluck('phone')->toArray();
+                // dd($mobiles);
+                $sendMessage = app(SmsMessage::class)
+                    ->mobiles($mobiles)
+                    ->messageText($this->stripTagsPreservingNewlines($this->data['message']))
+                    ->bulkSend();
+            }
+            if(in_array(EnumNotificationMethods::EMAIL, $this->data['send_via'])){
+
+                $this->validate([
+                    'data.subject' => 'required|string|max:255',
+                    'data.emails' => [ Rule::requiredIf(empty($this->data['users'])), 'nullable', 'string', new EmailsValidation],
+                    'data.users' => [
+                        Rule::requiredIf(empty($this->data['emails'])),
+                        'array',
+                    ],
+                    'data.users.*' => 'exists:users,id'
+                ],[
+                    'data.emails.required_if' => __('messages.emails_required'),
+                ],[
+                    'data.subject' => __('global.subject'),
+                    'data.emails' => __('global.email'),
+                ]);
+
+                $emails = [];
+                $userEmails = [];
+
+                if(!empty($this->data['emails'])){
+                    $emails = explode(',', $this->data['emails']);
+                }
+                if(!empty($this->data['users'])){
+                    $userEmails = User::whereIn('id', $this->data['users'])->whereNotNull('email')->pluck('email')->toArray();
+                }
+
+                $recipientsArray = array_merge($emails, $userEmails);
+
+                foreach ($recipientsArray as $recipient) {
+                    Mail::to(trim($recipient))->send(new EmailUserNotification($this->data['subject'], $this->data['message']));
+                }
             }
 
-
-            // $userNotification = UserNotification::create([
-
-            // ]);
-
+            $userNotification = UserNotification::create([
+                'user_id' => Auth::id(),
+                'title' => $this->data['subject'] ?? null,
+                'from' => $this->data['from'] ?? null,
+                'to' => $this->data['emails'] ?? null,
+                'roles' => $this->data['roles'] ?? null,
+                'send_via' => $this->data['send_via'] ?? null,
+                'users' => $this->data['users'] ?? null,
+                'message' => $this->data['message'] ?? null,
+            ]);
+            
             DB::commit();
-            $this->alert(__('messages.post_created_successfully'))->success();
+            $this->alert(__('messages.message_sent_successfully'))->success();
             // return redirect()->to(route('admin.posts.index'));
         } catch (Exception $e) {
             $this->alert($e->getMessage())->error();
@@ -161,7 +208,6 @@ class LiveNotificationCreate extends Component
     public function render()
     {
         $roles = EnumUserRoles::getTranslatedAll();
-        // dd($roles);
         $sendMethods = EnumNotificationMethods::getTranslatedAll();
 
         $users = $this->users();

@@ -93,7 +93,7 @@ class LiveUserCreate extends Component
             'data.type' => 'required|in:' . EnumUserType::asStringValues(),
             'data.situation' => 'required|in:' . EnumUserSituation::asStringValues(),
             'data.university' => 'required_if:situation,' . EnumUserSituation::STUDENT,
-            'data.airline_id' => ['required_if:situation,' . EnumUserSituation::EMPLOYED, 'exists:airlines,id'],
+            'data.airline_id' => ['required_if:situation,' . EnumUserSituation::EMPLOYED, 'nullable', 'exists:airlines,id'],
         ],[],
         [
             'data.father_name' => 'نام پدر',

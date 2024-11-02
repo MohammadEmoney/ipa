@@ -41,7 +41,7 @@ Route::group(['prefix' => '{locale?}'], function () {
             // Route::get('airlines/{airline}', \App\Livewire\Admin\Airlines\LiveAirlineShow::class)->name('airlines.show')->middleware('can:airline_show');
             Route::get('airlines/{airline}/edit', \App\Livewire\Admin\Airlines\LiveAirlineEdit::class)->name('airlines.edit')->middleware('can:airline_edit');
         // Notifications
-            Route::get('notifications', \App\Livewire\Admin\Notifications\LiveNotificationIndex::class)->name('notifications.index')->middleware('can:notification_index');
+            Route::get('notifications', \App\Livewire\Admin\Notifications\LiveUserNotificationIndex::class)->name('notifications.index')->middleware('can:notification_index');
             Route::get('notifications/create', \App\Livewire\Admin\Notifications\LiveNotificationCreate::class)->name('notifications.create')->middleware('can:notification_create');
             Route::get('notifications/premade', \App\Livewire\Admin\Notifications\LiveSendPremadeMessages::class)->name('notifications.premade')->middleware('can:notification_send');
             Route::get('notifications/{notification}', \App\Livewire\Admin\Notifications\LiveNotificationShow::class)->name('notifications.show')->middleware('can:notification_show');

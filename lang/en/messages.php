@@ -95,5 +95,7 @@ return [
     'login_send_code' => 'In order to login and confirm your phone number, a four-digit code has been sent to your phone',
     'messages_sent_success' => 'Messages sent successfully.',
     'under_development' => 'This section is under development.',
+    'emails_required' => 'Emails required if any user hasn\'t been selected.',
+    'message_sent_successfully' => 'Message sent successfully.',
     '' => '',
 ];

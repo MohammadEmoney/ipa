@@ -115,21 +115,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="card mb-3 mt-3">
-                                <div class="card-body">
-                                    <div class="row">     
-                                        <div class="col-md-12 mb-3" wire:ignore>
-                                            <label for="message" class="form-label">{{ __('global.message') }}</label>
-                                            <textarea id="message" class="form-control" cols="30" rows="10" wire:model.live="data.message">{!! $data['message'] ?? "" !!}</textarea>
-                                        </div>
-                                        <div class="text-danger">
-                                            @error('data.message')
-                                                {{ $message }}
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="col-md-12 mb-3">     
+                            <div wire:ignore>
+                                <label for="message" class="form-label">{{ __('global.message') }}</label>
+                                <textarea id="message" class="form-control" cols="30" rows="10" wire:model.live="data.message">{!! $data['message'] ?? "" !!}</textarea>
+                            </div>
+                            <div class="text-danger">
+                                @error('data.message')
+                                    {{ $message }}
+                                @enderror
                             </div>
                         </div>
 

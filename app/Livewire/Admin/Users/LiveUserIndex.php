@@ -112,6 +112,7 @@ class LiveUserIndex extends Component
                 $query->where('first_name', "like", "%$search%")
                     ->orWhere('last_name', "like", "%$search%")
                     ->orWhere('email', "like", "%$search%")
+                    ->orWhere('phone', "like", "%$search%")
                     ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%$search%"])
                     ->orWhereHas('userInfo', function($query) use ($search) {
                         $query->where('phone_1', 'like', "%$search%")

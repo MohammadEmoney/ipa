@@ -128,7 +128,7 @@ class LiveUserEdit extends Component
             'data.situation' => 'required|in:' . EnumUserSituation::asStringValues(),
             'data.university' => 'required_if:situation,' . EnumUserSituation::STUDENT,
             // 'data.company_name' => 'required_if:situation,' . EnumUserSituation::EMPLOYED,
-            'data.airline_id' => ['required_if:situation,' . EnumUserSituation::EMPLOYED, 'exists:airlines,id'],
+            'data.airline_id' => ['required_if:situation,' . EnumUserSituation::EMPLOYED, 'nullable','exists:airlines,id'],
         ],[],
         [
             'data.father_name' => 'نام پدر',
@@ -158,6 +158,7 @@ class LiveUserEdit extends Component
     public function submit()
     {
         try {
+            // dd($this->data);
             $this->authorize('user_edit');
             $this->validations();
             DB::beginTransaction();
@@ -179,7 +180,7 @@ class LiveUserEdit extends Component
                 'national_code' => $this->data['national_code'] ?? null,
                 'birth_date' => isset($this->data['birth_date']) ? $this->convertToGeorgianDate($this->data['birth_date']) : null,
                 'landline_phone' => $this->data['landline_phone'] ?? null,
-                'phone_1' => $this->data['phone_1'] ?? null,
+                'phone_1' => $this->data['phone'] ?? null,
                 'phone_2' => $this->data['phone_2'] ?? null,
                 'address' => $this->data['address'] ?? null,
                 'job_title' => $this->data['job_title'] ?? null,

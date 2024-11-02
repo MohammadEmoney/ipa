@@ -167,6 +167,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'emails' => [
+            'valid' => 'The :attribute field must contain valid email addresses.',
+        ],
     ],
 
     /*
